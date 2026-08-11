@@ -6,7 +6,7 @@ The Learner Support Portal is a browser-based application designed to help learn
 
 ##  Client Brief Summary
 
-SkillsTrack Training Centre requested a central portal for learners attending short occupational programmes. The portal must allow registered users to manage their own information, while assessors or administrators can view support bookings and learner activity, making the whole support process clearer and easier to monitor.
+SkillsTrack Training Centre requested one working central portal for learners attending short occupational programmes. The portal must allow registered users to manage their own information, while assessors or administrators can view support bookings and learner activity, making the whole support process clearer and easier to monitor.
 
 ##  Project Objectives
 

@@ -1,6 +1,4 @@
-# Javascript_Program_2026
-
-## Learner Support Portal
+# Learner Support Portal
 
 ##  Project Overview
 
@@ -124,7 +122,7 @@ See "CHANGELOG.md" (CHANGELOG.md)
 - Figma: add link
 - Canva: add link
 - Miro: add link
-- GitHub Project Board: add link
+- GitHub Project Board: https://github.com/users/Lwandle-007/projects/2/views/1
 
 ##  References
 

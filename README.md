@@ -27,7 +27,7 @@ Hosting| An approved hosting platform such as GitHub Pages or Firebase Hosting
 - Visual Studio Code
 - Git & GitHub
 - Firebase Console
-- Browser Developer Tools
+- Browser Developer ToolsP
 - GitHub Actions
 - Figma (for design and wireframes)
 

@@ -2,7 +2,7 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=, initial-scale=1.0" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Book a Support Session</title>
   </head>
   <body>
@@ -13,26 +13,24 @@
     </p>
 
     <h3>1 - Session Type</h3>
-    <button onclick="selectType('Progress Review')">Progress Review</button>
-    <button onclick="selectType('Coursework Support')">
-      Coursework Support
-    </button>
-    <button onclick="selectType('Evidence Review')">Evidence review</button>
-    <button onclick="selectType('General Query')">General Query</button>
+    <button data-session-type="Progress Review">Progress Review</button>
+    <button data-session-type="Coursework Support">Coursework Support</button>
+    <button data-session-type="Evidence Review">Evidence Review</button>
+    <button data-session-type="General Query">General Query</button>
 
     <h3>2 - Preferred Day</h3>
-    <button onclick="selectDay('Mon 11')">Mon 11</button>
-    <button onclick="selectDay('Tue 12')">Tue 12</button>
-    <button onclick="selectDay('Wed 13')">Wed 13</button>
-    <button onclick="selectDay('Thu 14')">Thu 14</button>
-    <button onclick="selectDay('Fri 15')">Fri 15</button>
+    <button data-day="Mon 11">Mon 11</button>
+    <button data-day="Tue 12">Tue 12</button>
+    <button data-day="Wed 13">Wed 13</button>
+    <button data-day="Thu 14">Thu 14</button>
+    <button data-day="Fri 15">Fri 15</button>
 
-    <h3>3 - Preferred Time"</h3>
-    <button onclick="selectTime('9:00 AM')">9:00 AM</button>
-    <button onclick="selectTime('10:00 AM')">10:00 AM</button>
-    <button onclick="selectTime('11:00 AM')">11:00 AM</button>
-    <button onclick="selectTime('1:00 PM')">1:00 PM</button>
-    <button onclick="selectTime('2:00 PM')">2:00 PM</button>
+    <h3>3 - Preferred Time</h3>
+    <button data-time="9:00 AM">9:00 AM</button>
+    <button data-time="10:00 AM">10:00 AM</button>
+    <button data-time="11:00 AM">11:00 AM</button>
+    <button data-time="1:00 PM">1:00 PM</button>
+    <button data-time="2:00 PM">2:00 PM</button>
 
     <h3>4 - Add Notes (optional)</h3>
     <textarea
@@ -42,34 +40,11 @@
       placeholder="e.g I need help understanding Unit 3 evidence requirement..."
     ></textarea>
 
-    <h3>Request Sammary</h3>
+    <h3>Request Summary</h3>
     <p id="summaryType">No session type selected</p>
     <p id="summaryTime">No day/time selected</p>
-    <button onclick="sendRequest()">Send Request</button>
+    <button id="send-request-btn">Send Request</button>
 
-    <script>
-      var currentDay = "";
-      var currentTime = "";
-
-      function selectType(value) {
-        document.getElementById("summaryType").innerHTML = value;
-      }
-
-      function selectDay(value) {
-        currentDay = value;
-        document.getElementById("summaryTime").innerHTML =
-          currentDay + " - " + currentTime;
-      }
-
-      function selectTime(value) {
-        currentTime = value;
-        document.getElementById("summaryTime").innerHTML =
-          currentDay + " - " + currentTime;
-      }
-
-      function sendRequest() {
-        alert("Request sent! We'll confirm your session shortly.");
-      }
-    </script>
+    <script src="booking.js"></script>
   </body>
 </html>

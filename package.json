@@ -1,0 +1,29 @@
+{
+  "name": "javascript_program_2026",
+  "version": "1.0.0",
+  "description": "The Learner Support Portal is a browser-based application designed to help learners manage tasks, book support sessions, review progress, access learning resources, and complete a short coding game. It solves the problem of information being spread across separate documents and messages, which makes it difficult for assessors and staff to track outstanding work and learner progress efficiently.",
+  "main": "index.js",
+  "directories": {
+    "doc": "docs"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Lwandle-007/Javascript_Program_2026.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/Lwandle-007/Javascript_Program_2026/issues"
+  },
+  "homepage": "https://github.com/Lwandle-007/Javascript_Program_2026#readme",
+  "devDependencies": {
+    "@eslint/js": "^10.0.1",
+    "eslint": "^10.8.1",
+    "globals": "^17.10.0"
+  }
+}

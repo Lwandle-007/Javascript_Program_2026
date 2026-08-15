@@ -72,6 +72,9 @@ document.addEventListener("DOMContentLoaded", function () {
     selectDay("Tuesday");
   });
   // add one line per day button you have
+  document.getElementById("btnWednesday").addEventListener("click", function (){
+    selectDay("Wednesday")
+  })
 
   // Time buttons
   document.getElementById("btnMorning").addEventListener("click", function () {

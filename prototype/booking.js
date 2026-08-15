@@ -1,83 +1,92 @@
-// booking.js
-// Handles session-type, day, and time selection, plus the request
-// summary and submission, for the "Book a Support Session" page.
-
+// ===== Memory for the page =====
+// These two variables "remember" the day and time the user picked,
+// so the summary line can combine both even though they're chosen
+// by two separate buttons at two separate times.
+// They start empty because nothing has been picked yet.
 let currentDay = "";
 let currentTime = "";
 
-/**
- * Displays the chosen session type in the request summary.
- * @param {string} value - Label of the selected session type
- *   (e.g. "Progress Review").
- */
+// ===== Runs when a Session Type button is clicked =====
 function selectType(value) {
   document.getElementById("summaryType").innerHTML = value;
 }
 
-/**
- * Records the selected day and refreshes the combined day/time summary.
- * @param {string} value - The selected day (e.g. "Mon 11").
- */
+// ===== Runs when a Preferred Day button is clicked =====
 function selectDay(value) {
   currentDay = value;
-  updateDayTimeSummary();
+  document.getElementById("summaryTime").innerHTML =
+    currentDay + " - " + currentTime;
 }
 
-/**
- * Records the selected time and refreshes the combined day/time summary.
- * @param {string} value - The selected time slot (e.g. "9:00 AM").
- */
+// ===== Runs when a Preferred Time button is clicked =====
 function selectTime(value) {
   currentTime = value;
-  updateDayTimeSummary();
-}
-
-/**
- * Builds and displays the "day - time" summary text.
- * Shared by selectDay and selectTime so the string-building logic
- * only lives in one place.
- */
-function updateDayTimeSummary() {
   document.getElementById("summaryTime").innerHTML =
-    `${currentDay} - ${currentTime}`;
+    currentDay + " - " + currentTime;
 }
 
-/**
- * Sends the booking request.
- * Currently a placeholder — replace with a real Firebase POST
- * once the backend booking endpoint is wired up.
- */
+// ===== Runs when the "Send Request" button is clicked =====
+// Creates a NEW <li> element in the booking log — this is the
+// "create a DOM element based on user interaction" evidence.
 function sendRequest() {
-  alert("Request sent! We'll confirm your session shortly.");
+  let list = document.getElementById("bookingLog");
+
+  let item = document.createElement("li");
+  item.textContent = currentDay + " - " + currentTime;
+  list.appendChild(item);
+
+  alert("Request sent! We'll confirm your session shortly");
 }
 
-/**
- * Wires up every button on the page using addEventListener instead
- * of inline onclick attributes, so behaviour stays out of the markup.
- * Buttons are matched using data-* attributes set in the HTML.
- */
-function initBookingForm() {
-  document.querySelectorAll("[data-session-type]").forEach((button) => {
-    button.addEventListener("click", () => {
-      selectType(button.dataset.sessionType);
-    });
-  });
+// ===== Runs when the "Clear Last" button is clicked =====
+// Removes the most recently added <li> — the "remove a DOM element
+// based on user interaction" evidence.
+function clearLast() {
+  let list = document.getElementById("bookingLog");
+  if (list.lastChild) {
+    list.removeChild(list.lastChild);
+  }
+}
 
-  document.querySelectorAll("[data-day]").forEach((button) => {
-    button.addEventListener("click", () => {
-      selectDay(button.dataset.day);
-    });
-  });
-
-  document.querySelectorAll("[data-time]").forEach((button) => {
-    button.addEventListener("click", () => {
-      selectTime(button.dataset.time);
-    });
-  });
-
+// ===== Attach all event listeners here instead of using =====
+// ===== inline onclick="..." attributes in the HTML          =====
+document.addEventListener("DOMContentLoaded", function () {
+  // Session type buttons
   document
-    .getElementById("send-request-btn")
-    .addEventListener("click", sendRequest);
-}
+    .getElementById("btnProgressReview")
+    .addEventListener("click", function () {
+      selectType("Progress Review");
+    });
+  document
+    .getElementById("btnGeneralSupport")
+    .addEventListener("click", function () {
+      selectType("General Support");
+    });
+  // add one addEventListener line per session type button you have
 
-document.addEventListener("DOMContentLoaded", initBookingForm);
+  // Day buttons
+  document.getElementById("btnMonday").addEventListener("click", function () {
+    selectDay("Monday");
+  });
+  document.getElementById("btnTuesday").addEventListener("click", function () {
+    selectDay("Tuesday");
+  });
+  // add one line per day button you have
+
+  // Time buttons
+  document.getElementById("btnMorning").addEventListener("click", function () {
+    selectTime("Morning");
+  });
+  document
+    .getElementById("btnAfternoon")
+    .addEventListener("click", function () {
+      selectTime("Afternoon");
+    });
+  // add one line per time button you have
+
+  // Send / Clear
+  document
+    .getElementById("btnSendRequest")
+    .addEventListener("click", sendRequest);
+  document.getElementById("btnClearLast").addEventListener("click", clearLast);
+});

@@ -4,11 +4,11 @@ Browser-based learner support portalbuilt with JavaSript and Firebase . features
 # Learner Support Portal
 
 # Team Members
--frontend developer:UI components, wireframes, responsive design
--Backend developer:API development ,database intergration
--documentation lead:README, client brief , meeting minutes
--tester:test plan, QA, bug tracking
--project manager: oversees GitHub project board, merges, milestones
+-frontend developer(lwandle):UI components, wireframes, responsive design
+-Backend developer(onkarabetswe):API development ,database intergration
+-documentation lead(hilda and onkarabetswe):README, client brief , meeting minutes
+-tester(lwandle and hilda):test plan, QA, bug tracking
+-project manager(lwandle): oversees GitHub project board, merges, milestones
 
 # Development tools
 git & github
@@ -97,7 +97,8 @@ miro board
 GitHub project board
 
 # Referencing
-This "README.md" gives your repo a professional foundation.all you need is just to fill in your teams names, specific technologies and links
+This "README.md" gives your repo a professional foundation
+links that are used are from github and figma designs and all the team members contributed
 
 
 

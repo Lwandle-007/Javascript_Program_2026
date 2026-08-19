@@ -1,129 +1,104 @@
+# Javascript_Program_2026
+Browser-based learner support portalbuilt with JavaSript and Firebase . features includes aunthentication, progress trcking, task management,search, cookie preferences and mini games with GitHub collaboration
+
 # Learner Support Portal
 
-## Project Overview
+# Team Members
+-frontend developer(lwandle):UI components, wireframes, responsive design
+-Backend developer(onkarabetswe):API development ,database intergration
+-documentation lead(hilda and onkarabetswe):README, client brief , meeting minutes
+-tester(lwandle and hilda):test plan, QA, bug tracking
+-project manager(lwandle): oversees GitHub project board, merges, milestones
 
-The Learner Support Portal is a browser-based application designed to help learners manage tasks, book support sessions, review progress, access learning resources, and complete a short coding game. It solves the problem of information being spread across separate documents and messages, which makes it difficult for assessors and staff to track outstanding work and learner progress efficiently.
+# Development tools
+git & github
+visual studio code
+figma
+firebase console
 
-## Client Brief Summary
+# project overview
+The Learner-Support-Portal is a browser-based platform designed to provide learners with communication,resources  and program tracking.
 
-SkillsTrack Training Centre requested a working central portal for learners attending short occupational programmes. The portal must allow registered users to manage their own information, while assessors or administrators can view support bookings and learner activity, making the whole support process clearer and easier to monitor.
+# Client Brief Summary
+The client requires a portal where learns can:
+-communication between learners and teachers
+-tracking their progress
+-study support materials
+-engage with interactive feautures like quizzes and mini-games
 
-## Project Objectives
+# Project Objectives
+-allow learners to register, sign in, and view their own information securely
+-stores, retrieve , update and delete application data using firebase, while also including progress summaries and an interactive mini-game
+ 
+ # Technologies
+ -frontend:HTML, CSS, JavaScript
+ -backend:Node.js 
+ -database:Firebase realtime database
+ -version control:Git & GitHub
 
-- Provide one clear interface for managing learning tasks and support requests.
-- Allow learners to register, sign in, and view their own information securely.
-- Store, retrieve, update, and delete application data using Firebase, while also including progress summaries and an interactive mini-game.
-
-## Technologies
-
-Layer| Technology
-Frontend| HTML5, CSS3, JavaScript (ES6 or later)
-Backend| Firebase Authentication and Firebase Realtime Database REST API
-Database| Firebase Realtime Database
-Hosting| An approved hosting platform such as GitHub Pages or Firebase Hosting
-
-## Development Tools
-
-- Visual Studio Code
-- Git & GitHub
-- Firebase Console
-- Browser Developer ToolsP
-- GitHub Actions
-- Figma (for design and wireframes)
-
-## Team Members & Responsibilities
-
-Name| Role| Responsibilities
-Name| Team Lead| Repo management, integration, pull requests
-Name| Frontend| UI implementation and DOM updates
-Name| Backend| Firebase integration, REST requests, data handling
-Name| Designer| Wireframes, UI mockups, visual layout
-
-## Repository Structure
-
-Learner-Support-Portal/
+ # Repository structure
+ Learner-Support-Portal/
 ├── README.md
 ├── CHANGELOG.md
 ├── LICENSE
 ├── .gitignore
 ├── docs/
-│ ├── Client Brief
-│ ├── Requirements
-│ ├── Research
-│ ├── Meeting Minutes
-│ ├── User Stories
-│ ├── Use Cases
-│ ├── Wireframes
-│ ├── UI Designs
-│ └── Test Plan
+│   ├── Client Brief
+│   ├── Requirements
+│   ├── Research
+│   ├── Meeting Minutes
+│   ├── User Stories
+│   ├── Use Cases
+│   ├── Wireframes
+│   ├── UI Designs
+│   └── Test Plan
 ├── designs/
-│ ├── Figma Link.md
-│ ├── UI Mockups
-│ └── Images
+│   ├── Figma Link.md
+│   ├── UI Mockups
+│   └── Images
 ├── src/
 ├── assets/
 └── presentation/
 
-## Git Branching Strategy
+# Git Branching Strategy
+see "docs/BRANCHING_STRATEGY.md" (docs/BRANCHING_STRATEGY.md) for full details.
 
-See ""docs/BRANCHING_STRATEGY.md"" (docs/BRANCHING_STRATEGY.md) for full details.
+-"main" protected branch, production-ready code only
+-"dev" intergration branch
+-"feature" individual feature branches per developer
 
-Summary:
+# Contribution Guidlines
+-fork or clone the repository
+-create a feature branch "feature/yourname-task"
+-commit changes with clear messages
+-push branch and open a pull request 
+-resolve conflicts locally, never force-push to share braches
 
-- "main" — protected, production-ready code only
-- "dev" — integration branch
-- "feature/<name>-<short-description>" — one per member per task
-
-## Contribution Guidelines
-
-1. Pull the latest "dev" branch before starting work.
-2. Create a feature branch: "feature/yourname-task".
-3. Commit often with clear messages.
-4. Push your branch and open a Pull Request into "dev".
-5. Request at least one review before merging.
-6. Resolve conflicts locally, never force-push to shared branches.
-
-Commit message convention:
-
-type: short description
-
-feat: add login form validation
-fix: correct broken navbar link
-docs: update README setup instructions
-
-## Setup Instructions
-
-git clone https://github.com/<org>/Learner-Support-Portal.git
+# Setup Instructions
+git clone https://github.com/<org>Learner-Support-Portal.git
 cd Learner-Support-Portal
 npm install
-
-## ▶ How to Run the Project
-
+# Run the project
 npm start
 
-Adjust the above once your tech stack is finalised.
+# Project milestone
+-repo setup, documentation, initial designs
+-wireframes, user stories ,backend setup
+-frontend development, API intergration
+-testing, bug fixes, final presentation
 
-## Project Milestones
+# Changelog
+see "CHANGELOG.md" (CHANGELOG.md)
 
-Milestone| Target Date| Status
-Repo & board setup| TBC| ✅
-Requirements gathering| TBC| ⬜
-Wireframes/UI design| TBC| ⬜
-Core feature development| TBC| ⬜
-Testing| TBC| ⬜
-Final submission| TBC| ⬜
+# Links
+figma designs
+canva
+miro board
+GitHub project board
 
-## Changelog
+# Referencing
+This "README.md" gives your repo a professional foundation
+links that are used are from github and figma designs and all the team members contributed
 
-See "CHANGELOG.md" (CHANGELOG.md)
 
-## Links
 
-- Figma: add link
-- Canva: add link
-- Miro: add link
-- GitHub Project Board: https://github.com/users/Lwandle-007/projects/2/views/1
-
-## References
-
-- JavaScript Programmer Skills Programme document and integrated project brief for SkillsTrack Learner Support Portal.I can also turn this into a cleaner README version with the citations removed for submission.

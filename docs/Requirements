@@ -1,0 +1,25 @@
+# functional requirements
+-user aunthenication: A secered login and registration for learners , mentors and admins.
+-reliable resource library: intergrated acess to study materials , guides and other useful resources.
+-mentorship tools: direct communication materials(video and voice calls,chat, ect)
+-progress tracking: dasboard showing learners acheivements, analytics and milestones.
+-communication tools: announcements, 
+-scheduling: a calendar where you are able to book support sessions.
+-search functionality: quik acess to resources and mentors
+
+# Non-functional requirements
+-perfomance: fast loading time and a responsive UI
+-security: data encryption, secured API, role based acess
+-reliability: error handling and high uptime
+-usability: consitent desings and intutive navigation
+-maitanance: clear documentation and modular codebase
+
+# Project management and documentation requirements
+-README.md: overview,objectives and setup instructions
+-CHANGELOG.md: track updates and releases
+-client brief:what are  the clients needs and expectations
+-user stories: defining learner and mentor interactions
+-wireframe: visual representation of UI
+-Test plan: QA strategy and acceptance criteria
+-project board: tracking tasks ,issues and milestones
+

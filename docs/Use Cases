@@ -1,0 +1,20 @@
+Leaner Uses Cases
+1.Account Registration > sing up, verify email and create a profile.
+2.Access Resources > download study materials, guides and multimedia.
+3.Progress Tracking > view dashboard showing completed modules, scores and achievement.
+4.Mentorship Requests > booking a one-on-one sessions with facilitator.
+5.Discussion Participation > join forums, ask questions and collaborate with peers.
+6.Support Ticket Submission > Report issues or request for help from admins.
+
+Facilitator Uses Cases
+1.Session Scheduling > set availability and mange leaner booking.
+2.Resource Contribution . upload guides, tutorials or recorded lectures.
+3.Leaner Feedback > provide comments, grade or improvement suggestion.
+4.Communication >  chart, video call, or respond to learner questions.
+
+Admin Uses Cases
+1.User Management > approve accounts, assign roles and deactivate inactive users.
+2.Content Moderation > review forum posts, flag inappropriate concent.
+3.System Monitoring > track uptime, performance and error logs.
+4.Analytics Reporting > generate report on leaner engagement and success rates.
+5.Security Oversight > manage permissions, encryption and compliance.

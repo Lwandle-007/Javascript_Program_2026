@@ -1,0 +1,41 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>SkillsTrack - Book a Support Session</title>
+  </head>
+  <body>
+    <h1>Book a Support Session</h1>
+
+    <!-- ===== Session Type Buttons ===== -->
+    <h2>Session Type</h2>
+    <button id="btnProgressReview">Progress Review</button>
+    <button id="btnGeneralSupport">General Support</button>
+
+    <!-- ===== Preferred Day Buttons ===== -->
+    <h2>Preferred Day</h2>
+    <button id="btnMonday">Monday</button>
+    <button id="btnTuesday">Tuesday</button>
+    <button id="btnWednesday">Wednesday</button>
+
+    <!-- ===== Preferred Time Buttons ===== -->
+    <h2>Preferred Time</h2>
+    <button id="btnMorning">Morning</button>
+    <button id="btnAfternoon">Afternoon</button>
+
+    <!-- ===== Summary Section ===== -->
+    <h2>Summary</h2>
+    <p>Session type: <span id="summaryType">-</span></p>
+    <p>Day &amp; time: <span id="summaryTime"> - </span></p>
+
+    <!-- ===== Send / Clear ===== -->
+    <button id="btnSendRequest">Send Request</button>
+    <button id="btnClearLast">Clear Last</button>
+
+    <!-- ===== Booking Log (DOM elements get created/removed here) ===== -->
+    <h2>Booking Log</h2>
+    <ul id="bookingLog"></ul>
+
+    <script src="booking.js"></script>
+  </body>
+</html>

@@ -92,3 +92,58 @@ LIST past sessions (e.g., Progress Review, Evidence Review)
 SHOW "Achievements":
 LIST milestones reached (e.g., First Session, 5 Sessions, First Unit Done)
 END
+
+Adding a new Task
+START
+WHEN user clicks "Add Task" button
+Display the new task form
+Ask user to enter a new task
+Store input as newTask
+IF user clicks "Add" button THEN
+Save newTask to Firebase
+Set dueDate (the due day is always 7 days form the day in which it was made)
+Set completed status to false
+Add creation date
+Display the new task on the page (with due date)
+Hide the form
+ELSE IF user clicks "Cancel" button THEN
+Clear the form
+Hide the form
+END
+
+Filtering Form all Tasks to outstanding/completed 
+START
+WHEN tasks are loaded from Firebase
+Store all tasks in a list called allTasks
+Display tasks split into Outstanding or Completed sections
+END
+WHEN user clicks a task's circle/checkbox
+Get the clicked task's ID
+Get the task's current completed status from Firebase
+IF task's completed status is false THEN
+Set completed status to true
+Update task in Firebase
+Move task to Completed section
+ELSE IF task's completed status is true THEN
+Set completed status to false
+Update task in Firebase
+Move task visually to Outstanding section
+END IF
+END
+
+Summarizing outstanding total and completed total
+START
+Set outstandingTotal to 0
+Set completedTotal to 0
+FOR EACH task IN allTasks
+IF task's completed status is false THEN
+Add 1 to outstandingTotal
+ELSE IF task's completed status is true THEN
+Add 1 to completedTotal
+END IF
+END FOR
+Display outstandingTotal and completedTotal at the top of the page
+END
+
+
+

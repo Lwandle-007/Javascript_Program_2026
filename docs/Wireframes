@@ -8,7 +8,7 @@ SHOW course buttons:
 -web development L2
 -data analytics L2
 -cybersecurity L2
-Wait for user’s action:
+Wait for users action:
 IF user clicks course button:
 LOAD course page with tasks, sessions, resources, progress
 ELSE IF user clicks “create account”:

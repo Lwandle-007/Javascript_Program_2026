@@ -1,0 +1,48 @@
+User Story 1
+AS a leaner,I want to view my assigned task so that I know what work must be completed.
+.learner can view a task lits
+.Task title and due date are visible
+.completed task are clearly
+.page load successfully
+
+User Story 2
+As a leaner, I want to mark task as complete so that I can track my progress.
+.Leaner can click a clompletion button
+.Task status changes to "completed"
+.Data is saved in Firebase
+.Status remains after refresh
+
+User Story 3
+As a leaner, I want to book a support session that I can receive before deadline.
+.Learner can select date and time
+.Booking is saved in Firebase
+.Confirmation message appers
+.Facilitator can view the booking
+
+User Story 4
+As a Facilitator, I want to creat task so that leaners know what activities to complete.
+.Facilitator can enter task details
+.Task is saved successfully
+.Assigned learner can view the task
+.Eroors are displayed if required filed are empty
+
+User Story 5
+As a Facilitator, I want to upload learning resources so that learners can access studt material.
+.Resources title is entered
+.Resources file/links is stored
+.Learners can access the resources
+.Upload confirmation is displayed
+
+User Story 6
+As a Administrator, I want to manage user accounts so that system acess remain controlled.
+.Admin can create user
+.Admin can edit user information
+.Admin can deactivate accounts
+.Changes are stored in Firebase
+
+User Story 7
+As a learner, I want to view my accessment score so that I can monitor my performance.
+.Scores are displayed correctly
+.Assessment name is shown
+.Result load from Firebase
+.learner see only their own scores

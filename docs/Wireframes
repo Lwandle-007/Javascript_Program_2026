@@ -1,0 +1,94 @@
+PSEUDOCODE FOR HOMEPAGE
+START SkillTrack Portal
+Display homepage:
+SHOW “SkillTrack training center”
+SHOW tagline: "your learning, tracked and supported”
+SHOW course buttons:
+-software development L3
+-web development L2
+-data analytics L2
+-cybersecurity L2
+Wait for users action:
+IF user clicks course button:
+LOAD course page with tasks, sessions, resources, progress
+ELSE IF user clicks “create account”:
+Display registration form:
+Options: Learner or Assessor/admin
+Input: full name
+Input: email address
+Input: password
+Button "create account”
+WAIT for form submission:
+IF all fields are valid and role selected:
+Create new account
+Show confirmation message
+REDIRECT to dashboard
+ELSE:
+Show error message
+Return to form
+END
+
+Pseudocode for login flow
+START
+DISPLAY “welcome back” login screen
+Ask user to " I am a..."
+Option 1: learner
+Option 2: assessor/admin
+STORE role selection
+Ask user to enter email
+STORE email input
+Ask user to enter password
+STORE password input
+IF email or password is empty:
+SHOW “please fill in all fields”
+RETURN to login screen
+ELSE
+VALIDATE credentials (email input, password input and role selection)
+IF credentials are valid:
+SHOW" login sucessful"
+REDIRECT user to dashboard based on role selection
+ELSE
+SHOW " invalid email or password "
+OFFER " trouble signing? Contact your assessor"
+END
+
+Pseudocode for Learning Resources
+START
+DISPLAY " Learning Resources"
+SHOW categories: [ All, software dev, web dev, data analytics, cybersecurity and general]
+PROMPT user: "select a category"
+STORE category selection
+FILTER resources by category selection
+DISPLAY list of resources with details:
+-title
+- type (PDF, video, guide, interactive)
+-size (mb)
+- last updated
+-"open" button
+PROMPT user: " choose a resource to open "
+STORE resource choice
+IF resource IS SELECTED THEN
+OPEN resources (PDF, video, guide or interactive)
+ELSE
+DISPLAY " no resources selected"
+RETURN to resource list
+END
+
+pseudocode for My Progress
+START
+DISPLAY "My Progress"
+SHOW overall qualification progress (percentage chart)
+DISPLAY details:
+- Qualification name
+- Number of sessions
+- Units completed out of total
+SHOW "Unit Tracker" with list of units:
+FOR each unit IN qualification:
+DISPLAY unit name
+DISPLAY status (Complete, In Progress, Not Started)
+DISPLAY grade IF available
+SHOW "Session History":
+LIST past sessions (e.g., Progress Review, Evidence Review)
+SHOW "Achievements":
+LIST milestones reached (e.g., First Session, 5 Sessions, First Unit Done)
+END

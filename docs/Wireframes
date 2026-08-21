@@ -145,5 +145,54 @@ END FOR
 Display outstandingTotal and completedTotal at the top of the page
 END
 
+START 
+LOAD all learners 
+DISPLAY search box 
+INPUT search name 
+IF search name entered THEN 
+FIND learner matching search name 
+DISPLAY learner information 
+ELSE DISPLAY all learners 
+END IF 
+FOR each learner 
+DISPLAY learner name 
+DISPLAY programme 
+DISPLAY progress percentage 
+DISPLAY tasks open 
+DISPLAY sessions attended 
+DISPLAY last active date 
+IF progress percentage < 60 THEN 
+FLAG learner for attention 
+END IF  
+END FOR 
+END
 
+STRAT 
+DISPLAY assessor details 
+DISPLAY statistics: 
+Active Learners 
+Pending Bookings 
+Sessions This 
+Month Average Progress 
 
+LOAD bookings needing confirmation 
+FOR each booking 
+DISPLAY learner details 
+DISPLAY Confirm button 
+DISPLAY Decline button 
+IF Confirm button clicked THEN 
+UPDATE booking status to "Confirmed" 
+SEND notification to learner 
+ELSE Decline button clicked THEN 
+UPDATE booking status to "Declined" 
+SEND notification to learner 
+END IF 
+END FOR 
+LOAD learners requiring attention 
+FOR each learner 
+DISPLAY learner name 
+DISPLAY programme 
+DISPLAY open task count
+DISPLAY progress status 
+END FOR 
+END 

@@ -1,0 +1,195 @@
+Introduction
+
+The SkillsTrack Learner Support Portal will use Firebase Realtime Database to store application data.
+The database structure has been planned before development to ensure data is organised, scalable and easy to access using REST API calls.
+The main collections will be Users, Tasks, Support Bookings, Game Scores and Learning Resources.
+
+(1) Firebase Structure  
+ // Plan for where everything will be stored
+
+skillsTrack
+│
+├── users
+│ └── userId
+│ ├── fullName
+│ ├── email
+│ ├── role
+│
+├── tasks
+│ └── taskId
+│ ├── userId
+│ ├── title/description
+│ ├── createdAt
+│ ├── dueDate
+│ ├── status
+│
+├── bookings
+│ └── bookingId
+│ ├── userId
+│ ├── sessionType
+│ ├── sessionDay
+| ├── sessionTime
+| ├── notes
+│ ├── status
+| ├── createdAt
+│
+└── resources
+└── resourceId
+├── title
+├── category
+├── description
+├── link
+├── createdAt
+
+(2) Data Dictionary
+//Explains every field
+
+(2.1) Users Table
+Field |Type |Description
+userId |String |Unique Firebase User ID
+fullName |String |Learner first name
+email |String |User email address
+role |String |learner or assessor
+
+(2.2) Tasks Table
+Field |Type |Description
+taskId |String |Unique task ID
+userId |String |Owner of task
+title/description |String |Task title
+createdAt |Date |Task created Day
+dueDate |Date |Completion deadline
+status |String |Pending / Completed
+
+(2.3) Bookings Table
+Field |Type |Description
+bookingId |String |Unique booking ID
+userId |String |Learner ID
+sessionType |String |Session support type
+sessionDay |String |Preferred session date
+sessionTime |String |Preferred session time
+status |String |Pending / Approved / Completed
+createdAt |Date |Date in which session was created
+
+(2.4) Resources Table
+Field |Type |Description
+resourceId |String |Resource ID
+title |String |Resource title
+category |String |Learning category
+description |String |Resource summary
+link |String |Resource URL
+createdAt |Date |Date in which task is uploaded
+
+(3) REST API Plan
+
+----------NOTES----------
+
+//An API is a way for two pieces of software to communicate.
+//REST is a set of conventions for communicating with a web service using HTTP requests.
+//A REST API call is simply your application sending a request to Firebase.
+
+Method |Purpose |SkillsTrack example
+GET |Retrieve data |Get a learner's tasks
+POST |Create new data |Create a booking
+PUT |Replace/write data |Save a user's information
+PATCH |Update part of existing data |Change a task to completed
+DELETE |Remove data |Delete a task
+
+(3.1) Users Endpoints
+
+Create User
+POST /users
+Purpose:
+Save new user profile after registration.
+
+Read User
+GET /users/{userId}
+Purpose:
+Load learner profile.
+
+Update User
+PUT /users/{userId}
+Purpose:
+Update profile information.
+
+Delete User
+DELETE /users/{userId}
+Purpose:
+Remove user account.
+
+(3.2) Tasks Endpoints
+
+Load Tasks
+GET /tasks/{userId}
+Purpose:
+Retrieve learner tasks.
+
+Create Task
+POST /tasks
+Purpose:
+Add new task.
+
+Update Task
+PUT /tasks/{taskId}
+Purpose:
+Change task information or status.
+
+Delete Task
+DELETE /tasks/{taskId}
+Purpose:
+Remove task.
+
+(3.3) Support Booking Endpoints
+
+Retrieve Bookings
+GET /bookings/{userId}
+Purpose:
+View learner bookings.
+
+Create Booking
+POST /bookings
+Purpose:
+Create support request.
+
+Update Booking
+PUT /bookings/{bookingId}
+Purpose:
+Modify booking status.
+
+Delete Booking
+DELETE /bookings/{bookingId}
+Purpose:
+Cancel booking.
+
+(3.4) Resource Endpoints
+
+Get Resources
+GET /resources
+Purpose:
+Load learning resources.
+
+Add Resource
+POST /resources
+Purpose:
+Add new learning material.
+
+Update Resource
+PUT /resources/{resourceId}
+Purpose:
+Edit resource details.
+
+Delete Resource
+DELETE /resources/{resourceId}
+Purpose:
+Remove resource.
+
+(4) Security Planning
+
+Security Rules:
+Users can only view their own tasks.
+Users can only edit their own bookings.
+Assessors can view all bookings.
+Firebase Authentication manages sign-in security.
+
+Conclusion
+
+The proposed Firebase database structure provides organised storage for learners, tasks, bookings, scores and resources. The planned REST endpoints support full CRUD functionality and will simplify development of the SkillsTrack Learner Support Portal during Month 2. The design also supports security, scalability and efficient data retrieval.

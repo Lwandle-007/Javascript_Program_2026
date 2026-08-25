@@ -1,0 +1,130 @@
+(1.1)   Filtering Tasks to Outstanding/Completed
+
+START
+WHEN tasks are loaded from Firebase
+    Store all tasks in a list called allTasks
+    CALL filterTasksByStatus(allTasks)
+    Display returned outstanding list in Outstanding section
+    Display returned completed list in Completed section
+ 
+END
+ 
+FUNCTION filterTasksByStatus(tasks)
+    // PARAMETER: tasks — this function works on ANY task list passed to it,
+    // not just allTasks, so it is genuinely reusable
+ 
+    DECLARE const outstandingTasks = tasks.filter(task => task.completed === false)
+    DECLARE const completedTasks = tasks.filter(task => task.completed === true)
+    // task => task.completed === false is an ARROW FUNCTION passed as a callback
+ 
+    RETURN { outstanding: outstandingTasks, completed: completedTasks }
+END FUNCTION
+ 
+WHEN user clicks a task's circle/checkbox
+    Get the clicked task's ID
+    CALL toggleTaskStatus(taskId, isCompleted)
+END
+ 
+FUNCTION toggleTaskStatus(taskId, isCompleted)
+    // PARAMETERS: taskId and isCompleted — no global variables used inside this 
+function
+ 
+    DECLARE let newStatus = isCompleted === false   (comparison operator: ===)
+ 
+    Update task in Firebase using taskId, set completed = newStatus
+ 
+    RETURN newStatus
+END FUNCTION
+
+(1.3)   Summarizing Outstanding Total and Completed Total
+
+START
+FUNCTION calculateTaskCounts(tasks)
+    // PARAMETER: tasks — reusable, does not rely on a global allTasks variable
+ 
+    DECLARE let outstandingTotal = 0   (local to this function only)
+    DECLARE let completedTotal = 0     (local to this function only)
+ 
+    FOR EACH task IN tasks
+ 
+        IF task.completed is false THEN
+            outstandingTotal = outstandingTotal + 1   (arithmetic operator: +)
+ 
+        ELSE IF task.completed is true THEN
+            completedTotal = completedTotal + 1        (arithmetic operator: +)
+        END IF
+ 
+    END FOR
+ 
+    RETURN { outstanding: outstandingTotal, completed: completedTotal }
+END FUNCTION
+ 
+WHEN allTasks changes (task added, removed, or toggled)
+    DECLARE const counts = calculateTaskCounts(allTasks)
+ 
+    CONVERT counts.outstanding (number) to a string
+    CONVERT counts.completed (number) to a string
+    Display as: counts.outstanding + " outstanding · " + counts.completed + " completed"
+END
+
+(3.1)   Load and Display Challenge
+
+START
+Create list called challenges
+    Each challenge has:
+        questionTitle
+        instructions
+        codeSnippet
+        options (4 choices)
+        correctAnswer
+ 
+DECLARE let currentChallengeIndex = 0   (LET - increases as user moves through 
+challenges)
+DECLARE let correctCount = 0            (LET - increases as user answers correctly)
+DECLARE let incorrectCount = 0          (LET - increases as user answers incorrectly)
+ 
+FUNCTION displayChallenge
+    Get challenge at currentChallengeIndex
+    Show questionTitle
+    Show instructions
+    Show codeSnippet
+    Show the 4 options as buttons
+    Show progress: "Challenge (currentChallengeIndex + 1) of 5"
+    Show correctCount and incorrectCount at top (check 0  x 0)
+END FUNCTION
+END
+
+(3.5)   Final Results Screen
+
+START
+FUNCTION calculateScorePercent(correctCount, totalQuestions)
+    // PARAMETERS: correctCount and totalQuestions — reusable for any quiz length,
+    // not hard-coded to "5" or tied to a global variable
+ 
+    DECLARE let scorePercent = (correctCount / totalQuestions) * 100
+    // arithmetic operators: division (/) then multiplication (*)
+ 
+    RETURN scorePercent
+END FUNCTION
+ 
+FUNCTION showResultsScreen(correctCount, incorrectCount, totalQuestions)
+    DECLARE const scorePercent = calculateScorePercent(correctCount, totalQuestions)
+ 
+    Hide challenge card
+    Show results icon (books)
+ 
+    IF scorePercent is greater than or equal to 80 THEN
+        // comparison operator: >=
+        Show message "Great job!"
+    ELSE
+        Show message "Keep practising!"
+    END IF
+ 
+    CONVERT correctCount (number) to a string
+    CONVERT scorePercent (number) to a string
+    Show "You scored " + correctCount + " out of " + totalQuestions + " — " + scorePercent + "%"
+    Show correctCount labeled "Correct"
+    Show incorrectCount labeled "Incorrect"
+    Show "Try Again" button
+END FUNCTION
+END

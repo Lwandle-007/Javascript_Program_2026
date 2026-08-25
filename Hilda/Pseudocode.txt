@@ -121,9 +121,14 @@ WHEN user clicks "Add Task" button
     IF user clicks "Add" button THEN
         Save newTask to Firebase
         
-        Set dueDate (the due day is always 7 days form the day in which it was made)
+        Set createdAt to today's date
+        // createdAt declared with CONST - set once, never changes after creation
+        Calculate dueDate = createdAt + 7 (days)
+        // dueDate declared with CONST - arithmetic operator (+) adds 7 days once, then 
+        stays fixed
         Set completed status to false
-        Add creation date
+        // completed declared with LET - its value can later flip to true
+
         Display the new task on the page (with due date)
         Hide the form
 
@@ -138,52 +143,67 @@ START
 
 WHEN tasks are loaded from Firebase
     Store all tasks in a list called allTasks
-    Display tasks split into Outstanding or Completed sections
-
+    CALL filterTasksByStatus(allTasks)
+    Display returned outstanding list in Outstanding section
+    Display returned completed list in Completed section
 END
+
+FUNCTION filterTasksByStatus(tasks)
+    // PARAMETER: tasks — this function works on ANY task list passed to it,
+    // not just allTasks, so it is genuinely reusable
+ 
+    DECLARE const outstandingTasks = tasks.filter(task => task.completed === false)
+    DECLARE const completedTasks = tasks.filter(task => task.completed === true)
+    // task => task.completed === false is an ARROW FUNCTION passed as a callback
+ 
+    RETURN { outstanding: outstandingTasks, completed: completedTasks }
+END FUNCTION
+
 
 WHEN user clicks a task's circle/checkbox
     Get the clicked task's ID
-    Get the task's current completed status from Firebase
+     CALL toggleTaskStatus(taskId, isCompleted)
+END
 
-    IF task's completed status is false THEN
-        Set completed status to true
-        Update task in Firebase
-        Move task to Completed section
-
-    ELSE IF task's completed status is true THEN
-        Set completed status to false
-        Update task in Firebase
-        Move task to Outstanding section
-
-    END IF
-
+FUNCTION toggleTaskStatus(taskId, isCompleted)
+    // PARAMETERS: taskId and isCompleted — no global variables used inside this 
+function
+ 
+    DECLARE let newStatus = isCompleted === false   (comparison operator: ===)
+ 
+    Update task in Firebase using taskId, set completed = newStatus
+ 
+    RETURN newStatus
+END FUNCTION
 END
 
 (1.3) Summarizing outstanding total and completed total
 
 START
 
-FUNCTION updateTaskCounts
-    Get allTasks list
+FUNCTION calculateTaskCounts(tasks)
+    // PARAMETER: tasks — reusable, does not rely on a global allTasks variable
+    DECLARE let outstandingTotal = 0   (local to this function only)
+    DECLARE let completedTotal = 0     (local to this function only)
 
-    Set outstandingTotal to 0
-    Set completedTotal to 0
+    FOR EACH task IN tasks
 
-    FOR EACH task IN allTasks
-
-        IF task's completed status is false THEN
-            Add 1 to outstandingTotal
-
-        ELSE IF task's completed status is true THEN
-            Add 1 to completedTotal
+        IF task.completed is false THEN
+            outstandingTotal = outstandingTotal + 1   (arithmetic operator: +)
+        ELSE IF task.completed is true THEN
+            completedTotal = completedTotal + 1        (arithmetic operator: +)
         END IF
-
+ 
     END FOR
-
-    Display outstandingTotal and completedTotal at the top of the page
-
+    RETURN { outstanding: outstandingTotal, completed: completedTotal }
 END FUNCTION
+
+WHEN allTasks changes (task added, removed, or toggled)
+    DECLARE const counts = calculateTaskCounts(allTasks)
+ 
+    CONVERT counts.outstanding (number) to a string
+    CONVERT counts.completed (number) to a string
+    Display as: counts.outstanding + " outstanding · " + counts.completed + " completed"
 
 END
 
@@ -197,19 +217,22 @@ WHEN learner opens "Book a Support Session" page
     Display notes box (optional)
 
 WHEN learner clicks a Session Type
-    Store choice as selectedType
-
+    DECLARE let selectedType = choice   (LET - value changes each time learner clicks a 
+different option)
+ 
 WHEN learner clicks a Day
-    Store choice as selectedDay
-
+    DECLARE let selectedDay = choice
+ 
 WHEN learner clicks a Time
-    Store choice as selectedTime
-
+    DECLARE let selectedTime = choice
+ 
 WHEN learner types in notes box
-    Store input as sessionNotes
+    DECLARE let sessionNotes = input
 
 WHEN learner clicks "Send Request" button
-    IF selectedType, selectedDay, AND selectedTime are all chosen THEN
+    IF selectedType is NOT empty AND selectedDay is NOT empty AND selectedTime is NOT empty THEN
+        // logical operator AND - all three conditions must be true before saving
+        DECLARE const createdAt = current date/time   (CONST - set once, never changes)
         Save booking to Firebase with:
             learnerName
             sessionType = selectedType
@@ -217,7 +240,7 @@ WHEN learner clicks "Send Request" button
             preferredTime = selectedTime
             notes = sessionNotes
             status = "Pending"
-            createdAt = current date/time
+            createdAt = createdAt
 
         Hide booking form
         Display "Session Requested!" confirmation screen
@@ -291,9 +314,10 @@ Create list called challenges
         options (4 choices)
         correctAnswer
 
-Set currentChallengeIndex to 0
-Set correctCount to 0
-Set incorrectCount to 0
+DECLARE let currentChallengeIndex = 0   (LET - increases as user moves through 
+challenges)
+DECLARE let correctCount = 0            (LET - increases as user answers correctly)
+DECLARE let incorrectCount = 0          (LET - increases as user answers incorrectly)
 
 FUNCTION displayChallenge
     Get challenge at currentChallengeIndex
@@ -323,13 +347,14 @@ WHEN user clicks "Check Answer" button
     Get current challenge's correctAnswer
 
     IF selectedAnswer equals correctAnswer THEN
-        Add 1 to correctCount
+        // comparison operator: equals
+        correctCount = correctCount + 1   (arithmetic operator: +)
         Highlight selectedAnswer green
         Show message "Correct! [short explanation]"
         Change button to "Next Challenge"
 
     ELSE
-        Add 1 to incorrectCount
+        incorrectCount = incorrectCount + 1
         Highlight selectedAnswer red
         Show message "Not quite. [short explanation]"
         Change button to "Next Challenge"
@@ -343,7 +368,7 @@ END
 
 START
 
-WHEN user clicks "Next Challenge →"
+WHEN user clicks "Next Challenge"
     Add 1 to currentChallengeIndex
 
     IF currentChallengeIndex is less than 5 THEN
@@ -359,19 +384,32 @@ END
 (3.5) Final Results screen
 
 START
-FUNCTION showResultsScreen
-    Calculate scorePercent = (correctCount / 5) * 100
+FUNCTION calculateScorePercent(correctCount, totalQuestions)
+    // PARAMETERS: correctCount and totalQuestions — reusable for any quiz length,
+    // not hard-coded to "5" or tied to a global variable
+ 
+    DECLARE let scorePercent = (correctCount / totalQuestions) * 100
+    // arithmetic operators: division (/) then multiplication (*)
+ 
+    RETURN scorePercent
+END FUNCTION
+
+FUNCTION showResultsScreen(correctCount, incorrectCount, totalQuestions)
+    DECLARE const scorePercent = calculateScorePercent(correctCount, totalQuestions)
 
     Hide challenge card
     Show results icon (books)
 
-    IF scorePercent is 80 or higher THEN
+    IF scorePercent is greater than or equal to 80 THEN
+        // comparison operator: >=
         Show message "Great job!"
     ELSE
         Show message "Keep practising!"
     END IF
 
-    Show "You scored correctCount out of 5 — scorePercent%"
+    CONVERT correctCount (number) to a string
+    CONVERT scorePercent (number) to a string
+    Show "You scored " + correctCount + " out of " + totalQuestions + " — " + scorePercent + "%"
     Show correctCount labeled "Correct"
     Show incorrectCount labeled "Incorrect"
     Show "Try Again" button

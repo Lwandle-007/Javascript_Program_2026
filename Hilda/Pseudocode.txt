@@ -1,0 +1,468 @@
+Hilda
+
+(1) PSEUDOCODE FOR HOMEPAGE
+
+START SkillTrack Portal
+Display homepage:
+    SHOW “SkillTrack training center”
+    SHOW tagline: "your learning, tracked and supported”
+    SHOW course buttons:
+        -software development L3
+        -web development L2
+        -data analytics L2
+        -cybersecurity L2
+
+Wait for users action:
+    IF user clicks course button:
+        LOAD course page with tasks, sessions, resources, progress
+    ELSE IF user clicks “create account”:
+        Display registration form:
+        Options: Learner or Assessor/admin
+        Input: full name
+        Input: email address
+        Input: password
+        Button "create account”
+WAIT for form submission:
+    IF all fields are valid and role selected:
+        Create new account
+        Show confirmation message
+        REDIRECT to dashboard
+    ELSE:
+        Show error message  
+        Return to form
+END
+
+(2) Pseudocode for login flow
+
+START
+DISPLAY “welcome back” login screen
+    Ask user to " I am a..."
+        Option 1: learner
+        Option 2: assessor/admin
+        STORE role selection
+
+    Ask user to enter email
+        STORE email input
+
+    Ask user to enter password
+        STORE password 
+        
+    IF email or password is empty:
+        SHOW “please fill in all fields”
+        RETURN to login screen
+    ELSE
+        VALIDATE credentials (email input, password input and role selection)
+
+    IF credentials are valid:
+        SHOW" login sucessful"
+        REDIRECT user to dashboard based on role selection
+    ELSE
+        SHOW " invalid email or password "
+        OFFER " trouble signing? Contact your assessor"
+END
+
+(3) Pseudocode for Learning Resources
+
+START
+DISPLAY " Learning Resources"
+    SHOW categories: [ All, software dev, web dev, data analytics, cybersecurity and general]
+    PROMPT user: "select a category"
+    STORE category selection
+    FILTER resources by category selection
+
+DISPLAY list of resources with details:
+    -title
+    - type (PDF, video, guide, interactive)
+    -size (mb)
+    - last updated
+    -"open" button
+    PROMPT user: " choose a resource to open "
+    STORE resource choice
+
+    IF resource IS SELECTED THEN
+        OPEN resources (PDF, video, guide or interactive)
+    ELSE
+        DISPLAY " no resources selected"
+        RETURN to resource list
+END
+
+pseudocode for My Progress
+START
+DISPLAY "My Progress"
+    SHOW overall qualification progress (percentage chart)
+DISPLAY details:
+    - Qualification name
+    - Number of sessions
+    - Units completed out of total
+    SHOW "Unit Tracker" with list of units: 
+
+    FOR each unit IN qualification:
+        DISPLAY unit name
+        DISPLAY status (Complete, In Progress, Not Started)
+        DISPLAY grade IF available
+    SHOW "Session History":
+        LIST past sessions (e.g., Progress Review, Evidence Review)
+    SHOW "Achievements":
+        LIST milestones reached (e.g., First Session, 5 Sessions, First Unit Done)
+END
+
+LWANDLE 
+
+(1) Adding a new Task
+
+START
+WHEN user clicks "Add Task" button
+    Display the new task form
+
+    Ask user to enter a new task
+    Store input as newTask
+    // newTask declared with LET because its value changes every time a new task is typed 
+
+    IF user clicks "Add" button THEN
+        Save newTask to Firebase
+        
+        Set dueDate (the due day is always 7 days form the day in which it was made)
+        Set completed status to false
+        Add creation date
+        Display the new task on the page (with due date)
+        Hide the form
+
+    ELSE IF user clicks "Cancel" button THEN
+        Clear the form
+        Hide the form
+END
+
+(1.1) Filtering Form all Tasks to outstanding/completed 
+
+START
+
+WHEN tasks are loaded from Firebase
+    Store all tasks in a list called allTasks
+    Display tasks split into Outstanding or Completed sections
+
+END
+
+WHEN user clicks a task's circle/checkbox
+    Get the clicked task's ID
+    Get the task's current completed status from Firebase
+
+    IF task's completed status is false THEN
+        Set completed status to true
+        Update task in Firebase
+        Move task to Completed section
+
+    ELSE IF task's completed status is true THEN
+        Set completed status to false
+        Update task in Firebase
+        Move task to Outstanding section
+
+    END IF
+
+END
+
+(1.3) Summarizing outstanding total and completed total
+
+START
+
+FUNCTION updateTaskCounts
+    Get allTasks list
+
+    Set outstandingTotal to 0
+    Set completedTotal to 0
+
+    FOR EACH task IN allTasks
+
+        IF task's completed status is false THEN
+            Add 1 to outstandingTotal
+
+        ELSE IF task's completed status is true THEN
+            Add 1 to completedTotal
+        END IF
+
+    END FOR
+
+    Display outstandingTotal and completedTotal at the top of the page
+
+END FUNCTION
+
+END
+
+(2) Bookings Session Page (learner side) with confirmation screen
+
+START
+WHEN learner opens "Book a Support Session" page
+    Display session type options (Progress Review, Coursework Support, Evidence Review, General Query)
+    Display day options (Mon, Tue, Wed, Thu, Fri)
+    Display time options (9:00 AM, 10:00 AM, etc.)
+    Display notes box (optional)
+
+WHEN learner clicks a Session Type
+    Store choice as selectedType
+
+WHEN learner clicks a Day
+    Store choice as selectedDay
+
+WHEN learner clicks a Time
+    Store choice as selectedTime
+
+WHEN learner types in notes box
+    Store input as sessionNotes
+
+WHEN learner clicks "Send Request" button
+    IF selectedType, selectedDay, AND selectedTime are all chosen THEN
+        Save booking to Firebase with:
+            learnerName
+            sessionType = selectedType
+            preferredDay = selectedDay
+            preferredTime = selectedTime
+            notes = sessionNotes
+            status = "Pending"
+            createdAt = current date/time
+
+        Hide booking form
+        Display "Session Requested!" confirmation screen
+        Show summary: sessionType, preferredDay, preferredTime
+
+    ELSE
+        Show message "Please select a session type, day, and time"
+    END IF
+END
+
+(2.1) Assessor Bookings Page (Load & Display)
+
+START
+WHEN assessor opens "Session Bookings" page
+    Get all bookings from Firebase
+    Store in list called allBookings
+
+    Display each booking with:
+        learnerName
+        sessionType
+        preferredDay
+        preferredTime
+        status
+
+WHEN assessor clicks "All Bookings" tab
+    Display allBookings
+
+WHEN assessor clicks "Pending" tab
+    Create empty list called pendingBookings
+    FOR EACH booking IN allBookings
+        IF booking's status is "Pending" THEN
+            Add booking to pendingBookings
+        END IF
+    END FOR
+    Display pendingBookings
+
+WHEN assessor clicks "Confirmed" tab
+    Create empty list called confirmedBookings
+    FOR EACH booking IN allBookings
+        IF booking's status is "Confirmed" THEN
+            Add booking to confirmedBookings
+        END IF
+    END FOR
+    Display confirmedBookings
+END
+
+(2.2) Assessor Accept or Decline action
+
+START
+WHEN assessor clicks "Confirm" button on a booking
+    Get that booking's ID
+    Update booking in Firebase: set status = "Confirmed"
+    Re-display updated booking list
+
+WHEN assessor clicks "Decline" button on a booking
+    Get that booking's ID
+    Update booking in Firebase: set status = "Declined"
+    Re-display updated booking list
+END
+
+(3) Coding_mini_game
+
+(3.1) Load and Display Challenge
+
+START
+Create list called challenges
+    Each challenge has:
+        questionTitle
+        instructions
+        codeSnippet
+        options (4 choices)
+        correctAnswer
+
+Set currentChallengeIndex to 0
+Set correctCount to 0
+Set incorrectCount to 0
+
+FUNCTION displayChallenge
+    Get challenge at currentChallengeIndex
+    Show questionTitle
+    Show instructions
+    Show codeSnippet
+    Show the 4 options as buttons
+    Show progress: "Challenge (currentChallengeIndex + 1) of 5"
+    Show correctCount and incorrectCount at top (/ 0 x 0)
+END FUNCTION
+END
+
+(3.2) Selecting an Option
+
+START
+WHEN user clicks an option button
+    Store clicked option as selectedAnswer
+    Highlight selectedAnswer (e.g orange background)
+    Enable "Check Answer" button
+END
+END
+
+(3.3) Checking the answer 
+
+START
+WHEN user clicks "Check Answer" button
+    Get current challenge's correctAnswer
+
+    IF selectedAnswer equals correctAnswer THEN
+        Add 1 to correctCount
+        Highlight selectedAnswer green
+        Show message "Correct! [short explanation]"
+        Change button to "Next Challenge"
+
+    ELSE
+        Add 1 to incorrectCount
+        Highlight selectedAnswer red
+        Show message "Not quite. [short explanation]"
+        Change button to "Next Challenge"
+    END IF
+
+    Update / and x counters at top
+END
+END
+
+(3.4) Moving to Next Challenge
+
+START
+
+WHEN user clicks "Next Challenge →"
+    Add 1 to currentChallengeIndex
+
+    IF currentChallengeIndex is less than 5 THEN
+        Clear selectedAnswer
+        CALL displayChallenge
+    ELSE
+        CALL showResultsScreen
+    END IF
+END
+
+END
+
+(3.5) Final Results screen
+
+START
+FUNCTION showResultsScreen
+    Calculate scorePercent = (correctCount / 5) * 100
+
+    Hide challenge card
+    Show results icon (books)
+
+    IF scorePercent is 80 or higher THEN
+        Show message "Great job!"
+    ELSE
+        Show message "Keep practising!"
+    END IF
+
+    Show "You scored correctCount out of 5 — scorePercent%"
+    Show correctCount labeled "Correct"
+    Show incorrectCount labeled "Incorrect"
+    Show "Try Again" button
+END FUNCTION
+END
+
+(3.6) Try Again
+
+START
+WHEN user clicks "Try Again" button
+    Set currentChallengeIndex to 0
+    Set correctCount to 0
+    Set incorrectCount to 0
+    CALL displayChallenge
+END
+END
+
+
+Onkarabetse
+
+(1) STRAT
+DISPLAY assessor details
+DISPLAY statistics:
+    Active Learners
+    Pending Bookings
+    Sessions This Month
+    Average Progress
+
+LOAD bookings needing confirmation
+
+FOR each booking
+    DISPLAY learner details
+    DISPLAY Confirm button
+    DISPLAY Decline button
+
+    IF Confirm button clicked THEN
+        UPDATE booking status to "Confirmed"
+        SEND notification to learner
+    ELSE
+        Decline button clicked THEN
+        UPDATE booking status to "Declined"
+        SEND notification to learner
+    END IF
+END FOR
+
+LOAD learners requiring attention
+
+FOR each learner
+    DISPLAY learner name
+    DISPLAY programme
+    DISPLAY open task count
+    DISPLAY progress status
+END FOR
+END
+
+(2) START
+LOAD all learners
+
+DISPLAY search box 
+    INPUT search name
+
+    IF search name entered THEN
+        FIND learner matching search name
+        DISPLAY learner information
+    ELSE
+        DISPLAY all learners
+    END IF
+
+FOR each learner
+    DISPLAY learner name
+    DISPLAY programme
+    DISPLAY progress percentage
+    DISPLAY tasks open
+    DISPLAY sessions attended
+    DISPLAY last active date
+
+    IF progress percentage < 60 THEN
+        FLAG learner for attention
+    END IF
+END FOR
+END
+
+(3) START 
+
+ASK "Are you sure you want to logout?"
+
+    IF answer = YES THEN
+        END user session
+        RETURN to Login Page
+    ELSE
+        STAY on current page
+    ENDIF
+
+END Logout

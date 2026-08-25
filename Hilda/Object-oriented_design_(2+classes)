@@ -1,0 +1,58 @@
+Class Structure
+
+CLASS Task
+    PROPERTIES:
+        taskId
+        taskName
+        category
+        completed
+        dueDate
+        createdAt
+
+    METHODS:
+        markComplete()
+            set completed to true
+
+        markIncomplete()
+            set completed to false
+
+        toggleComplete()
+            IF completed is true THEN
+                CALL markIncomplete()
+            ELSE
+                CALL markComplete()
+            ENDIF
+END CLASS
+
+Task groups related data — name, category, due date, completion status, creation date — into one object instead of using five separate variables. This means each task moves, updates, and gets passed around as a single unit, rather than as scattered pieces that could get out of sync with each other.
+
+
+CLASS Booking
+    PROPERTIES:
+        bookingId
+        learnerName
+        sessionType
+        preferredDay
+        preferredTime
+        notes
+        status
+ 
+    METHODS:
+        confirm()
+            Set status to "Confirmed"
+ 
+        decline()
+            Set status to "Declined"
+END CLASS
+
+Booking bundles the learner's request details and status together, and gives it its own confirm() and decline() methods. This keeps the assessor's action logic attached to the data it changes, rather than existing as a disconnected function operating on loose variables elsewhere in the program.
+
+CLASS Learner
+    PROPERTIES:
+        learnerName
+        courseLevel
+        tasks (list of Task objects)
+        bookings (list of Booking objects)
+END CLASS
+
+A Learner can have many Tasks and many Bookings — a one-to-many relationship. Storing them as lists inside Learner reflects how the data is actually used in the app: everything shown on a learner's dashboard belongs to that one learner, so grouping it this way avoids having to search through unrelated records to find out which tasks or bookings belong to whom. courseLevel is included because it appears alongside the learner's name on both the Bookings page (assessor view) and the task list, so it belongs to the Learner rather than being repeated inside every Task or Booking record.

@@ -29,9 +29,9 @@ function selectTime(value) {
 // Creates a NEW <li> element in the booking log — this is the
 // "create a DOM element based on user interaction" evidence.
 function sendRequest() {
-  let list = document.getElementById("bookingLog");
+  const list = document.getElementById("bookingLog");
 
-  let item = document.createElement("li");
+  const item = document.createElement("li");
   item.textContent = currentDay + " - " + currentTime;
   list.appendChild(item);
 
@@ -42,7 +42,7 @@ function sendRequest() {
 // Removes the most recently added <li> — the "remove a DOM element
 // based on user interaction" evidence.
 function clearLast() {
-  let list = document.getElementById("bookingLog");
+  const list = document.getElementById("bookingLog");
   if (list.lastChild) {
     list.removeChild(list.lastChild);
   }

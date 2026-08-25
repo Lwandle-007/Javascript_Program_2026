@@ -1,4 +1,84 @@
-Leaner Uses Cases
+The Programming Life Cycle is a structured process used to develop software. It helps ensure that the SkillsTrack Learner Support Portal is carefully planned, designed, tested and improved before final deployment. The six main stages are Analysis, Design, Coding, Testing, Implementation and Review.Leaner Uses Cases
+
+(1) The 6 Stages 
+
+1.1 Analysis: during this phase, the problem is studied and requirements are gathered. 
+
+Activities: 
+Understand the client brief 
+Identify users 
+Identify system requirements 
+Define project scope 
+Create user stories 
+Create acceptance criteria 
+
+Output: 
+Problem statement 
+Requirements document 
+
+2.1 Design: during this phase, the solution is planned before coding begins. 
+
+Activities: 
+Design Firebase structure 
+Create flowcharts 
+Write pseudocode 
+Plan classes and objects 
+Design page layout 
+
+Output: 
+Data model 
+Flowcharts 
+Wireframes 
+
+3.1 Coding: during this phase, the application is developed using JavaScript, HTML and CSS. 
+
+Activities: 
+Build interface 
+Create forms 
+Write JavaScript functions 
+Create task manager 
+Implement user interactions 
+
+Output: 
+Working application prototype 
+
+ 
+
+4.1 Testing: during this phase, bugs and errors are identified. 
+
+Activities: 
+Test login form 
+Test calculations 
+Test validation 
+Check JavaScript console 
+Fix errors 
+
+Output: 
+Corrected and working code 
+
+5.1 Implementation: During this phase, the system becomes available for users. 
+
+Activities: 
+Deploy working version 
+Connect Firebase 
+Allow users to interact with features 
+
+Output: 
+Functional Learner Support Portal 
+
+6.1 Review and Maintenance: during this phase, feedback is collected and improvements are made. 
+
+Activities: 
+Receive assessor feedback 
+Review code quality 
+Improve user experience 
+Fix remaining issues 
+
+Output: 
+Improved final version 
+
+(7) Uses Cases
+
 1.Account Registration > sing up, verify email and create a profile.
 2.Access Resources > download study materials, guides and multimedia.
 3.Progress Tracking > view dashboard showing completed modules, scores and achievement.
@@ -6,13 +86,15 @@ Leaner Uses Cases
 5.Discussion Participation > join forums, ask questions and collaborate with peers.
 6.Support Ticket Submission > Report issues or request for help from admins.
 
-Facilitator Uses Cases
+7.2 Facilitator Uses Cases
+
 1.Session Scheduling > set availability and mange leaner booking.
 2.Resource Contribution . upload guides, tutorials or recorded lectures.
 3.Leaner Feedback > provide comments, grade or improvement suggestion.
 4.Communication >  chart, video call, or respond to learner questions.
 
-Admin Uses Cases
+7.3 Admin Uses Cases
+
 1.User Management > approve accounts, assign roles and deactivate inactive users.
 2.Content Moderation > review forum posts, flag inappropriate concent.
 3.System Monitoring > track uptime, performance and error logs.

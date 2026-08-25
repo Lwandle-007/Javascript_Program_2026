@@ -93,8 +93,8 @@ see "CHANGELOG.md" (CHANGELOG.md)
 # Links
 figma designs
 canva
-miro board
-GitHub project board
+miro board: https://miro.com/app/board/uXjVHw5Y2lw=/
+GitHub project board: https://github.com/users/Lwandle-007/projects/2/views/1
 
 # Referencing
 This "README.md" gives your repo a professional foundation

@@ -1,3 +1,85 @@
+(1) Problem Statement
+
+SkillsTrack Training Centre currently records learner goals, tasks, support bookings and progress across separate documents and messages. This makes it difficult for learners to stay organised and track their learning progress. Assessors also struggle to identify outstanding work, monitor learner performance and provide timely support. The organisation requires a browser-based Learner Support Portal that centralises task management, support bookings, progress tracking, learning resources and learner engagement features. 
+
+(2) The two user typies 
+
+(2.1) User 1: Learner 
+Responsibilities: 
+
+Register an account 
+Sign in and sign out 
+Manage own tasks 
+
+In Scope 
+The system will include: 
+
+User registration 
+Login and logout 
+Task management (Create, Read, Update, Delete) 
+Progress dashboard 
+Support session booking 
+Learning resources section 
+Search and filter functionality 
+Coding mini-game 
+Printable progress report 
+Firebase database storage
+User authentication 
+View learning progress 
+Access learning resources 
+Play the coding mini-game 
+Print progress summary 
+
+(2.2) User 2: Assessor/Administrator 
+
+Responsibilities: 
+View support bookings 
+Monitor learner activity 
+Monitor learner progress 
+Update support booking status 
+
+In Scope 
+The system will include: 
+
+User registration 
+Login and logout 
+Task management (Create, Read, Update, Delete) 
+Progress dashboard 
+Support session booking 
+Learning resources section 
+Search and filter functionality 
+Coding mini-game 
+Printable progress report 
+Firebase database storage 
+User authentication 
+
+Out of Scope 
+The system will NOT include: 
+
+Online payments 
+Video conferencing 
+SMS notifications 
+Attendance tracking 
+Course creation tools 
+Financial management 
+Mobile app development 
+AI tutoring system 
+
+(3) List Project Constraints
+
+Constraints:
+
+Must use JavaScript (ES6+) for application logic.
+Must use Firebase Realtime Database.
+Must use Firebase Authentication.
+Must be browser-based.
+Must use GitHub for version control.
+Must be completed within two months.
+Passwords cannot be stored in cookies or the database directly.
+Firebase security rules must restrict unauthorised access
+
+(4) User Stories
+
 User Story 1
 AS a leaner,I want to view my assigned task so that I know what work must be completed.
 .learner can view a task lits

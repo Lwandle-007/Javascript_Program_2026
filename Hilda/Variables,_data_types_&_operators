@@ -1,0 +1,80 @@
+#variables declaration using let and const 
+#e.g booking a support session 
+
+let selectedDay = "Monday";
+let selectedTime = "10:00 AM";
+
+const sessionType = "Progress Review";
+const bookingFee = 0;
+
+ # data types 
+ # string 
+ const learnerName = "Hilda Langa";
+ 
+ # number 
+ let progressPercentage = 75;
+
+ # boolean 
+ let sessionConfirmed = false;
+
+ # array
+ const courses = [
+    "Software Development L3",
+    "Web Development L2",
+    "Data Analytics L2",
+    "Cybersecurity L2"
+];
+
+# object 
+const learner = {
+    name: "Hilda Langa",
+    programme: "Software Development L3",
+    progress: 75
+};
+ 
+ # ARITHMETIC OPERSTORS
+ const completedUnits = 8;
+const totalUnits = 12;
+
+let remainingUnits = totalUnits - completedUnits;
+
+remainingUnits = 4
+
+# addition operator 
+let completedSessions = 3;
+
+completedSessions = completedSessions + 1;
+
+completedsession = 4
+
+# multiplication operator 
+let marksPerTask = 5;
+
+let totalMarks = marksPerTask * 4;
+
+20
+
+# comparsion operators 
+if (progressPercentage >= 80) {
+    console.log("Excellent Progress");
+}
+operators used 
+>=
+>
+<
+<=
+===
+!==
+# logical operators 
+if (
+    selectedDay !== "" &&
+    selectedTime !== ""
+) {
+    console.log("Booking Valid");
+}
+
+&&  AND
+
+||  OR
+
+!   NOT

@@ -1,0 +1,329 @@
+#Arrays, loops & coditionals
+START
+
+DECLARE resources ARRAY
+
+resources = [
+    {title:"HTML Basics", category:"Web Dev", type:"PDF", size:"2MB"},
+    {title:"JavaScript Fundamentals", category:"Software Dev", type:"Video", size:"15MB"},
+    {title:"Cyber Awareness", category:"Cybersecurity", type:"Guide", size:"1MB"},
+    {title:"Data Visualisation", category:"Data Analytics", type:"Interactive", size:"4MB"}
+]
+
+DISPLAY "Learning Resources"
+
+SHOW categories:
+    All
+    Software Development
+    Web Development
+    Data Analytics
+    Cybersecurity
+    General
+
+PROMPT user to select category
+
+STORE selectedCategory
+
+IF selectedCategory = "All" THEN
+    filteredResources = resources
+ELSE
+    filteredResources = FILTER resources
+        WHERE resource.category = selectedCategory
+END IF
+
+FOR EACH resource IN filteredResources
+
+    DISPLAY resource.title
+    DISPLAY resource.type
+    DISPLAY resource.size
+
+END FOR
+
+PROMPT user to choose resource
+
+IF resource selected THEN
+    OPEN selected resource
+ELSE
+    DISPLAY "No resource selected"
+END IF
+
+END
+
+
+
+# my progress
+START
+
+DECLARE units ARRAY
+
+units = [
+    {name:"HTML Fundamentals", status:"Complete", grade:90},
+    {name:"CSS Styling", status:"In Progress", grade:null},
+    {name:"JavaScript Basics", status:"Not Started", grade:null}
+]
+
+DISPLAY "My Progress"
+
+SET completedCount = 0
+
+FOR EACH unit IN units
+
+    DISPLAY unit.name
+    DISPLAY unit.status
+
+    IF unit.grade exists THEN
+        DISPLAY unit.grade
+    END IF
+
+    IF unit.status = "Complete" THEN
+        completedCount = completedCount + 1
+    END IF
+
+END FOR
+
+totalUnits = LENGTH(units)
+
+progressPercentage =
+(completedCount / totalUnits) * 100
+
+DISPLAY progressPercentage
+
+END
+
+
+
+# filter 
+START
+
+Array of tasks received
+
+CREATE outstandingTasks list
+
+FOR EACH task IN tasks
+
+    IF task.completed = false THEN
+
+        ADD task TO outstandingTasks
+
+    END IF
+
+END FOR
+
+RETURN outstandingTasks
+
+END
+
+const outstandingTasks =
+    tasks.filter(task => task.completed === false);
+
+
+# map for task titles
+START
+
+CREATE taskTitles list
+
+FOR EACH task IN tasks
+
+    ADD task.title TO taskTitles
+
+END FOR
+
+RETURN taskTitles
+
+END
+
+const taskTitles =
+    tasks.map(task => task.title);
+
+
+#reduce for task summary
+START
+
+SET totalTasks = 0
+
+FOR EACH task IN tasks
+
+    totalTasks = totalTasks + 1
+
+END FOR
+
+RETURN totalTasks
+
+END
+
+const totalTasks =
+    tasks.reduce(
+        (count, task) => count + 1,
+        0
+    );
+
+# task totalTasks
+FOR EACH task IN tasks
+
+    IF task.completed = false THEN
+
+        outstandingTotal = outstandingTotal + 1
+
+    ELSE
+
+        completedTotal = completedTotal + 1
+
+    END IF
+
+END FOR
+
+#booking session 
+START
+
+DECLARE availableTimeSlots ARRAY
+
+availableTimeSlots =
+[
+    "09:00",
+    "10:00",
+    "11:00",
+    "13:00",
+    "14:00"
+]
+
+FOR EACH slot IN availableTimeSlots
+
+    DISPLAY slot
+
+END FOR
+
+User selects slot
+
+IF slot selected THEN
+    Continue booking
+ELSE
+    Display error
+END IF
+
+END
+
+#coding mini game 
+START
+
+DECLARE challenges ARRAY
+
+challenges =
+[
+    Challenge 1,
+    Challenge 2,
+    Challenge 3,
+    Challenge 4,
+    Challenge 5
+]
+
+FOR EACH challenge IN challenges
+
+    DISPLAY challenge title
+
+END FOR
+
+END
+
+# map login for question 
+START
+
+CREATE challengeTitles
+
+FOR EACH challenge
+
+    GET challenge title
+
+    ADD title to challengeTitles
+
+END FOR
+
+RETURN challengeTitles
+
+END
+
+const challengeTitles =
+    challenges.map(
+        challenge => challenge.questionTitle
+    );
+
+#reduce login for score
+START
+
+SET totalScore = 0
+
+FOR EACH challenge
+
+    ADD challenge.score TO totalScore
+
+END FOR
+
+RETURN totalScore
+
+END
+
+const totalScore =
+    challenges.reduce(
+        (sum, challenge) => sum + challenge.score,
+        0
+    );
+
+# Learner seach
+START
+
+DECLARE learners ARRAY
+
+LOAD all learners
+
+INPUT learner name
+
+IF learner name entered THEN
+
+    CREATE matchingLearners array
+
+    FOR EACH learner IN learners
+
+        IF learner.name contains search text THEN
+
+            ADD learner TO matchingLearners
+
+        END IF
+
+    END FOR
+
+    DISPLAY matchingLearners
+
+ELSE
+
+    DISPLAY all learners
+
+END IF
+
+END
+
+# dashboard stats using reduce
+START
+
+SET activeLearners = 0
+
+FOR EACH learner IN learners
+
+    IF learner.status = "Active" THEN
+
+        activeLearners = activeLearners + 1
+
+    END IF
+
+END FOR
+
+DISPLAY activeLearners
+
+END
+
+const activeLearners =
+    learners.reduce(
+        (total, learner) =>
+            learner.status === "Active"
+                ? total + 1
+                : total,
+        0
+    );

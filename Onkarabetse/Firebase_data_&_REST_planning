@@ -182,7 +182,23 @@ DELETE /resources/{resourceId}
 Purpose:
 Remove resource.
 
-(4) Security Planning
+(4)  Database Relationships 
+ Database relationships show how the different tables in the system connect to each other. 
+
+-One User → Many Tasks 
+-One User → Many Bookings 
+-One User → Many Scores 
+-Resources → Available to All Users 
+
+Example: 
+User (u001) 
+├── Task 1 
+├── Task 2 
+├── Booking 1 
+├── Booking 2 
+└── Score 1 
+
+(5) Security Planning
 
 Security Rules:
 Users can only view their own tasks.

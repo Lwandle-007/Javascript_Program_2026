@@ -34,12 +34,12 @@ skillsTrack
 | ├── createdAt
 │
 └── resources
-└── resourceId
-├── title
-├── category
-├── description
-├── link
-├── createdAt
+    └── resourceId
+    ├── title
+    ├── category
+    ├── description
+    ├── link
+    ├── createdAt
 
 (2) Data Dictionary
 //Explains every field

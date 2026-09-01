@@ -1,0 +1,56 @@
+Dark Mode Toggle(Cookies,dialogs,Redirect_and_print)
+
+START
+
+WHEN page loads
+    CALL loadThemePreference()
+
+FUNCTION loadThemePreference()
+    // Checks if the user already has a saved preference, so the site
+    // remembers their choice next time they visit
+    DECLARE let savedTheme = GET "theme" from Firebase (or browser storage)
+
+    IF savedTheme equals "dark" THEN
+        // comparison operator: equals
+        CALL applyDarkMode()
+    ELSE
+        CALL applyLightMode()
+    END IF
+
+    RETURN savedTheme
+END FUNCTION
+
+WHEN user clicks "Dark Mode" toggle
+    DECLARE let currentTheme = GET current theme
+    DECLARE let newTheme = currentTheme === "dark" ? "light" : "dark"
+    // comparison operator (===) combined with a short IF/ELSE choice
+
+    CALL setTheme(newTheme)
+
+FUNCTION setTheme(theme)
+    // PARAMETER: theme — reusable, works whether switching to "dark" or "light"
+    IF theme equals "dark" THEN
+        CALL applyDarkMode()
+    ELSE
+        CALL applyLightMode()
+    END IF
+
+    SAVE "theme" = theme to Firebase (or browser storage)
+    // this is what makes the preference persist across visits
+
+    RETURN theme
+END FUNCTION
+
+FUNCTION applyDarkMode()
+    Change background colour to dark
+    Change text colour to light
+    Update toggle switch to "on" position
+END FUNCTION
+
+FUNCTION applyLightMode()
+    Change background colour to light
+    Change text colour to dark
+    Update toggle switch to "off" position
+END FUNCTION
+
+END

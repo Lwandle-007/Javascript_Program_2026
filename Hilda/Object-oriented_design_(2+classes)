@@ -53,6 +53,7 @@ CLASS Learner
         courseLevel
         tasks (list of Task objects)
         bookings (list of Booking objects)
+        themePreference   - NEW ("dark" or "light")
 END CLASS
 
 A Learner can have many Tasks and many Bookings — a one-to-many relationship. Storing them as lists inside Learner reflects how the data is actually used in the app: everything shown on a learner's dashboard belongs to that one learner, so grouping it this way avoids having to search through unrelated records to find out which tasks or bookings belong to whom. courseLevel is included because it appears alongside the learner's name on both the Bookings page (assessor view) and the task list, so it belongs to the Learner rather than being repeated inside every Task or Booking record.

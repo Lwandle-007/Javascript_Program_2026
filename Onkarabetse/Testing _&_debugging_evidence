@@ -1,0 +1,107 @@
+# Issue 1 — Toggle Task Status uses an unset variable
+## Feature: Task Tracker — toggling a task between outstanding/completed (section 1.1)
+
+## (1.1) Original pseudocode:
+WHEN user clicks a task's circle/checkbox
+    Get the clicked task's ID
+    CALL toggleTaskStatus(taskId, isCompleted)
+END
+
+FUNCTION toggleTaskStatus(taskId, isCompleted)
+    DECLARE let newStatus = isCompleted === false
+    Update task in Firebase using taskId, set completed = newStatus
+    RETURN newStatus
+END FUNCTION
+
+## (1.2) Trace table — before fix:
+Test:               |Click checkbox on an outstanding task	                                
+Input:              |taskId = "t1", isCompleted = (never retrieved — not declared anywhere before the 
+                    |CALL)	                                                                                
+Expected result:	|newStatus becomes true (task flips to completed)    
+Actual result:      |isCompleted is undefined, so newStatus = (undefined === false) → false, every time, regardless of the task's real state
+			
+## (1.3) Corrected pseudocode:
+WHEN user clicks a task's circle/checkbox
+    Get the clicked task's ID
+    Get the clicked task's current completed value
+    STORE it as isCompleted
+    CALL toggleTaskStatus(taskId, isCompleted)
+END
+
+## (1.4) Trace table — after fix (retest):
+Test	                                |Input	                            |Expected result 	|Actual result
+Click checkbox on an outstanding task	|isCompleted = false (now retrieved)|newStatus = true	|(false === false) → true — pass
+Click checkbox on a completed task	    |isCompleted = true (now retrieved)	|newStatus = false	|(true === false) → false — pass
+
+# Issue 2 — Results screen called without its required data
+## Feature: Coding mini-game — showing the final score (sections 3.4 / 3.5)
+
+## (2.1) Original pseudocode:
+WHEN user clicks "Next Challenge"
+    Add 1 to currentChallengeIndex
+    IF currentChallengeIndex is less than 5 THEN
+        Clear selectedAnswer
+        CALL displayChallenge
+    ELSE
+        CALL showResultsScreen
+    END IF
+END
+
+FUNCTION showResultsScreen(correctCount, incorrectCount, totalQuestions)
+    DECLARE const scorePercent = calculateScorePercent(correctCount, totalQuestions)
+    ...
+
+## (2.2) Trace table — before fix:
+Test:               |Finish challenge 5 of 5, 4 correct / 1 incorrect
+Input:	            |CALL showResultsScreen  (no arguments passed)
+Expected result:	|Score screen shows "4 out of 5 — 80% — Great job!"
+Actual result:      |Function needs correctCount, incorrectCount, totalQuestions but receives none, so scorePercent = (undefined / undefined) * 100 = NaN — score cannot display
+
+## (2.3) Corrected pseudocode:
+    ELSE
+        CALL showResultsScreen(correctCount, incorrectCount, 5)
+    END IF
+
+## (2.4) Trace table — after fix (retest):
+Test	                                        |Input	                        |Expected result	                  |Actual result
+Finish challenge 5 of 5, 4 correct / 1 incorrect|CALL showResultsScreen(4, 1, 5)|"4 out of 5 — 80% — Great job!"	  |scorePercent = (4/5)*100 = 80 → "Great job!" shown — pass
+Finish with 2 correct / 3 incorrect	            |CALL showResultsScreen(2, 3, 5)|"2 out of 5 — 40% — Keep practising!"|scorePercent = (2/5)*100 = 40 → "Keep practising!" shown 
+                                                |                               |                                     |— pass
+
+# Issue 3 — Declined bookings have no filter tab
+## Feature: Assessor Bookings Page (sections 2.1 / 2.2)
+
+## (3.1) Original pseudocode:
+WHEN assessor clicks "All Bookings" tab
+    Display allBookings
+
+WHEN assessor clicks "Pending" tab
+    ... filter where status is "Pending" ...
+
+WHEN assessor clicks "Confirmed" tab
+    ... filter where status is "Confirmed" ...
+
+(2.2) WHEN assessor clicks "Decline" button on a booking
+    Update booking in Firebase: set status = "Declined"
+
+## (3.2) Trace table — before fix:
+Test:	            |Assessor wants to review only declined bookings
+Input:              |Click a "Declined" tab
+Expected result:	|A filtered list showing only bookings with status = "Declined"
+Actual result:      |No "Declined" tab exists — only All / Pending / Confirmed are defined, even though (2.2) can set a booking's status to "Declined"
+			
+## (3.3) Corrected pseudocode — added to match the existing tab pattern:
+WHEN assessor clicks "Declined" tab
+    Create empty list called declinedBookings
+    FOR EACH booking IN allBookings
+        IF booking's status is "Declined" THEN
+            Add booking to declinedBookings
+        END IF
+    END FOR
+    Display declinedBookings
+
+## (3.4) Trace table — after fix (retest):
+|Test	                                                    |Input	                |Expected result	                                            |Actual result
+|allBookings has 5 items: 2 Pending, 1 Confirmed, 2 Declined|Click "Declined" tab	|declinedBookings list contains exactly the 2 Declined bookings	|Loop adds only the 2 
+|                                                           |                       |                                                               |bookings with status = 
+|                                                           |                       |                                                               |"Declined" — pass

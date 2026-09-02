@@ -14,6 +14,7 @@ skillsTrack
 │ ├── fullName
 │ ├── email
 │ ├── role
+| ├── themePreference
 │
 ├── tasks
 │ └── taskId
@@ -29,6 +30,7 @@ skillsTrack
 │ ├── sessionType
 │ ├── sessionDay
 | ├── sessionTime
+| ├── month
 | ├── notes
 │ ├── status
 | ├── createdAt

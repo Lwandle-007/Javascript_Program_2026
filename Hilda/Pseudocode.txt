@@ -486,77 +486,157 @@ END
 
 Onkarabetse
 
-(1) STRAT
+(1) Assessor Dashboard
+
+START
+
 DISPLAY assessor details
+
+FUNCTION loadDashboardStats(learners, bookings)
+    // PARAMETERS: learners and bookings are reusable not tied to global variables
+    DECLARE const activeLearners = learners.filter(learner => learner.lastActiveDate is within 30 days).length
+    // arrow function used as a callback inside filter()
+    DECLARE const pendingBookings = bookings.filter(booking => booking.status === "Pending").length
+    DECLARE const sessionsThisMonth = bookings.filter(booking => booking.status === "Confirmed" AND booking.month === currentMonth).length
+    DECLARE const averageProgress = (SUM of all learners' progressPercentage) / learners.length
+    // arithmetic operators: SUM, then division (/)
+
+    RETURN { activeLearners, pendingBookings, sessionsThisMonth, averageProgress }
+END FUNCTION
+
+DECLARE const stats = loadDashboardStats(allLearners, allBookings)
+CONVERT stats.averageProgress (number) to a string
 DISPLAY statistics:
-    Active Learners
-    Pending Bookings
-    Sessions This Month
-    Average Progress
+    stats.activeLearners + " Active Learners"
+    stats.pendingBookings + " Pending Bookings"
+    stats.sessionsThisMonth + " Sessions This Month"
+    stats.averageProgress + "% Average Progress"
 
-LOAD bookings needing confirmation
+DECLARE const pendingBookingsList = allBookings.filter(booking => booking.status === "Pending")
 
-FOR each booking
+FOR EACH booking IN pendingBookingsList
     DISPLAY learner details
     DISPLAY Confirm button
     DISPLAY Decline button
 
     IF Confirm button clicked THEN
-        UPDATE booking status to "Confirmed"
-        SEND notification to learner
-    ELSE
-        Decline button clicked THEN
-        UPDATE booking status to "Declined"
-        SEND notification to learner
+        CALL confirmBooking(booking.bookingId)
+    ELSE IF Decline button clicked THEN
+        CALL declineBooking(booking.bookingId)
     END IF
 END FOR
 
-LOAD learners requiring attention
+FUNCTION confirmBooking(bookingId)
+    // PARAMETER: bookingId is reusable for any booking
+    Update booking in Firebase using bookingId, set status = "Confirmed"
+    // reuses the Booking class's confirm() method from Object-Oriented Design
+    SEND notification to learner
+    RETURN "Confirmed"
+END FUNCTION
 
-FOR each learner
-    DISPLAY learner name
-    DISPLAY programme
-    DISPLAY open task count
-    DISPLAY progress status
+FUNCTION declineBooking(bookingId)
+    Update booking in Firebase using bookingId, set status = "Declined"
+    // reuses the Booking class's decline() method from Object-Oriented Design
+    SEND notification to learner
+    RETURN "Declined"
+END FUNCTION
+
+DECLARE const attentionLearners = allLearners.filter(learner => learner.progressPercentage < 60)
+// comparison operator: <, inside an arrow function callback
+
+FOR EACH learner IN attentionLearners
+    DISPLAY learner.learnerName
+    DISPLAY learner.programme
+    DISPLAY learner.openTaskCount
+    DISPLAY learner.progressStatus
 END FOR
+
 END
 
-(2) START
-LOAD all learners
+(2) Learner Activity
 
-DISPLAY search box 
-    INPUT search name
+START
 
-    IF search name entered THEN
-        FIND learner matching search name
-        DISPLAY learner information
-    ELSE
-        DISPLAY all learners
-    END IF
+FUNCTION loadDashboardStats(learners, bookings)
+    // PARAMETERS: learners and bookings are reusable, not tied to global variables
+    DECLARE const activeLearners = learners.filter(learner => learner.lastActiveDate is within 30 days).length
+    // arrow function used as a callback inside filter()
+    DECLARE const pendingBookings = bookings.filter(booking => booking.status === "Pending").length
+    DECLARE const sessionsThisMonth = bookings.filter(booking => booking.status === "Confirmed" AND booking.month === currentMonth).length
+    DECLARE const averageProgress = (SUM of all learners' progressPercentage) / learners.length
+    // arithmetic operators: SUM, then division (/)
 
-FOR each learner
-    DISPLAY learner name
-    DISPLAY programme
-    DISPLAY progress percentage
-    DISPLAY tasks open
-    DISPLAY sessions attended
-    DISPLAY last active date
+    RETURN { activeLearners, pendingBookings, sessionsThisMonth, averageProgress }
+END FUNCTION
 
-    IF progress percentage < 60 THEN
-        FLAG learner for attention
+DECLARE const stats = loadDashboardStats(allLearners, allBookings)
+CONVERT stats.averageProgress (number) to a string
+
+DISPLAY stat card "Active Learners" = stats.activeLearners
+DISPLAY stat card "Pending Bookings" = stats.pendingBookings
+DISPLAY stat card "Sessions This Month" = stats.sessionsThisMonth
+DISPLAY stat card "Avg Progress" = stats.averageProgress + "%"
+
+DECLARE const pendingBookingsList = allBookings.filter(booking => booking.status === "Pending")
+
+DISPLAY heading "Bookings Needing Confirmation"
+FOR EACH booking IN pendingBookingsList
+    DISPLAY booking.learnerName
+    DISPLAY booking.sessionType + " · " + booking.preferredDay + ", " + booking.preferredTime
+    DISPLAY Confirm button
+    DISPLAY Decline button
+
+    IF Confirm button clicked THEN
+        CALL confirmBooking(booking.bookingId)
+    ELSE IF Decline button clicked THEN
+        CALL declineBooking(booking.bookingId)
     END IF
 END FOR
+
+FUNCTION confirmBooking(bookingId)
+    // PARAMETER: bookingId is reusable for any booking
+    Update booking in Firebase using bookingId, set status = "Confirmed"
+    SEND notification to learner
+    RETURN "Confirmed"
+END FUNCTION
+
+FUNCTION declineBooking(bookingId)
+    Update booking in Firebase using bookingId, set status = "Declined"
+    SEND notification to learner
+    RETURN "Declined"
+END FUNCTION
+
+FUNCTION flagLearnersNeedingAttention(learners)
+    // PARAMETER: learners is reusable, works on any learner list passed in
+    RETURN learners.filter(learner => learner.progressPercentage < 60)
+    // comparison operator (<) inside an arrow function callback
+END FUNCTION
+
+DECLARE const attentionLearners = flagLearnersNeedingAttention(allLearners)
+
+DISPLAY heading "Attention Needed"
+FOR EACH learner IN attentionLearners
+    DISPLAY learner.learnerName
+    DISPLAY learner.programme
+    DISPLAY learner.openTaskCount + " tasks open"
+
+    IF learner.progressPercentage < 60 THEN
+        DISPLAY "Low progress" tag
+    END IF
+END FOR
+
 END
 
-(3) START 
+(3) Logout button
 
-ASK "Are you sure you want to logout?"
+START
 
-    IF answer = YES THEN
-        END user session
-        RETURN to Login Page
-    ELSE
-        STAY on current page
-    ENDIF
+WHEN user clicks "Sign out"
+    CALL logout()
 
-END Logout
+FUNCTION logout()
+    END user session
+    RETURN to Login Page
+END FUNCTION
+
+END

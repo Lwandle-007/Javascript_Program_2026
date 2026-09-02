@@ -34,6 +34,7 @@ CLASS Booking
         sessionType
         preferredDay
         preferredTime
+        month
         notes
         status
  
@@ -45,7 +46,7 @@ CLASS Booking
             Set status to "Declined"
 END CLASS
 
-Booking bundles the learner's request details and status together, and gives it its own confirm() and decline() methods. This keeps the assessor's action logic attached to the data it changes, rather than existing as a disconnected function operating on loose variables elsewhere in the program.
+Booking bundles the learner's request details and status together, and gives it its own confirm() and decline() methods. This keeps the assessor's action logic attached to the data it changes, rather than existing as a disconnected function operating on loose variables elsewhere in the program.month is included because the assessor dashboard calculates "Sessions This Month" by filtering bookings against this field — without it, that statistic has no data to read from.
 
 CLASS Learner
     PROPERTIES:
@@ -57,3 +58,12 @@ CLASS Learner
 END CLASS
 
 A Learner can have many Tasks and many Bookings — a one-to-many relationship. Storing them as lists inside Learner reflects how the data is actually used in the app: everything shown on a learner's dashboard belongs to that one learner, so grouping it this way avoids having to search through unrelated records to find out which tasks or bookings belong to whom. courseLevel is included because it appears alongside the learner's name on both the Bookings page (assessor view) and the task list, so it belongs to the Learner rather than being repeated inside every Task or Booking record.
+
+CLASS Assessor                    
+    PROPERTIES:
+        assessorName
+        assignedLearners (list of Learner objects)
+END CLASS
+
+
+The dashboard is entirely from the assessor's point of view — their name are displayed, and everything shown (bookings, learners needing attention) belongs to them. Giving Assessor its own class, structured the same way as Learner, keeps staff-side data separate from learner-side data instead of mixing the two together.

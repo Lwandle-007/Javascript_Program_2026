@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SkillsTrack - Assessor Overview</title>
+
+</head>
+<body>
+
+    <!-- Sidebar Navigation -->
+    <div class="sidebar">
+        <div class="brand-box">
+            <h2>ST SkillsTrack</h2>
+            <p>Assessor Portal</p>
+            <!-- Name linked directly via Firebase sync bindings -->
+            <p style="margin-top: 5px; font-weight: bold;" id="sidebar-assessor-name">Loading...</p>
+        </div>
+        <div class="nav-menu">
+            <a href="#" class="nav-item active">Overview</a>
+            <a href="#" class="nav-item">Booking</a>
+            <a href="#" class="nav-item">Learner Activity</a>
+        </div>
+        <a href="#" class="logout">sign out</a>
+    </div>
+
+    <!-- Main Content Area -->
+    <div class="main-content">
+        <div class="header">
+            <h1>Assessor Overview</h1>
+            <!-- Combined Name Context linked directly via Firebase sync bindings -->
+            <p id="header-assessor-meta">Loading...</p>
+        </div>
+
+        <!-- Metric Counter Cards -->
+        <div class="metrics-grid">
+            <div class="metric-card active-learners">
+                <div class="value" id="count-active">--</div>
+                <div class="label">Active Learners</div>
+            </div>
+            <div class="metric-card pending-bookings">
+                <div class="value" id="count-pending">--</div>
+                <div class="label">Pending Bookings</div>
+            </div>
+            <div class="metric-card sessions">
+                <div class="value" id="count-sessions">--</div>
+                <div class="label">Sessions this month</div>
+            </div>
+            <div class="metric-card progress">
+                <div class="value" id="count-progress">--%</div>
+                <div class="label">Avg Progress</div>
+            </div>
+        </div>
+
+        <!-- Lower Content Section -->
+        <div class="workspace">
+            <div>
+                <div class="section-title">Booking Needing Confirmation</div>
+                <div class="booking-list" id="booking-container">
+                    
+                    <!-- Booking items populate dynamically via Realtime Firebase references -->
+                    <div style="color: #6b7280; font-size: 0.9rem;" id="loading-bookings-msg">Awaiting server callback stream...</div>
+
+                </div>
+            </div>
+
+            <!-- Attention Sidebar Column -->
+            <div>
+                <div class="section-title">Attention Needed</div>
+                <div class="attention-panel" id="attention-container">
+                    <!-- Attention items populate dynamically via Realtime Firebase references -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Running App Logic Block & Firebase Connector Module -->
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
+        import { getDatabase, ref, onValue, update } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-database.js";
+
+        // IMPORTANT: Replace these connection configurations with your explicit project parameters directly
+         const firebaseConfig = {
+            apiKey: "YOUR_API_KEY",
+            authDomain: "YOUR_PROJECT_://firebaseapp.com",
+            databaseURL: "https://YOUR_PROJECT_://firebaseio.com",
+            projectId: "YOUR_PROJECT_ID",
+            storageBucket: "YOUR_PROJECT_://appspot.com",
+            messagingSenderId: "YOUR_SENDER_ID",
+            appId: "YOUR_APP_ID"
+        };
+
+        // Initialize Firebase Web Engine Connections 
+        const app = initializeApp(firebaseConfig);
+        const db = getDatabase(app);
+
+        // Helper function: Parses arbitrary date strings securely into running platform client date conventions smoothly
+        function formatRelativeDate(daysOffset) {
+            const options = { weekday: 'short', day: 'numeric', month: 'short', hour: '2-digit', minute: '2-digit' };
+            const targetDate = new Date();
+            targetDate.setDate(targetDate.getDate() + parseInt(daysOffset || 0));
+            return targetDate.toLocaleDateString('en-US', options).replace(',', '');
+        }
+
+        // 1. Dynamic Live Synchronization: Assessor Global Profiles
+        onValue(ref(db, 'dashboard/assessor'), (snapshot) => {
+            const data = snapshot.val() || { name: "Londeka", center: "SkillsTrack Training Center" };
+            const assessorName = document.querySelector('[data-assessor-name]');
+            const assessorCenter = document.querySelector('[data-assessor-center]');
+
+            if (assessorName) assessorName.textContent = data.name;
+            if (assessorCenter) assessorCenter.textContent = data.center;
+        });
+    </script>
+</body>
+</html>
+            

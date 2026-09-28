@@ -76,6 +76,7 @@ async function createAccount() {
       window.location.href = "learner-activity.html";
     } else {
       window.location.href = "tasks.html";
+      
     }
   } catch (error) {
     //	Show	the	problem	instead	of	failing	silently.

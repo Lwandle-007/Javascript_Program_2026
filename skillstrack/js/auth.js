@@ -8,6 +8,7 @@ import {
   signOut,
   onAuthStateChanged,
 } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
+
 import {
   doc,
   setDoc,
@@ -15,6 +16,7 @@ import {
   updateDoc,
   serverTimestamp,
 } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
+
 //	--------------------------------------------------------------
 //	HELPER:	turn	"Lwandle Sitshi"	into	"LS"	for	the	avatar	circle
 //	--------------------------------------------------------------
@@ -142,6 +144,7 @@ function requireSignedInUser(whatToDoNext) {
     whatToDoNext(user.uid, profile);
   });
 }
+
 //	--------------------------------------------------------------
 //	Connect	the	buttons,	but	only	on	pages	where	those	buttons	exist.
 //	--------------------------------------------------------------

@@ -1,5 +1,5 @@
-//	tasks.js
-//	Loads,	adds,	completes	and	filters	the	signed-in	learner's	tasks.
+//	Tasks backend js
+//	This Loads,	adds,	completes	and	filters	the	signed-in	learner's	tasks.
 import { db } from "./firebase-config.js";
 import { requireSignedInUser } from "./auth.js";
 import {

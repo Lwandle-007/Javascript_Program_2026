@@ -59,7 +59,7 @@ async function createAccount() {
       initials: makeInitials(fullName),
       email: email,
       role: role,
-      programme: "Software	Development	L3",
+      programme: "Software	Development",
       jobTitle: "",
       progressPercent: 0,
       lastActive: serverTimestamp(),
@@ -83,6 +83,48 @@ async function createAccount() {
     //	Show	the	problem	instead	of	failing	silently.
     messageBox.textContent = "Could	not	create	account:	" + error.message;
   }
+}
+//	--------------------------------------------------------------
+//	Give	a	brand	new	learner	their	six	units
+//	--------------------------------------------------------------
+async function createStartingUnits(uid) {
+  //	Written	out	one	by	one	on	purpose,	so	it	is	easy	to	read	and	change.
+  await setDoc(doc(db, "users", uid, "units", "unit1"), {
+    number: 1,
+    title: "Programming	Fundamentals",
+    status: "notstarted",
+    grade: "",
+  });
+  await setDoc(doc(db, "users", uid, "units", "unit2"), {
+    number: 2,
+    title: "Object-Oriented	Programming",
+    status: "notstarted",
+    grade: "",
+  });
+  await setDoc(doc(db, "users", uid, "units", "unit3"), {
+    number: 3,
+    title: "Web	Technologies	&	APIs",
+    status: "notstarted",
+    grade: "",
+  });
+  await setDoc(doc(db, "users", uid, "units", "unit4"), {
+    number: 4,
+    title: "Databases	&	SQL",
+    status: "notstarted",
+    grade: "",
+  });
+  await setDoc(doc(db, "users", uid, "units", "unit5"), {
+    number: 5,
+    title: "Version	Control	&	Collaboration",
+    status: "notstarted",
+    grade: "",
+  });
+  await setDoc(doc(db, "users", uid, "units", "unit6"), {
+    number: 6,
+    title: "Software	Testing	&	Debugging",
+    status: "notstarted",
+    grade: "",
+  });
 }
 //	--------------------------------------------------------------
 //	SIGN	IN

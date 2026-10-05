@@ -50,7 +50,7 @@ async function loadUnits() {
     row.textContent =
       "Unit " +
       unit.number +
-      " – " +
+      " - " +
       unit.title +
       " " +
       statusLabel +

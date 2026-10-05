@@ -6,7 +6,7 @@ import {
 
 const resourceList = [
   {
-    title: "Software	Development	L3	–	Full	Qualification	Guide",
+    title: "Software	Development	L3	-	Full	Qualification	Guide",
     type: "PDF",
     category: "Software	Dev",
     fileSize: "2.8	MB",
@@ -24,7 +24,7 @@ const resourceList = [
     url: "#",
   },
   {
-    title: "Introduction	to	Git	and	Version	Control	–	Video",
+    title: "Introduction	to	Git	and	Version	Control	-	Video",
     type: "Video",
     category: "Software	Dev",
     fileSize: "",
@@ -42,7 +42,7 @@ const resourceList = [
     url: "#",
   },
   {
-    title: "HTML	&	CSS	Essentials	–	Web	Development	L2	Handbook",
+    title: "HTML	&	CSS	Essentials	-	Web	Development	L2	Handbook",
     type: "PDF",
     category: "Web	Dev",
     fileSize: "1.9	MB",
@@ -51,7 +51,7 @@ const resourceList = [
     url: "#",
   },
   {
-    title: "JavaScript	for	Beginners	–	Interactive	Exercises",
+    title: "JavaScript	for	Beginners	-	Interactive	Exercises",
     type: "Video",
     category: "Web	Dev",
     fileSize: "",
@@ -87,7 +87,7 @@ const resourceList = [
     url: "#",
   },
   {
-    title: "Cybersecurity	Fundamentals	–	Threats	&	Defences",
+    title: "Cybersecurity	Fundamentals	-	Threats	&	Defences",
     type: "PDF",
     category: "Cybersecurity",
     fileSize: "2.1	MB",

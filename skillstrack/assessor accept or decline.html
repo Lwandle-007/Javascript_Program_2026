@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Assessor Bookings</title>
+  <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js"></script>
+</head>
+<body>
+  <h2> Assessor Bookings</h2>
+  <div id="bookingList"></div>
+
+  <script>
+    // --- Firebase Config (replace with your own project settings) ---
+    const firebaseConfig = {
+      apiKey: "AIzaSyCMRGMyy2sjC6CF2asxxVOm3YQ0JLf9Bys",
+      authDomain: "skillstrack-c9591.firebaseapp.com",
+      projectId: "skillstrack-c9591",
+    };
+
+    // --- Initialize Firebase ---
+    const app = firebase.initializeApp(firebaseConfig);
+    const db = firebase.firestore();
+
+    // --- Function to render bookings ---
+    async function renderBookings() {
+      const listDiv = document.getElementById("bookingList");
+      listDiv.innerHTML = "";
+
+      const snapshot = await db.collection("bookings").get();
+      snapshot.forEach(doc => {
+        const booking = doc.data();
+        const div = document.createElement("div");
+        div.innerHTML = `
+          <p>
+            <strong>${booking.learnerName}</strong> - ${booking.sessionType} 
+            (${booking.preferredDay} at ${booking.preferredTime}) 
+            [Status: ${booking.status}]
+          </p>
+          <button onclick="confirmBooking('${doc.id}')">Confirm</button>
+          <button onclick="declineBooking('${doc.id}')">Decline</button>
+          <hr>
+        `;
+        listDiv.appendChild(div);
+      });
+    }
+
+    // --- Confirm action ---
+    async function confirmBooking(id) {
+      await db.collection("bookings").doc(id).update({ status: "Confirmed" });
+      renderBookings(); // refresh list
+    }
+
+    // --- Decline action ---
+    async function declineBooking(id) {
+      await db.collection("bookings").doc(id).update({ status: "Declined" });
+      renderBookings(); // refresh list
+    }
+
+    // --- Initial load ---
+    renderBookings();
+  </script>
+</body>
+</html>

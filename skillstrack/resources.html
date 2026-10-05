@@ -1,0 +1,58 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Resources — SkillsTrack</title>
+    <link rel="stylesheet" href="css/layout.css" />
+    <link rel="stylesheet" href="css/pages.css" />
+  </head>
+  <body>
+    <div class="app-layout">
+      <div class="sidebar">
+        <div class="sidebar-logo">
+          <div class="sidebar-logo-box">ST</div>
+          <span class="sidebar-logo-text">SkillsTrack</span>
+        </div>
+        <div class="sidebar-user">
+          <div class="sidebar-avatar" id="sidebarInitials"></div>
+          <div>
+            <div class="sidebar-user-name" id="sidebarName"></div>
+            <div class="sidebar-user-role" id="sidebarProgramme"></div>
+          </div>
+        </div>
+        <nav class="sidebar-nav">
+          <a class="sidebar-nav-item" href="tasks.html">My Tasks</a>
+          <a class="sidebar-nav-item-active" href="resources.html">Resources</a>
+          <a class="sidebar-nav-item" href="progress.html">My Progress</a>
+        </nav>
+        <div class="sidebar-footer">
+          <button id="signOutButton" class="sidebar-nav-item">Sign out</button>
+        </div>
+      </div>
+      <div class="main-content">
+        <div class="page-header">
+          <div>
+            <h1 class="page-title">Learning Resources</h1>
+            <p class="page-subtitle">
+              Documents, guides, and videos for your programme.
+            </p>
+          </div>
+        </div>
+        <div class="filter-pills">
+          <button class="filter-pill-active" id="catAll">All</button>
+          <button class="filter-pill" id="catSoftwareDev">Software Dev</button>
+          <button class="filter-pill" id="catWebDev">Web Dev</button>
+          <button class="filter-pill" id="catDataAnalytics">
+            Data Analytics
+          </button>
+          <button class="filter-pill" id="catCybersecurity">
+            Cybersecurity
+          </button>
+          <button class="filter-pill" id="catGeneral">General</button>
+        </div>
+        <div class="resource-grid" id="resourceGrid"></div>
+      </div>
+    </div>
+    <script type="module" src="js/resources.js"></script>
+  </body>
+</html>

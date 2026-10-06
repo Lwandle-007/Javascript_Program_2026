@@ -1,0 +1,197 @@
+/* auth.css
+   Styles for index.html (login) and signup.html (sign up).
+   Both pages link to this same file.
+   The page is split in two halves: a navy half on the left, a cream half on the right. */
+
+/* --- The page itself --- */
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    color: #26272b;
+}
+
+/* --- The frame that holds the two halves side by side --- */
+.auth-layout {
+    display: flex;
+    min-height: 100vh;
+}
+
+/* ========== LEFT HALF (navy) ========== */
+
+.auth-left {
+    flex: 1;
+    background: #1c2333;
+    color: #ffffff;
+    padding: 32px;
+    /* Logo at the top, headline in the middle, programmes at the bottom */
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+/* --- Logo at the top --- */
+.auth-logo {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.auth-logo-box {
+    width: 32px;
+    height: 32px;
+    background: #f2643f;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+    color: #ffffff;
+}
+
+.auth-logo-text {
+    font-weight: bold;
+    font-size: 16px;
+}
+
+/* --- Big headline and the line under it --- */
+.auth-headline {
+    font-size: 44px;
+    font-weight: bold;
+    line-height: 1.2;
+    margin: 0 0 16px 0;
+}
+
+/* The yellow word "tracked" */
+.auth-highlight {
+    color: #f5c451;
+}
+
+.auth-tagline {
+    font-size: 15px;
+    color: #b6b9c4;
+    max-width: 440px;
+}
+
+/* --- Programme names at the bottom --- */
+.auth-programmes-title {
+    font-size: 11px;
+    color: #b6b9c4;
+    margin-bottom: 8px;
+}
+
+.auth-programme {
+    display: inline-block;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 20px;
+    padding: 6px 12px;
+    font-size: 12px;
+    margin-right: 8px;
+    margin-bottom: 8px;
+}
+
+/* ========== RIGHT HALF (cream) ========== */
+
+.auth-right {
+    flex: 1;
+    background: #faf5ec;
+    padding: 32px;
+    /* Put the form in the middle of this half */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* The form box itself */
+.auth-form {
+    width: 100%;
+    max-width: 380px;
+}
+
+/* --- Page heading --- */
+h1 {
+    font-size: 28px;
+    font-weight: bold;
+    color: #1c2333;
+    margin-bottom: 24px;
+}
+
+/* --- Text boxes and the role dropdown --- */
+input {
+    display: block;
+    width: 100%;
+    box-sizing: border-box;
+    padding: 12px;
+    margin-bottom: 16px;
+    border: 1px solid #e3ddd0;
+    border-radius: 8px;
+    font-size: 14px;
+    background: #ffffff;
+}
+
+select {
+    display: block;
+    width: 100%;
+    box-sizing: border-box;
+    padding: 12px;
+    margin-bottom: 16px;
+    border: 1px solid #e3ddd0;
+    border-radius: 8px;
+    font-size: 14px;
+    background: #ffffff;
+}
+
+/* Orange outline when you click into a box */
+input:focus {
+    outline: none;
+    border-color: #f2643f;
+}
+
+select:focus {
+    outline: none;
+    border-color: #f2643f;
+}
+
+/* --- The Sign in / Create account button --- */
+button {
+    display: block;
+    width: 100%;
+    padding: 12px;
+    background: #f2643f;
+    color: #ffffff;
+    border: none;
+    border-radius: 8px;
+    font-size: 14px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+button:hover {
+    background: #d94f2e;
+}
+
+/* --- The message under the button (errors and success) --- */
+#loginMessage {
+    font-size: 14px;
+    color: #d94f2e;
+    margin-top: 12px;
+}
+
+#signupMessage {
+    font-size: 14px;
+    color: #d94f2e;
+    margin-top: 12px;
+}
+
+/* --- The "Create an account" link --- */
+a {
+    display: block;
+    text-align: center;
+    margin-top: 16px;
+    font-size: 14px;
+    color: #f2643f;
+    text-decoration: none;
+}
+
+a:hover {
+    color: #d94f2e;
+}

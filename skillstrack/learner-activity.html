@@ -1,0 +1,82 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Learner Activity — SkillsTrack</title>
+    <link rel="stylesheet" href="css/layout.css" />
+    <link rel="stylesheet" href="css/pages.css" />
+  </head>
+  <body>
+    <div class="app-layout">
+      <div class="sidebar-assessor">
+        <div class="sidebar-logo">
+          <div class="sidebar-logo-box">ST</div>
+          <span class="sidebar-logo-text">SkillsTrack</span>
+        </div>
+        <div class="sidebar-user">
+          <div class="sidebar-avatar" id="sidebarInitials"></div>
+          <div>
+            <div class="sidebar-user-name" id="sidebarName"></div>
+            <div class="sidebar-user-role" id="sidebarJobTitle"></div>
+          </div>
+        </div>
+        <nav class="sidebar-nav">
+          <a
+            class="sidebar-nav-item-active"
+            href="assessor_overview.html"
+            >Overview</a
+          >
+          <a
+            class="sidebar-nav-item-active"
+            href="#"
+            >Booking</a
+          >
+          <a
+            class="sidebar-nav-item-active"
+            href="learner-activity.html"
+            >Learner Activity</a
+          >
+        </nav>
+        <div class="sidebar-footer">
+          <button id="darkModeBtn">☾ Dark Mode</button>
+          <button id="signOutButton" class="sidebar-nav-item">Sign out</button>
+        </div>
+      </div>
+      <div class="main-content">
+        <div class="page-header">
+          <div>
+            <h1 class="page-title">Learner Activity</h1>
+            <p class="page-subtitle">
+              Monitor progress, outstanding tasks, and session attendance.
+            </p>
+          </div>
+          <input
+            class="add-task-input"
+            style="width: 220px"
+            type="text"
+            id="learnerSearch"
+            placeholder="Search	learners..."
+          />
+        </div>
+        <div class="learner-table-card">
+          <table class="learner-table">
+            <thead>
+              <tr>
+                <th></th>
+                <th>Learner</th>
+                <th>Programme</th>
+                <th>Progress</th>
+                <th>Tasks Open</th>
+                <th>Sessions</th>
+
+                <th>Last Active</th>
+              </tr>
+            </thead>
+            <tbody id="learnerTableBody"></tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+    <script type="module" src="js/learner-activity.js"></script>
+  </body>
+</html>

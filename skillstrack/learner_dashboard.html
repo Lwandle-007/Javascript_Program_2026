@@ -1,289 +1,320 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>SkillsTrack Dashboard</title>
     <style>
-        /* Base Reset & Variables */
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-        }
-        :root {
-            --sidebar-bg: #1e3a8a;
-            --sidebar-hover: #1d4ed8;
-            --accent-orange: #f97316;
-            --bg-light: #f8fafc;
-            --text-dark: #334155;
-            --card-border: #cbd5e1;
-        }
-        body {
-            display: flex;
-            background-color: var(--bg-light);
-            color: var(--text-dark);
-            min-height: 100vh;
-        }
+      /* Base Reset & Variables */
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+      }
+      :root {
+        --sidebar-bg: #1e3a8a;
+        --sidebar-hover: #1d4ed8;
+        --accent-orange: #f97316;
+        --bg-light: #f8fafc;
+        --text-dark: #334155;
+        --card-border: #cbd5e1;
+      }
+      body {
+        display: flex;
+        background-color: var(--bg-light);
+        color: var(--text-dark);
+        min-height: 100vh;
+      }
 
-        /* Sidebar Styling */
-        .sidebar {
-            width: 260px;
-            background-color: var(--sidebar-bg);
-            color: white;
-            padding: 20px;
-            display: flex;
-            flex-direction: column;
-            gap: 15px;
-        }
-        .logo-section {
-            font-size: 1.2rem;
-            font-weight: bold;
-            margin-bottom: 20px;
-            border-bottom: 1px solid rgba(255,255,255,0.1);
-            padding-bottom: 10px;
-        }
-        .user-profile {
-            margin-bottom: 20px;
-        }
-        .user-profile .role {
-            font-size: 0.85rem;
-            opacity: 0.7;
-        }
-        .nav-btn {
-            background-color: transparent;
-            border: 1px solid rgba(255,255,255,0.2);
-            color: white;
-            padding: 12px 15px;
-            text-align: left;
-            border-radius: 6px;
-            cursor: pointer;
-            font-size: 0.95rem;
-            transition: background 0.2s;
-        }
-        .nav-btn.active, .nav-btn:hover {
-            background-color: var(--accent-orange);
-            border-color: var(--accent-orange);
-        }
+      /* Sidebar Styling */
+      .sidebar {
+        width: 260px;
+        background-color: var(--sidebar-bg);
+        color: white;
+        padding: 20px;
+        display: flex;
+        flex-direction: column;
+        gap: 15px;
+      }
+      .logo-section {
+        font-size: 1.2rem;
+        font-weight: bold;
+        margin-bottom: 20px;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        padding-bottom: 10px;
+      }
+      .user-profile {
+        margin-bottom: 20px;
+      }
+      .user-profile .role {
+        font-size: 0.85rem;
+        opacity: 0.7;
+      }
+      .nav-btn {
+        background-color: transparent;
+        border: 1px solid rgba(255, 255, 255, 0.2);
+        color: white;
+        padding: 12px 15px;
+        text-align: left;
+        border-radius: 6px;
+        cursor: pointer;
+        font-size: 0.95rem;
+        transition: background 0.2s;
+      }
+      .nav-btn.active,
+      .nav-btn:hover {
+        background-color: var(--accent-orange);
+        border-color: var(--accent-orange);
+      }
 
-        /* Main Content Styling */
-        .main-content {
-            flex: 1;
-            padding: 40px;
-            display: flex;
-            flex-direction: column;
-            gap: 30px;
-        }
-        .header-row {
-            display: flex;
-            justify-content: space-between;
-            align-items: flex-start;
-        }
-        .date-display {
-            font-size: 0.95rem;
-            color: #64748b;
-            margin-bottom: 5px;
-        }
-        .welcome-text {
-            font-size: 1.8rem;
-            font-weight: 600;
-        }
-        .book-session-btn {
-            background-color: var(--accent-orange);
-            color: white;
-            border: none;
-            padding: 10px 20px;
-            border-radius: 6px;
-            font-weight: 500;
-            cursor: pointer;
-        }
+      /* Main Content Styling */
+      .main-content {
+        flex: 1;
+        padding: 40px;
+        display: flex;
+        flex-direction: column;
+        gap: 30px;
+      }
+      .header-row {
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-start;
+      }
+      .date-display {
+        font-size: 0.95rem;
+        color: #64748b;
+        margin-bottom: 5px;
+      }
+      .welcome-text {
+        font-size: 1.8rem;
+        font-weight: 600;
+      }
+      .book-session-btn {
+        background-color: var(--accent-orange);
+        color: white;
+        border: none;
+        padding: 10px 20px;
+        border-radius: 6px;
+        font-weight: 500;
+        cursor: pointer;
+      }
 
-        /* Stat Metrics Row */
-        .metrics-row {
-            display: grid;
-            grid-template-columns: repeat(4, 1fr);
-            gap: 20px;
-        }
-        .metric-card {
-            background: white;
-            border: 1px solid var(--card-border);
-            border-radius: 12px;
-            padding: 20px;
-            text-align: center;
-            display: flex;
-            flex-direction: column;
-            gap: 5px;
-        }
-        .metric-num {
-            font-size: 1.5rem;
-            font-weight: bold;
-            color: var(--sidebar-bg);
-        }
-        .metric-label {
-            font-size: 0.9rem;
-            color: #64748b;
-        }
+      /* Stat Metrics Row */
+      .metrics-row {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 20px;
+      }
+      .metric-card {
+        background: white;
+        border: 1px solid var(--card-border);
+        border-radius: 12px;
+        padding: 20px;
+        text-align: center;
+        display: flex;
+        flex-direction: column;
+        gap: 5px;
+      }
+      .metric-num {
+        font-size: 1.5rem;
+        font-weight: bold;
+        color: var(--sidebar-bg);
+      }
+      .metric-label {
+        font-size: 0.9rem;
+        color: #64748b;
+      }
 
-        /* Dashboard Workspace Layout */
-        .workspace-grid {
-            display: grid;
-            grid-template-columns: 2fr 1fr;
-            gap: 30px;
-        }
-        .tasks-section {
-            display: flex;
-            flex-direction: column;
-            gap: 15px;
-        }
-        .section-title {
-            font-size: 1.2rem;
-            font-weight: 600;
-            margin-bottom: 5px;
-        }
-        .task-row {
-            background: white;
-            border: 1px solid var(--card-border);
-            border-radius: 25px;
-            padding: 15px 25px;
-            min-height: 55px;
-        }
+      /* Dashboard Workspace Layout */
+      .workspace-grid {
+        display: grid;
+        grid-template-columns: 2fr 1fr;
+        gap: 30px;
+      }
+      .tasks-section {
+        display: flex;
+        flex-direction: column;
+        gap: 15px;
+      }
+      .section-title {
+        font-size: 1.2rem;
+        font-weight: 600;
+        margin-bottom: 5px;
+      }
+      .task-row {
+        background: white;
+        border: 1px solid var(--card-border);
+        border-radius: 25px;
+        padding: 15px 25px;
+        min-height: 55px;
+      }
 
-        /* Widgets Column */
-        .widgets-column {
-            display: flex;
-            flex-direction: column;
-            gap: 20px;
-        }
-        .widget-card {
-            background: var(--sidebar-bg);
-            color: white;
-            border-radius: 12px;
-            padding: 20px;
-            display: flex;
-            flex-direction: column;
-            gap: 12px;
-        }
-        .widget-card h3 {
-            font-size: 1.1rem;
-        }
-        .widget-card p {
-            font-size: 0.9rem;
-            opacity: 0.8;
-            line-height: 1.4;
-        }
-        .widget-link {
-            color: #60a5fa;
-            text-decoration: none;
-            font-size: 0.9rem;
-            font-weight: 500;
-            margin-top: auto;
-        }
-        .widget-card.secondary {
-            background: white;
-            color: var(--text-dark);
-            border: 1px solid var(--card-border);
-        }
+      /* Widgets Column */
+      .widgets-column {
+        display: flex;
+        flex-direction: column;
+        gap: 20px;
+      }
+      .widget-card {
+        background: var(--sidebar-bg);
+        color: white;
+        border-radius: 12px;
+        padding: 20px;
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
+      }
+      .widget-card h3 {
+        font-size: 1.1rem;
+      }
+      .widget-card p {
+        font-size: 0.9rem;
+        opacity: 0.8;
+        line-height: 1.4;
+      }
+      .widget-link {
+        color: #60a5fa;
+        text-decoration: none;
+        font-size: 0.9rem;
+        font-weight: 500;
+        margin-top: auto;
+      }
+      .widget-card.secondary {
+        background: white;
+        color: var(--text-dark);
+        border: 1px solid var(--card-border);
+      }
+
+      a {
+        text-decoration: none;
+      }
     </style>
-</head>
-<body>
-
+  </head>
+  <body>
     <!-- Sidebar Navigation -->
     <aside class="sidebar">
-        <div class="logo-section">SkillsTrack</div>
-        <div class="user-profile">
-            <div class="welcome-text" style="font-size: 1.1rem;">Welcome User</div>
-            <div class="role">Software Development</div>
-        </div>
-        <button class="nav-btn active">Home</button>
-        <button class="nav-btn">My Tasks</button>
-        <button class="nav-btn">Book Session</button>
-        <button class="nav-btn">Resources</button>
-        <button class="nav-btn">Coding Practice</button>
-        <button class="nav-btn">My Progress</button>
+      <div class="logo-section">SkillsTrack</div>
+      <div class="user-profile">
+        <div class="welcome-text" style="font-size: 1.1rem">Welcome User</div>
+        <div class="role">Software Development</div>
+      </div>
+      <a href="learner_dashboard.html" class="nav-btn active">Home</a>
+      <a href="tasks.html" class="nav-btn">My Tasks</a>
+      <a href="#" class="nav-btn">Book Session</a>
+      <a href="resources.html" class="nav-btn">Resources</a>
+      <a href="#" class="nav-btn">Coding Practice</a>
+      <a href="progress.html" class="nav-btn">My Progress</a>
     </aside>
 
     <!-- Main Workspace -->
     <main class="main-content">
-        <div class="header-row">
-            <div>
-                <div class="date-display" id="currentDate">Loading Date...</div>
-                <h1 class="welcome-text">Welcome back, User</h1>
-                <div style="font-size: 0.9rem; color: #64748b; margin-top: 2px;">Software Development - Cohort Active</div>
-            </div>
-            <button class="book-session-btn">Book a session</button>
+      <div class="header-row">
+        <div>
+          <div class="date-display" id="currentDate">Loading Date...</div>
+          <h1 class="welcome-text">Welcome back, User</h1>
+          <div style="font-size: 0.9rem; color: #64748b; margin-top: 2px">
+            Software Development - Cohort Active
+          </div>
         </div>
+        <button class="book-session-btn">Book a session</button>
+      </div>
 
-        <!-- Metrics Row -->
-        <section class="metrics-row">
-            <div class="metric-card"><span class="metric-num" id="tasksOutstanding">0</span><span class="metric-label">Tasks Outstanding</span></div>
-            <div class="metric-card"><span class="metric-num" id="highPriority">0</span><span class="metric-label">High Priority</span></div>
-            <div class="metric-card"><span class="metric-num" id="sessionsBooked">0</span><span class="metric-label">Sessions Booked</span></div>
-            <div class="metric-card"><span class="metric-num" id="overallProgress">0%</span><span class="metric-label">Overall Progress</span></div>
+      <!-- Metrics Row -->
+      <section class="metrics-row">
+        <div class="metric-card">
+          <span class="metric-num" id="tasksOutstanding">0</span
+          ><span class="metric-label">Tasks Outstanding</span>
+        </div>
+        <div class="metric-card">
+          <span class="metric-num" id="highPriority">0</span
+          ><span class="metric-label">High Priority</span>
+        </div>
+        <div class="metric-card">
+          <span class="metric-num" id="sessionsBooked">0</span
+          ><span class="metric-label">Sessions Booked</span>
+        </div>
+        <div class="metric-card">
+          <span class="metric-num" id="overallProgress">0%</span
+          ><span class="metric-label">Overall Progress</span>
+        </div>
+      </section>
+
+      <!-- Dynamic Content Area -->
+      <div class="workspace-grid">
+        <!-- Urgent Tasks List -->
+        <section class="tasks-section">
+          <h2 class="section-title">Urgent Tasks</h2>
+          <div class="task-row" id="task1"></div>
+          <div class="task-row" id="task2"></div>
+          <div class="task-row" id="task3"></div>
         </section>
 
-        <!-- Dynamic Content Area -->
-        <div class="workspace-grid">
-            <!-- Urgent Tasks List -->
-            <section class="tasks-section">
-                <h2 class="section-title">Urgent Tasks</h2>
-                <div class="task-row" id="task1"></div>
-                <div class="task-row" id="task2"></div>
-                <div class="task-row" id="task3"></div>
-            </section>
-
-            <!-- Sidebar Widgets -->
-            <section class="widgets-column">
-                <div class="widget-card">
-                    <h3>Coding Practice</h3>
-                    <p>Practice Python basics with short code challenges.</p>
-                    <a href="#" class="widget-link">Start Challenge →</a>
-                </div>
-                <div class="widget-card secondary">
-                    <h3>Recent Feedback</h3>
-                    <p>Check out the technical notes left by your facilitator during your last evaluation session.</p>
-                </div>
-            </section>
-        </div>
+        <!-- Sidebar Widgets -->
+        <section class="widgets-column">
+          <div class="widget-card">
+            <h3>Coding Practice</h3>
+            <p>Practice Python basics with short code challenges.</p>
+            <a href="#" class="widget-link">Start Challenge →</a>
+          </div>
+          <div class="widget-card secondary">
+            <h3>Recent Feedback</h3>
+            <p>
+              Check out the technical notes left by your facilitator during your
+              last evaluation session.
+            </p>
+          </div>
+        </section>
+      </div>
     </main>
 
     <!-- Firebase SDK Modules -->
     <script type="module">
-        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
-        import { getFirestore } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
+      import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
+      import { getFirestore } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
 
-        // Your Firebase configuration metrics configuration snippet
-        const firebaseConfig = {      
-            apiKey: "AIzaSyCMRGMyy2sjC6CF2asxxVOm3YQ0JLf9Bys",
-             authDomain: "skillstrack-c9591.firebaseapp.com",
-             projectId: "skillstrack-c9591",
-             storageBucket: "skillstrack-c9591.firebasestorage.app",
-             messagingSenderId: "780408370394",
-             appId: "1:780408370394:web:29fca21abe35f0a77aa1e3"
+      // Your Firebase configuration metrics configuration snippet
+      const firebaseConfig = {
+        apiKey: "AIzaSyCMRGMyy2sjC6CF2asxxVOm3YQ0JLf9Bys",
+        authDomain: "skillstrack-c9591.firebaseapp.com",
+        projectId: "skillstrack-c9591",
+        storageBucket: "skillstrack-c9591.firebasestorage.app",
+        messagingSenderId: "780408370394",
+        appId: "1:780408370394:web:29fca21abe35f0a77aa1e3",
       };
-        // Initialize Firebase
-        const app = initializeApp(firebaseConfig);
-        const db = getFirestore(app);
+      // Initialize Firebase
+      const app = initializeApp(firebaseConfig);
+      const db = getFirestore(app);
 
-        // Fetch Live Metric Values From Firebase Realtime Database Reference
-        const metricsRef = ref(db, 'dashboard/metrics');
-        onValue(metricsRef, (snapshot) => {
-            const data = snapshot.val();
-            if(data) {
-                document.getElementById('tasksOutstanding').innerText = data.tasksOutstanding || 0;
-                document.getElementById('highPriority').innerText = data.highPriority || 0;
-                document.getElementById('sessionsBooked').innerText = data.sessionsBooked || 0;
-                document.getElementById('overallProgress').innerText = (data.overallProgress || 0) + '%';
-            }
-        });
-
-        // Dynamic Native Live Date Generation Script
-        function setLiveDate() {
-            const options = { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' };
-            const today = new Date();
-            document.getElementById('currentDate').innerText = today.toLocaleDateString('en-US', options);
+      // Fetch Live Metric Values From Firebase Realtime Database Reference
+      const metricsRef = ref(db, "dashboard/metrics");
+      onValue(metricsRef, (snapshot) => {
+        const data = snapshot.val();
+        if (data) {
+          document.getElementById("tasksOutstanding").innerText =
+            data.tasksOutstanding || 0;
+          document.getElementById("highPriority").innerText =
+            data.highPriority || 0;
+          document.getElementById("sessionsBooked").innerText =
+            data.sessionsBooked || 0;
+          document.getElementById("overallProgress").innerText =
+            (data.overallProgress || 0) + "%";
         }
-        setLiveDate();
+      });
+
+      // Dynamic Native Live Date Generation Script
+      function setLiveDate() {
+        const options = {
+          weekday: "long",
+          day: "numeric",
+          month: "long",
+          year: "numeric",
+        };
+        const today = new Date();
+        document.getElementById("currentDate").innerText =
+          today.toLocaleDateString("en-US", options);
+      }
+      setLiveDate();
     </script>
-</body>
+  </body>
 </html>

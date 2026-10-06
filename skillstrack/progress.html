@@ -1,0 +1,106 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>My Progress — SkillsTrack</title>
+    <link rel="stylesheet" href="css/layout.css" />
+    <link rel="stylesheet" href="css/pages.css" />
+  </head>
+  <body>
+    <div class="app-layout">
+      <div class="sidebar">
+        <div class="sidebar-logo">
+          <div class="sidebar-logo-box">ST</div>
+          <span class="sidebar-logo-text">SkillsTrack</span>
+        </div>
+        <div class="sidebar-user">
+          <div class="sidebar-avatar" id="sidebarInitials"></div>
+          <div>
+            <div class="sidebar-user-name" id="sidebarName"></div>
+            <div class="sidebar-user-role" id="sidebarProgramme"></div>
+          </div>
+        </div>
+        <nav class="sidebar-nav">
+          <a class="sidebar-nav-item" href="learner_dashboard.html">Home</a>
+          <a class="sidebar-nav-item" href="tasks.html">My Tasks</a>
+          <a class="sidebar-nav-item" href="#">Book a Session</a>
+          <a class="sidebar-nav-item" href="resources.html">Resources</a>
+          <a class="sidebar-nav-item" href="#">Coding Practice</a>
+          <a class="sidebar-nav-item-active" href="progress.html">My Progress</a>
+        </nav>
+        <div class="sidebar-footer">
+          <button id="darkModeBtn">☾ Dark Mode</button>
+          <button id="signOutButton" class="sidebar-nav-item">Sign out</button>
+        </div>
+      </div>
+      <div class="main-content">
+        <div class="page-header">
+          <div>
+            <h1 class="page-title">My Progress</h1>
+            <p class="page-subtitle">
+              Track your unit completion, session history, and achievements.
+            </p>
+          </div>
+        </div>
+        <div class="progress-top-grid">
+          <div class="progress-ring-card">
+            <p class="progress-ring-label" id="programmeTitle"></p>
+            <div class="progress-ring-circle">
+              <span id="progressPercent"></span>
+            </div>
+            <div class="progress-ring-stats">
+              <div>
+                <div class="progress-ring-number" id="sessionCount"></div>
+                <div class="progress-ring-caption">Sessions</div>
+              </div>
+              <div>
+                <div class="progress-ring-number" id="unitsDone"></div>
+                <div class="progress-ring-caption">Units done</div>
+              </div>
+            </div>
+          </div>
+          <div class="unit-tracker-card">
+            <h2 class="card-heading">Unit Tracker</h2>
+            <div id="unitTracker"></div>
+          </div>
+        </div>
+        <div class="progress-bottom-grid">
+          <div class="session-history-card">
+            <h2 class="card-heading">Session History</h2>
+            <div id="sessionHistory"></div>
+          </div>
+          <div class="achievements-card">
+            <h2 class="card-heading">Achievements</h2>
+            <div class="achievements-grid">
+              <div class="achievement-badge" id="badgeFirstSession">
+                <div class="achievement-icon"></div>
+                <div class="achievement-name">First Session</div>
+              </div>
+              <div class="achievement-badge" id="badgeFiveSessions">
+                <div class="achievement-icon"></div>
+                <div class="achievement-name">5 Sessions</div>
+              </div>
+              <div class="achievement-badge" id="badgeTaskCleared">
+                <div class="achievement-icon">✅</div>
+                <div class="achievement-name">Task Cleared</div>
+              </div>
+              <div class="achievement-badge" id="badgeFirstUnit">
+                <div class="achievement-icon"></div>
+                <div class="achievement-name">First Unit Done</div>
+              </div>
+              <div class="achievement-badge" id="badgeTenSessions">
+                <div class="achievement-icon">☀</div>
+                <div class="achievement-name">10 Sessions</div>
+              </div>
+              <div class="achievement-badge" id="badgeAllUnits">
+                <div class="achievement-icon"></div>
+                <div class="achievement-name">All Units</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <script type="module" src="js/progress.js"></script>
+  </body>
+</html>

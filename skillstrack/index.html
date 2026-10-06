@@ -1,18 +1,53 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Document</title>
-  </head>
-  <body>
-    <h1>Sign in to SkillsTracker</h1>
-    <input type="email" id="loginEmail" placeholder="Email" />
-    <input type="password" id="loginPassword" placeholder="Password" />
-    <button id="loginButton">Sign in</button>
-    <p id="loginMessage"></p>
-    <a href="signup.html">Create an account</a>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sign in - SkillsTrack</title>
+    <link rel="stylesheet" href="css/auth.css">
+</head>
+<body>
+    <div class="auth-layout">
+
+        <!-- Left half: navy -->
+        <div class="auth-left">
+            <div class="auth-logo">
+                <div class="auth-logo-box">ST</div>
+                <div class="auth-logo-text">SkillsTrack</div>
+            </div>
+
+            <div>
+                <h2 class="auth-headline">
+                    Your learning,<br>
+                    <span class="auth-highlight">tracked</span> and<br>
+                    supported.
+                </h2>
+                <p class="auth-tagline">A central hub for learners and assessors — tasks, sessions, resources, and progress, all in one place.</p>
+            </div>
+
+            <div>
+                <div class="auth-programmes-title">PROGRAMMES AVAILABLE</div>
+                <span class="auth-programme">Software Development </span>
+                <span class="auth-programme">Web Development </span>
+                <span class="auth-programme">Data Analytics </span>
+                <span class="auth-programme">Cybersecurity </span>
+            </div>
+        </div>
+
+        <!-- Right half: cream (your form) -->
+        <div class="auth-right">
+            <div class="auth-form">
+                <h1>Sign in to SkillsTrack</h1>
+                <input type="email" id="loginEmail" placeholder="Email">
+                <input type="password" id="loginPassword" placeholder="Password">
+                <button id="loginButton">Sign in</button>
+                <p id="loginMessage"></p>
+                <a href="signup.html">Create an account</a>
+            </div>
+        </div>
+
+    </div>
 
     <script type="module" src="js/auth.js"></script>
-  </body>
+</body>
 </html>

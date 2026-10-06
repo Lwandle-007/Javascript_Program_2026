@@ -75,10 +75,9 @@ async function createAccount() {
     await setDoc(doc(db, "users", uid), profile);
     //	Step	6:	send	them	to	the	right	home	page.
     if (role === "assessor") {
-      window.location.href = "learner-activity.html";
+      window.location.href = "assessor_overview.html";
     } else {
-      window.location.href = "tasks.html";
-      
+      window.location.href = "learner_dashboard.html";
     }
   } catch (error) {
     //	Show	the	problem	instead	of	failing	silently.
@@ -149,9 +148,9 @@ async function signInUser() {
     const profile = profileSnapshot.data();
     //	Step	4:	send	them	to	the	correct	portal.
     if (profile.role === "assessor") {
-      window.location.href = "learner-activity.html";
+      window.location.href = "assessor_overview.html";
     } else {
-      window.location.href = "tasks.html";
+      window.location.href = "learner_dashboard.html";
     }
   } catch (error) {
     messageBox.textContent = "Sign	in	failed.	Check	your	email	and	password.";

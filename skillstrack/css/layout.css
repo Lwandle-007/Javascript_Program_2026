@@ -98,14 +98,44 @@ structure.	*/
 		color:	#ffffff;
 		font-weight:	bold;
 }
-.sidebar-footer	{
-		margin-top:	auto;
-		display:	flex;
-		flex-direction:	column;
-		gap:	8px;
-		font-size:	13px;
-		color:	#b6b9c4;
-		padding-top:	16px;
+
+.sidebar-footer {
+    margin-top: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    font-size: 13px;
+    color: #b6b9c4;
+    padding-top: 16px;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.sidebar-footer button,
+.sidebar-footer a {
+    background: none;
+    border: none;
+    color: #b6b9c4;
+    font-size: 13px;
+    text-align: left;
+    padding: 8px 12px;
+    cursor: pointer;
+}
+
+.sidebar-footer button:hover,
+.sidebar-footer a:hover {
+    color: #ffffff;
+}
+
+body.dark .main-content {
+    background: #141824;
+}
+
+body.dark .page-title {
+    color: #ffffff;
+}
+
+body.dark .page-subtitle {
+    color: #b6b9c4;
 }
 /*	---	Main	content	area,	next	to	the	sidebar	---	*/
 .main-content	{

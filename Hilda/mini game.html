@@ -1,148 +1,171 @@
-<!DOCTYPE html>
+<!doctype html>
 <html>
-<head>
-  <title>Coding Mini Game</title>
-  <style>
-    body { font-family: Arial, sans-serif; }
-    .option { display:block; margin:5px; padding:10px; border:1px solid #ccc; cursor:pointer; }
-    .option.selected { background: orange; }
-    .option.correct { background: lightgreen; }
-    .option.incorrect { background: lightcoral; }
-  </style>
-</head>
-<body>
-  <h2 id="progress"></h2>
-  <div id="score">✓ 0 ✗ 0</div>
-  <div id="challenge"></div>
-  <button id="checkBtn" disabled>Check Answer</button>
-  <button id="nextBtn" style="display:none;">Next Challenge</button>
-  <div id="result"></div>
+  <head>
+    <title>Coding Mini Game</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+      }
+      .option {
+        display: block;
+        margin: 5px;
+        padding: 10px;
+        border: 1px solid #ccc;
+        cursor: pointer;
+      }
+      .option.selected {
+        background: orange;
+      }
+      .option.correct {
+        background: lightgreen;
+      }
+      .option.incorrect {
+        background: lightcoral;
+      }
+    </style>
+  </head>
+  <body>
+    <h2 id="progress"></h2>
+    <div id="score">✓ 0 ✗ 0</div>
+    <div id="challenge"></div>
+    <button id="checkBtn" disabled>Check Answer</button>
+    <button id="nextBtn" style="display: none">Next Challenge</button>
+    <div id="result"></div>
 
-  <!-- Firebase SDK -->
-  <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/10.12.0s/firebase-firestore.js"></script>
+    <!-- Firebase SDK -->
+    <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore-compat.js"></script>
 
-  <script>
-    //  Replace with your Firebase config
-    const firebaseConfig = {
-      apiKey: "AIzaSyCMRGMyy2sjC6CF2asxxVOm3YQ0JLf9Bys",
-      authDomain: "skillstrack-c9591.firebaseapp.com",
-      projectId: "skillstrack-c9591",
-      storageBucket: "skillstrack-c9591.firebasestorage.app",
-      messagingSenderId: "780408370394",
-      appId: "1:780408370394:web:29fca21abe35f0a77aa1e3"
-    };
+    <script>
+      //  Replace with your Firebase config
+      const firebaseConfig = {
+        apiKey: "AIzaSyCMRGMyy2sjC6CF2asxxVOm3YQ0JLf9Bys",
+        authDomain: "skillstrack-c9591.firebaseapp.com",
+        projectId: "skillstrack-c9591",
+        storageBucket: "skillstrack-c9591.firebasestorage.app",
+        messagingSenderId: "780408370394",
+        appId: "1:780408370394:web:29fca21abe35f0a77aa1e3",
+      };
 
-    // Initialize Firebase
-    const app = firebase.initializeApp(firebaseConfig);
-    const db = firebase.firestore();
+      // Initialize Firebase
+      const app = firebase.initializeApp(firebaseConfig);
+      const db = firebase.firestore();
 
-    // Challenges data
-    const challenges = [
-      {
-        questionTitle: "Python · Challenge 2",
-        instructions: "Complete the loop to print numbers 1 through 5.",
-        codeSnippet: "for i in ___(1, 6):\n    print(i)",
-        options: ["range", "list", "count", "loop"],
-        correctAnswer: "range"
-      },
-      // Add more challenges here...
-    ];
+      // Challenges data
+      const challenges = [
+        {
+          questionTitle: "Python · Challenge 2",
+          instructions: "Complete the loop to print numbers 1 through 5.",
+          codeSnippet: "for i in ___(1, 6):\n    print(i)",
+          options: ["range", "list", "count", "loop"],
+          correctAnswer: "range",
+        },
+        // Add more challenges here...
+      ];
 
-    let currentChallengeIndex = 0;
-    let correctCount = 0;
-    let incorrectCount = 0;
-    let selectedAnswer = null;
+      let currentChallengeIndex = 0;
+      let correctCount = 0;
+      let incorrectCount = 0;
+      let selectedAnswer = null;
 
-    function displayChallenge() {
-      const challenge = challenges[currentChallengeIndex];
-      document.getElementById("challenge").innerHTML = `
+      function displayChallenge() {
+        const challenge = challenges[currentChallengeIndex];
+        document.getElementById("challenge").innerHTML = `
         <h3>${challenge.questionTitle}</h3>
         <p>${challenge.instructions}</p>
         <pre>${challenge.codeSnippet}</pre>
-        ${challenge.options.map(opt => `<div class="option">${opt}</div>`).join("")}
+        ${challenge.options.map((opt) => `<div class="option">${opt}</div>`).join("")}
       `;
-      document.getElementById("progress").textContent =
-        `Challenge ${currentChallengeIndex + 1} of ${challenges.length}`;
-      document.getElementById("score").textContent = `✓ ${correctCount} ✗ ${incorrectCount}`;
-      document.getElementById("checkBtn").disabled = true;
-      document.getElementById("nextBtn").style.display = "none";
-      document.getElementById("result").textContent = "";
+        document.getElementById("progress").textContent =
+          `Challenge ${currentChallengeIndex + 1} of ${challenges.length}`;
+        document.getElementById("score").textContent =
+          `✓ ${correctCount} ✗ ${incorrectCount}`;
+        document.getElementById("checkBtn").disabled = true;
+        document.getElementById("nextBtn").style.display = "none";
+        document.getElementById("result").textContent = "";
 
-      document.querySelectorAll(".option").forEach(optEl => {
-        optEl.addEventListener("click", () => {
-          document.querySelectorAll(".option").forEach(o => o.classList.remove("selected"));
-          optEl.classList.add("selected");
-          selectedAnswer = optEl.textContent;
-          document.getElementById("checkBtn").disabled = false;
+        document.querySelectorAll(".option").forEach((optEl) => {
+          optEl.addEventListener("click", () => {
+            document
+              .querySelectorAll(".option")
+              .forEach((o) => o.classList.remove("selected"));
+            optEl.classList.add("selected");
+            selectedAnswer = optEl.textContent;
+            document.getElementById("checkBtn").disabled = false;
+          });
+        });
+      }
+
+      document.getElementById("checkBtn").addEventListener("click", () => {
+        const challenge = challenges[currentChallengeIndex];
+        if (selectedAnswer === challenge.correctAnswer) {
+          correctCount++;
+          document.querySelector(".selected").classList.add("correct");
+          document.getElementById("result").textContent =
+            "Correct! range() generates numbers 1–5.";
+        } else {
+          incorrectCount++;
+          document.querySelector(".selected").classList.add("incorrect");
+          document.getElementById("result").textContent =
+            "Not quite. Use range(start, stop).";
+        }
+        document.getElementById("score").textContent =
+          `✓ ${correctCount} ✗ ${incorrectCount}`;
+        document.getElementById("checkBtn").style.display = "none";
+        document.getElementById("nextBtn").style.display = "inline";
+
+        // Save attempt to Firestore
+        db.collection("quizAttempts").add({
+          challengeIndex: currentChallengeIndex,
+          selectedAnswer,
+          correct: selectedAnswer === challenge.correctAnswer,
+          timestamp: new Date(),
         });
       });
-    }
 
-    document.getElementById("checkBtn").addEventListener("click", () => {
-      const challenge = challenges[currentChallengeIndex];
-      if (selectedAnswer === challenge.correctAnswer) {
-        correctCount++;
-        document.querySelector(".selected").classList.add("correct");
-        document.getElementById("result").textContent = "Correct! range() generates numbers 1–5.";
-      } else {
-        incorrectCount++;
-        document.querySelector(".selected").classList.add("incorrect");
-        document.getElementById("result").textContent = "Not quite. Use range(start, stop).";
-      }
-      document.getElementById("score").textContent = `✓ ${correctCount} ✗ ${incorrectCount}`;
-      document.getElementById("checkBtn").style.display = "none";
-      document.getElementById("nextBtn").style.display = "inline";
-
-      // Save attempt to Firestore
-      db.collection("quizAttempts").add({
-        challengeIndex: currentChallengeIndex,
-        selectedAnswer,
-        correct: selectedAnswer === challenge.correctAnswer,
-        timestamp: new Date()
+      document.getElementById("nextBtn").addEventListener("click", () => {
+        currentChallengeIndex++;
+        if (currentChallengeIndex < challenges.length) {
+          displayChallenge();
+          document.getElementById("checkBtn").style.display = "inline";
+        } else {
+          showResultsScreen();
+        }
       });
-    });
 
-    document.getElementById("nextBtn").addEventListener("click", () => {
-      currentChallengeIndex++;
-      if (currentChallengeIndex < challenges.length) {
-        displayChallenge();
-        document.getElementById("checkBtn").style.display = "inline";
-      } else {
-        showResultsScreen();
+      function calculateScorePercent(correctCount, totalQuestions) {
+        return (correctCount / totalQuestions) * 100;
       }
-    });
 
-    function calculateScorePercent(correctCount, totalQuestions) {
-      return (correctCount / totalQuestions) * 100;
-    }
-
-    function showResultsScreen() {
-      const totalQuestions = challenges.length;
-      const scorePercent = calculateScorePercent(correctCount, totalQuestions);
-      document.getElementById("challenge").innerHTML = "";
-      document.getElementById("progress").textContent = "Results";
-      document.getElementById("result").innerHTML = `
+      function showResultsScreen() {
+        const totalQuestions = challenges.length;
+        const scorePercent = calculateScorePercent(
+          correctCount,
+          totalQuestions
+        );
+        document.getElementById("challenge").innerHTML = "";
+        document.getElementById("progress").textContent = "Results";
+        document.getElementById("result").innerHTML = `
         <h3>${scorePercent >= 80 ? "Great job!" : "Keep practising!"}</h3>
         <p>You scored ${correctCount} out of ${totalQuestions} — ${scorePercent}%</p>
         <p>Correct: ${correctCount}</p>
         <p>Incorrect: ${incorrectCount}</p>
         <button id="tryAgainBtn">Try Again</button>
       `;
-      document.getElementById("checkBtn").style.display = "none";
-      document.getElementById("nextBtn").style.display = "none";
+        document.getElementById("checkBtn").style.display = "none";
+        document.getElementById("nextBtn").style.display = "none";
 
-      document.getElementById("tryAgainBtn").addEventListener("click", () => {
-        currentChallengeIndex = 0;
-        correctCount = 0;
-        incorrectCount = 0;
-        displayChallenge();
-        document.getElementById("checkBtn").style.display = "inline";
-      });
-    }
+        document.getElementById("tryAgainBtn").addEventListener("click", () => {
+          currentChallengeIndex = 0;
+          correctCount = 0;
+          incorrectCount = 0;
+          displayChallenge();
+          document.getElementById("checkBtn").style.display = "inline";
+        });
+      }
 
-    // Start game
-    displayChallenge();
-  </script>
-</body>
+      // Start game
+      displayChallenge();
+    </script>
+  </body>
 </html>

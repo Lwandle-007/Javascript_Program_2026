@@ -1,11 +1,15 @@
-//	firebase-config.js
 //	This	file	starts	up	Firebase	once,	and	shares	it	with	the	rest	of	the	app.
-//	Bring	in	the	three	Firebase	tools	we	need,	straight	from	Google's	servers.
+// I set it up once here, and every other file borrows it from here.
+
+// I'm pulling in three tools from Google's servers, one for each job.
+// initializeApp = starts Firebase
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
+// getAuth = gives me the login system
 import { getAuth } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
+// getFirestore = gives me the database
 import { getFirestore } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
-//	These	settings	tell	Firebase	which	project	to	connect	to.
-//	Replace	every	value	below	with	the	ones	from	your	own	Firebase	console.
+
+// These settings are the address of MY Firebase project (skillstrack).
 const firebaseConfig = {
   apiKey: "AIzaSyCMRGMyy2sjC6CF2asxxVOm3YQ0JLf9Bys",
   authDomain: "skillstrack-c9591.firebaseapp.com",

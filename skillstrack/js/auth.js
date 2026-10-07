@@ -56,6 +56,7 @@ async function createAccount() {
       role: role,
       programme: "Software	Development",
       jobTitle: "",
+      progressPercent: 0,
       lastActive: serverTimestamp(),
       createdAt: serverTimestamp(),
     };

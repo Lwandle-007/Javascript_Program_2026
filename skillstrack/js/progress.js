@@ -9,16 +9,11 @@ import {
   updateDoc,
 } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
 
-// Remember who is signed in.
+// I stored the signed-in learner's ID here so every function can use it.
 let currentUid = "";
 
-// --------------------------------------------------------------
-// HELPER: work out the status of one task
-// --------------------------------------------------------------
-// Returns "complete", "inprogress" or "notstarted".
-// The My Tasks page only saves completed (true/false) right now,
-// so today you will only see "complete" and "notstarted".
-// If a task ever gets a status field of "inprogress", we use it.
+// Function works out the status of one task and returns complete, inprogress or notstarted.
+// The My Tasks page only saves completed (true/false) right now.
 function getTaskStatus(task) {
   if (task.completed === true) {
     return "complete";
@@ -29,9 +24,7 @@ function getTaskStatus(task) {
   return "notstarted";
 }
 
-// --------------------------------------------------------------
-// HELPER: turn the status code into words a person can read
-// --------------------------------------------------------------
+// Function turn the status code into words a person can read eg db stores inprogress but page stores In Progress
 function getStatusLabel(status) {
   if (status === "complete") {
     return "Complete";
@@ -42,9 +35,7 @@ function getStatusLabel(status) {
   return "Not Started";
 }
 
-// --------------------------------------------------------------
-// Load this learner's tasks and draw the Task Tracker
-// --------------------------------------------------------------
+// Function Loads this learner's tasks and draw the Task Tracker
 async function loadTaskTracker() {
   // Ask for only the tasks that belong to the signed-in learner.
   const tasksQuery = query(
@@ -134,9 +125,7 @@ async function loadTaskTracker() {
   };
 }
 
-// --------------------------------------------------------------
-// Work out the percentage and fill in the dark progress card
-// --------------------------------------------------------------
+// Function works out the percentage and fill in the dark progress card
 async function showQualificationProgress(counts) {
   // A finished task counts as 1, a task in progress counts as half.
   const score = counts.complete + counts.inProgress * 0.5;
@@ -161,9 +150,7 @@ async function showQualificationProgress(counts) {
   await updateDoc(doc(db, "users", currentUid), { progressPercent: percent });
 }
 
-// --------------------------------------------------------------
-// Start the page
-// --------------------------------------------------------------
+// Start the page(The guard checks someone is signed in, then hands me their uid and profile.)
 requireSignedInUser(async function (uid, profile) {
   currentUid = uid;
 

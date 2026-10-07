@@ -10,18 +10,18 @@
   <div id="bookingList"></div>
 
   <script>
-    // --- Firebase Config (replace with your own project settings) ---
+    //  Firebase Config 
     const firebaseConfig = {
       apiKey: "AIzaSyCMRGMyy2sjC6CF2asxxVOm3YQ0JLf9Bys",
       authDomain: "skillstrack-c9591.firebaseapp.com",
       projectId: "skillstrack-c9591",
     };
 
-    // --- Initialize Firebase ---
+    // Initialize Firebase 
     const app = firebase.initializeApp(firebaseConfig);
     const db = firebase.firestore();
 
-    // --- Function to render bookings ---
+    // Function to render bookings 
     async function renderBookings() {
       const listDiv = document.getElementById("bookingList");
       listDiv.innerHTML = "";
@@ -44,19 +44,19 @@
       });
     }
 
-    // --- Confirm action ---
+    // Confirm action 
     async function confirmBooking(id) {
       await db.collection("bookings").doc(id).update({ status: "Confirmed" });
       renderBookings(); // refresh list
     }
 
-    // --- Decline action ---
+    // Decline action
     async function declineBooking(id) {
       await db.collection("bookings").doc(id).update({ status: "Declined" });
       renderBookings(); // refresh list
     }
 
-    // --- Initial load ---
+    // Initial load 
     renderBookings();
   </script>
 </body>

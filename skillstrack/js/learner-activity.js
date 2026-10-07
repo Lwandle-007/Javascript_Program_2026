@@ -1,6 +1,4 @@
-// learner-activity.js
-// The assessor's table. Shows every learner with their progress,
-// how many tasks they still have open, how many sessions they attended,
+// The assessor's table. Shows every learner with their progress, how many tasks they still have open, how many sessions they attended,
 // and when they were last signed in.
 import { db } from "./firebase-config.js";
 import { requireSignedInUser } from "./auth.js";
@@ -10,44 +8,47 @@ import {
   where,
   getDocs,
 } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
+// This list holds every learner once I've loaded them and I keep it up here so every function can use it.
 let allLearners = [];
-// ---------------------------------------------------------------
-// HELPER: turn a stored timestamp into "Today" / "Yesterday" / "3days ago"
-// ---------------------------------------------------------------
-function describeLastActive(lastActiveValue) {
+
+// Function turns a stored timestamp into a date like "7 Oct 2026
+function formatLastActive(lastActiveValue) {
   // A brand new account may not have a timestamp yet.
   if (lastActiveValue === undefined || lastActiveValue === null) {
     return "Never";
   }
-  // Firestore gives us its own timestamp type, so convert it
-  // into a normal JavaScript date.
+
+  // Firestore uses its own timestamp type, so turn it into
+  // a normal JavaScript date first.
   const lastActiveDate = lastActiveValue.toDate();
-  const today = new Date();
-  // Compare whole days only, ignoring the time of day.
-  const lastActiveDay = new Date(
-    lastActiveDate.getFullYear(),
-    lastActiveDate.getMonth(),
-    lastActiveDate.getDate()
-  );
-  const todayDay = new Date(
-    today.getFullYear(),
-    today.getMonth(),
-    today.getDate()
-  );
-  // There are 86,400,000 milliseconds in one day.
-  const millisecondsApart = todayDay.getTime() - lastActiveDay.getTime();
-  const daysApart = Math.round(millisecondsApart / 86400000);
-  if (daysApart === 0) {
-    return "Today";
-  }
-  if (daysApart === 1) {
-    return "Yesterday";
-  }
-  return daysApart + " days ago";
+
+  // The month names, so I can swap 9 for "Oct".
+  const monthNames = [
+    "Jan",
+    "Feb",
+    "Mar",
+    "Apr",
+    "May",
+    "Jun",
+    "Jul",
+    "Aug",
+    "Sep",
+    "Oct",
+    "Nov",
+    "Dec",
+  ];
+
+  // Pull the day, month and year out of the date.
+  // getMonth() already counts from 0 (January = 0), so it fits the list above with no "minus 1" needed.
+  const dayNumber = lastActiveDate.getDate();
+  const monthName = monthNames[lastActiveDate.getMonth()];
+  const yearNumber = lastActiveDate.getFullYear();
+
+  // Join them together, e.g. "7 Oct 2026".
+  return dayNumber + " " + monthName + " " + yearNumber;
 }
-// ---------------------------------------------------------------
-// Step 1: get every learner
-// ---------------------------------------------------------------
+
+// Function the gets every learner
 async function loadLearners() {
   const learnersQuery = query(
     collection(db, "users"),
@@ -65,10 +66,9 @@ async function loadLearners() {
     allLearners.push(learner);
   });
 }
-// ---------------------------------------------------------------
-// Step 2: count each learner's unfinished tasks
+
+// Function counts each learner's unfinished tasks
 // This is the link between My Tasks and the "Tasks Open" column.
-// ---------------------------------------------------------------
 async function countOpenTasks() {
   // Ask for every task that is not finished, across all learners.
   const openTasksQuery = query(
@@ -86,10 +86,9 @@ async function countOpenTasks() {
     }
   });
 }
-// ---------------------------------------------------------------
-// Step 3: count each learner's attended sessions
-// This is the link between the Sessions page and the "Sessions" column.
-// ---------------------------------------------------------------
+
+// Function counts each learner's attended sessions 
+// (Havent worked on the session so far so come back after to link everthing properly)
 async function countSessions() {
   const attendedQuery = query(
     collection(db, "sessions"),
@@ -105,14 +104,14 @@ async function countSessions() {
     }
   });
 }
-// ---------------------------------------------------------------
-// Step 4: draw the table
-// ---------------------------------------------------------------
+
+// Function to draw the table with correct info
 function showTable(searchText) {
   const tableBody = document.getElementById("learnerTableBody");
   tableBody.innerHTML = "";
   for (let i = 0; i < allLearners.length; i = i + 1) {
     const learner = allLearners[i];
+    
     // If the assessor typed in the search box, skip names that do not match.
     if (searchText !== "") {
       const nameInLowerCase = learner.fullName.toLowerCase();
@@ -121,18 +120,23 @@ function showTable(searchText) {
         continue;
       }
     }
-    // The screenshot shows "None" instead of "0 open".
+
+    // Switch to none instead of 0.
     let tasksOpenLabel = learner.openTaskCount + " open";
     if (learner.openTaskCount === 0) {
       tasksOpenLabel = "None";
     }
+
+    // One row, and then one cell for each column.
     const row = document.createElement("tr");
+
     const initialsCell = document.createElement("td");
     initialsCell.textContent = learner.initials;
     const nameCell = document.createElement("td");
     nameCell.textContent = learner.fullName;
     const programmeCell = document.createElement("td");
     programmeCell.textContent = learner.programme;
+
     // The progress bar. The inner div's width is the percentage.
     const progressCell = document.createElement("td");
     const barOutside = document.createElement("div");
@@ -142,15 +146,19 @@ function showTable(searchText) {
     barInside.style.width = learner.progressPercent + "%";
     barOutside.appendChild(barInside);
     progressCell.appendChild(barOutside);
+
+    // And the number next to the bar, e.g. "68%".
     const percentLabel = document.createElement("span");
     percentLabel.textContent = learner.progressPercent + "%";
     progressCell.appendChild(percentLabel);
+
     const tasksCell = document.createElement("td");
     tasksCell.textContent = tasksOpenLabel;
     const sessionsCell = document.createElement("td");
     sessionsCell.textContent = learner.sessionCount + " attended";
     const lastActiveCell = document.createElement("td");
-    lastActiveCell.textContent = describeLastActive(learner.lastActive);
+    lastActiveCell.textContent = formatLastActive(learner.lastActive);
+
     row.appendChild(initialsCell);
     row.appendChild(nameCell);
     row.appendChild(programmeCell);
@@ -159,15 +167,15 @@ function showTable(searchText) {
     row.appendChild(sessionsCell);
     row.appendChild(lastActiveCell);
     tableBody.appendChild(row);
+    
   }
 }
-// ---------------------------------------------------------------
-// Start the page
-// ---------------------------------------------------------------
+
+// Function to start the page
 requireSignedInUser(async function (uid, profile) {
   // Only assessors are allowed on this page.
   if (profile.role !== "assessor") {
-    window.location.href = "tasks.html";
+    window.location.href = "learner_dashboard.html";
     return;
   }
   document.getElementById("sidebarName").textContent = profile.fullName;

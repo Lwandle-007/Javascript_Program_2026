@@ -1,4 +1,3 @@
-// resources.js
 // Loads the shared resource library and filters it by category.
 import { db } from "./firebase-config.js";
 import { requireSignedInUser } from "./auth.js";
@@ -6,9 +5,12 @@ import {
   collection,
   getDocs,
 } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
+
+// remember every resource I've loaded, and which category button is selected.
 let allResources = [];
 let currentCategory = "All";
-// Load every resource. There is no ownerUid because everybody seesthe same list.
+
+// Function loads every resource and we no ownerUid because everybody sees the same list.
 async function loadResources() {
   const results = await getDocs(collection(db, "resources"));
   allResources = [];
@@ -19,9 +21,13 @@ async function loadResources() {
   });
   showResources();
 }
+
+// Function draws the resource cards, respecting the chosen category
 function showResources() {
+  // Clear the grid first, so cards don't get added twice.
   const gridArea = document.getElementById("resourceGrid");
   gridArea.innerHTML = "";
+
   for (let i = 0; i < allResources.length; i = i + 1) {
     const resource = allResources[i];
     // Skip anything outside the chosen category.
@@ -33,11 +39,13 @@ function showResources() {
     if (resource.type === "Video") {
       sizeOrLength = resource.duration;
     }
+    // Build one card.
     const card = document.createElement("div");
     card.className = "resource-card";
+    // The title at the top of the card.
     const titleText = document.createElement("h3");
     titleText.textContent = resource.title;
-
+    // The small details line e.g. PDF Software Dev 2.8 MB Updated 2026-08-01.
     const metaText = document.createElement("p");
     metaText.textContent =
       resource.type +
@@ -47,19 +55,26 @@ function showResources() {
       sizeOrLength +
       " Updated " +
       resource.updatedAt;
+
+    // The Open link. It goes to the resource's url.
     const openLink = document.createElement("a");
     openLink.href = resource.url;
     openLink.textContent = "Open";
+    // Put the three pieces into the card, then the card into the grid.
     card.appendChild(titleText);
     card.appendChild(metaText);
     card.appendChild(openLink);
     gridArea.appendChild(card);
   }
 }
+
+// function category button remember which category was picked, then redraw the cards.
 function setCategory(newCategory) {
   currentCategory = newCategory;
   showResources();
 }
+
+// Function to start the page
 requireSignedInUser(function (uid, profile) {
   document.getElementById("sidebarName").textContent = profile.fullName;
   document.getElementById("sidebarProgramme").textContent = profile.programme;

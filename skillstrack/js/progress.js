@@ -1,6 +1,3 @@
-// progress.js
-// Loads the learner's units, works out their overall percentage,
-// saves it, and lists their past sessions and earned achievements.
 import { db } from "./firebase-config.js";
 import { requireSignedInUser } from "./auth.js";
 import {
@@ -11,169 +8,172 @@ import {
   doc,
   updateDoc,
 } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
+
+// Remember who is signed in.
 let currentUid = "";
-// ---------------------------------------------------------------
-// Load the six units and draw the Unit Tracker
-// ---------------------------------------------------------------
-async function loadUnits() {
-  const results = await getDocs(collection(db, "users", currentUid, "units"));
-  const units = [];
-  results.forEach(function (unitDocument) {
-    units.push(unitDocument.data());
-  });
-  // Sort so Unit 1 always comes before Unit 2.
-  units.sort(function (unitA, unitB) {
-    return unitA.number - unitB.number;
-  });
-  const trackerArea = document.getElementById("unitTracker");
-  trackerArea.innerHTML = "";
-  let completeCount = 0;
-  let inProgressCount = 0;
-  for (let i = 0; i < units.length; i = i + 1) {
-    const unit = units[i];
-    if (unit.status === "complete") {
-      completeCount = completeCount + 1;
-    }
-    if (unit.status === "inprogress") {
-      inProgressCount = inProgressCount + 1;
-    }
-    // Turn the stored code into words a person can read.
-    let statusLabel = "Not Started";
-    if (unit.status === "complete") {
-      statusLabel = "Complete";
-    }
-    if (unit.status === "inprogress") {
-      statusLabel = "In Progress";
-    }
-    const row = document.createElement("div");
-    row.className = "unit-row";
-    row.textContent =
-      "Unit " +
-      unit.number +
-      " - " +
-      unit.title +
-      " " +
-      statusLabel +
-      " " +
-      unit.grade;
-    trackerArea.appendChild(row);
+
+// --------------------------------------------------------------
+// HELPER: work out the status of one task
+// --------------------------------------------------------------
+// Returns "complete", "inprogress" or "notstarted".
+// The My Tasks page only saves completed (true/false) right now,
+// so today you will only see "complete" and "notstarted".
+// If a task ever gets a status field of "inprogress", we use it.
+function getTaskStatus(task) {
+  if (task.completed === true) {
+    return "complete";
   }
-  // A finished unit is worth a full share, a unit in progress isworth half.
-  // With 6 units: 2 complete + 1 in progress = 2.5 / 6 = 41.6% → 42%.
-  const score = completeCount + inProgressCount * 0.5;
-  const percent = Math.round((score / units.length) * 100);
-  // Show it on this page.
-  document.getElementById("progressPercent").textContent = percent + "%";
-  document.getElementById("unitsDone").textContent =
-    completeCount + "/" + units.length;
-  // Save it so the assessor's table shows the same number.
-  await updateDoc(doc(db, "users", currentUid), { progressPercent: percent });
-  return completeCount;
+  if (task.status === "inprogress") {
+    return "inprogress";
+  }
+  return "notstarted";
 }
-// ---------------------------------------------------------------
-// Load this learner's session history
-// ---------------------------------------------------------------
-async function loadSessions() {
-  const sessionsQuery = query(
-    collection(db, "sessions"),
-    where("learnerUid", "==", currentUid)
+
+// --------------------------------------------------------------
+// HELPER: turn the status code into words a person can read
+// --------------------------------------------------------------
+function getStatusLabel(status) {
+  if (status === "complete") {
+    return "Complete";
+  }
+  if (status === "inprogress") {
+    return "In Progress";
+  }
+  return "Not Started";
+}
+
+// --------------------------------------------------------------
+// Load this learner's tasks and draw the Task Tracker
+// --------------------------------------------------------------
+async function loadTaskTracker() {
+  // Ask for only the tasks that belong to the signed-in learner.
+  const tasksQuery = query(
+    collection(db, "tasks"),
+    where("ownerUid", "==", currentUid)
   );
-  const results = await getDocs(sessionsQuery);
-  const sessions = [];
-  results.forEach(function (sessionDocument) {
-    sessions.push(sessionDocument.data());
+  const results = await getDocs(tasksQuery);
+
+  // Put every task into a plain list.
+  const tasks = [];
+  results.forEach(function (taskDocument) {
+    const task = taskDocument.data();
+    task.id = taskDocument.id;
+    tasks.push(task);
   });
-  // Newest first. Because dates are stored as "2026-07-24",
-  // comparing them as text sorts them correctly.
-  sessions.sort(function (sessionA, sessionB) {
-    if (sessionA.sessionDate < sessionB.sessionDate) {
-      return 1;
-    }
-    if (sessionA.sessionDate > sessionB.sessionDate) {
+
+  // Sort by due date, earliest first.
+  // Dates look like "2026-08-12", so comparing them as text works.
+  tasks.sort(function (taskA, taskB) {
+    if (taskA.dueDate < taskB.dueDate) {
       return -1;
+    }
+    if (taskA.dueDate > taskB.dueDate) {
+      return 1;
     }
     return 0;
   });
-  const historyArea = document.getElementById("sessionHistory");
-  historyArea.innerHTML = "";
-  for (let i = 0; i < sessions.length; i = i + 1) {
-    const session = sessions[i];
-    const row = document.createElement("div");
-    row.className = "session-row";
-    row.textContent =
-      session.sessionType + " — " + session.sessionDate + " · " + session.notes;
-    historyArea.appendChild(row);
-  }
-  // Show the session count on the dark card.
-  document.getElementById("sessionCount").textContent = sessions.length;
-  return sessions.length;
-}
-// ---------------------------------------------------------------
-// Work out which achievements have been earned
-// ---------------------------------------------------------------
-async function showAchievements(sessionCount, completedUnits) {
-  // Count how many tasks this learner has finished.
-  const tasksQuery = query(
-    collection(db, "tasks"),
-    where("ownerUid", "==", currentUid),
-    where("completed", "==", true)
-  );
-  const taskResults = await getDocs(tasksQuery);
-  const completedTaskCount = taskResults.size;
-  // Each badge is checked separately so the rules are obvious.
-  let firstSessionEarned = false;
-  if (sessionCount >= 1) {
-    firstSessionEarned = true;
-  }
-  let fiveSessionsEarned = false;
-  if (sessionCount >= 5) {
-    fiveSessionsEarned = true;
-  }
-  let tenSessionsEarned = false;
-  if (sessionCount >= 10) {
-    tenSessionsEarned = true;
-  }
-  let taskClearedEarned = false;
-  if (completedTaskCount >= 1) {
-    taskClearedEarned = true;
-  }
-  let firstUnitEarned = false;
-  if (completedUnits >= 1) {
-    firstUnitEarned = true;
+
+  // Clear the tracker before we fill it.
+  const trackerArea = document.getElementById("unitTracker");
+  trackerArea.innerHTML = "";
+
+  // Start all the counters at zero.
+  let completeCount = 0;
+  let inProgressCount = 0;
+
+  // If there are no tasks yet, show a friendly message.
+  if (tasks.length === 0) {
+    const emptyMessage = document.createElement("p");
+    emptyMessage.textContent = "No tasks yet. Add one on the My Tasks page.";
+    trackerArea.appendChild(emptyMessage);
   }
 
-  let allUnitsEarned = false;
-  if (completedUnits >= 6) {
-    allUnitsEarned = true;
+  // Build one row for each task.
+  for (let i = 0; i < tasks.length; i = i + 1) {
+    const task = tasks[i];
+    const status = getTaskStatus(task);
+
+    // Count the statuses as we go.
+    if (status === "complete") {
+      completeCount = completeCount + 1;
+    }
+    if (status === "inprogress") {
+      inProgressCount = inProgressCount + 1;
+    }
+
+    // Left side: the task title.
+    const titleText = document.createElement("span");
+    titleText.className = "unit-title";
+    titleText.textContent = task.title;
+
+    // Middle: the priority, where the unit grade used to be.
+    const priorityText = document.createElement("span");
+    priorityText.className = "unit-grade";
+    priorityText.textContent = task.priority;
+
+    // Right side: the coloured status pill.
+    const statusPill = document.createElement("span");
+    statusPill.className = "status-pill status-" + status;
+    statusPill.textContent = getStatusLabel(status);
+
+    // Put the three pieces into one row.
+    const row = document.createElement("div");
+    row.className = "unit-row";
+    row.appendChild(titleText);
+    row.appendChild(priorityText);
+    row.appendChild(statusPill);
+
+    trackerArea.appendChild(row);
   }
-  // Mark each badge on the page as earned or not.
-  markBadge("badgeFirstSession", firstSessionEarned);
-  markBadge("badgeFiveSessions", fiveSessionsEarned);
-  markBadge("badgeTaskCleared", taskClearedEarned);
-  markBadge("badgeFirstUnit", firstUnitEarned);
-  markBadge("badgeTenSessions", tenSessionsEarned);
-  markBadge("badgeAllUnits", allUnitsEarned);
+
+  // Hand the counts back so the progress card can use them.
+  return {
+    total: tasks.length,
+    complete: completeCount,
+    inProgress: inProgressCount,
+  };
 }
-function markBadge(badgeId, isEarned) {
-  const badge = document.getElementById(badgeId);
-  if (isEarned === true) {
-    badge.classList.add("earned");
-    badge.classList.remove("locked");
-  } else {
-    badge.classList.add("locked");
-    badge.classList.remove("earned");
+
+// --------------------------------------------------------------
+// Work out the percentage and fill in the dark progress card
+// --------------------------------------------------------------
+async function showQualificationProgress(counts) {
+  // A finished task counts as 1, a task in progress counts as half.
+  const score = counts.complete + counts.inProgress * 0.5;
+
+  // Never divide by zero when there are no tasks yet.
+  let percent = 0;
+  if (counts.total > 0) {
+    percent = Math.round((score / counts.total) * 100);
   }
+
+  // Show the big percentage in the ring.
+  document.getElementById("progressPercent").textContent = percent + "%";
+
+  // Show "2/6" style text: tasks done out of all tasks.
+  document.getElementById("unitsDone").textContent =
+    counts.complete + "/" + counts.total;
+
+  // Sessions are not built yet, so show 0 for now.
+  document.getElementById("sessionCount").textContent = "0";
+
+  // Save the percentage so the assessor's table shows the same number.
+  await updateDoc(doc(db, "users", currentUid), { progressPercent: percent });
 }
-// ---------------------------------------------------------------
+
+// --------------------------------------------------------------
 // Start the page
-// ---------------------------------------------------------------
+// --------------------------------------------------------------
 requireSignedInUser(async function (uid, profile) {
   currentUid = uid;
+
+  // Fill in the sidebar.
   document.getElementById("sidebarName").textContent = profile.fullName;
   document.getElementById("sidebarProgramme").textContent = profile.programme;
   document.getElementById("sidebarInitials").textContent = profile.initials;
   document.getElementById("programmeTitle").textContent = profile.programme;
-  const completedUnits = await loadUnits();
-  const sessionCount = await loadSessions();
-  await showAchievements(sessionCount, completedUnits);
+
+  // Draw the tracker first, then use its counts for the progress card.
+  const counts = await loadTaskTracker();
+  await showQualificationProgress(counts);
 });

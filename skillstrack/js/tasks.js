@@ -1,4 +1,3 @@
-//	Tasks backend js
 //	This Loads,	adds,	completes	and	filters	the	signed-in	learner's	tasks.
 import { db } from "./firebase-config.js";
 import { requireSignedInUser } from "./auth.js";
@@ -16,9 +15,8 @@ import {
 let currentUid = "";
 let allTasks = [];
 let currentFilter = "all";
-//	--------------------------------------------------------------
-//	HELPER:	turn	"2026-08-12"	into	"Due	12	Aug"
-//	--------------------------------------------------------------
+
+//	Function	turns	"2026-08-12"	into	"Due	12	Aug"
 function formatDueDate(dateText) {
   const monthNames = [
     "Jan",
@@ -44,9 +42,8 @@ function formatDueDate(dateText) {
   const monthName = monthNames[monthNumber - 1];
   return "Due	" + dayNumber + "	" + monthName;
 }
-//	--------------------------------------------------------------
-//	Load	every	task	belonging	to	this	learner
-//	--------------------------------------------------------------
+
+//	Function loads	every	task	belonging	to	this	learner
 async function loadTasks() {
   //	Ask	for	tasks	where	ownerUid	matches	the	signed-in	person.
   const tasksQuery = query(
@@ -64,9 +61,8 @@ async function loadTasks() {
   showTasks();
   showCounts();
 }
-//	--------------------------------------------------------------
-//	Draw	the	task	list,	respecting	the	current	filter
-//	--------------------------------------------------------------
+
+//	Function draws	the	task	list,	respecting	the	current	filter
 function showTasks() {
   const listArea = document.getElementById("taskList");
   listArea.innerHTML = "";
@@ -79,22 +75,29 @@ function showTasks() {
     if (currentFilter === "completed" && task.completed === false) {
       continue;
     }
+
     //	Build	one	row.
     const row = document.createElement("div");
     row.className = "task-row";
+
     const tickBox = document.createElement("input");
     tickBox.type = "checkbox";
     tickBox.checked = task.completed;
+
     //	When	the	box	is	clicked,	save	the	new	state.
     tickBox.addEventListener("change", function () {
       toggleTaskDone(task.id, tickBox.checked);
     });
+
     const titleText = document.createElement("span");
     titleText.textContent = task.title;
+
     const detailText = document.createElement("small");
     detailText.textContent = task.category + "	·	" + formatDueDate(task.dueDate);
+
     const priorityText = document.createElement("span");
     priorityText.textContent = task.priority;
+
     row.appendChild(tickBox);
     row.appendChild(titleText);
     row.appendChild(detailText);
@@ -102,9 +105,8 @@ function showTasks() {
     listArea.appendChild(row);
   }
 }
-//	--------------------------------------------------------------
-//	The	"4	outstanding	·	2	completed"	line	under	the	heading
-//	--------------------------------------------------------------
+
+//	 Function shows and updateds the outstanding	and 	completed counter	line	under	the	heading
 function showCounts() {
   let outstandingCount = 0;
   let completedCount = 0;
@@ -118,17 +120,15 @@ function showCounts() {
   document.getElementById("taskCounts").textContent =
     outstandingCount + "	outstanding	·	" + completedCount + "	completed";
 }
-//	--------------------------------------------------------------
+
 //	Tick	a	task	off	(or	un-tick	it)
-//	--------------------------------------------------------------
 async function toggleTaskDone(taskId, isNowDone) {
   await updateDoc(doc(db, "tasks", taskId), { completed: isNowDone });
   //	Reload	so	the	counts	and	the	assessor's	"open"	number	stay	correct.
   await loadTasks();
 }
-//	--------------------------------------------------------------
-//	Add	a	new	task	from	the	"+	Add	Task"	form
-//	--------------------------------------------------------------
+
+//	Function adds	a	new	task	from	the	"+	Add	Task"	form
 async function addNewTask() {
   const titleBox = document.getElementById("newTaskTitle");
   const title = titleBox.value;
@@ -149,16 +149,14 @@ async function addNewTask() {
   titleBox.value = "";
   await loadTasks();
 }
-//	--------------------------------------------------------------
+
 //	Filter	buttons
-//	--------------------------------------------------------------
 function setFilter(newFilter) {
   currentFilter = newFilter;
   showTasks();
 }
-//	--------------------------------------------------------------
-//	Start	the	page
-//	--------------------------------------------------------------
+
+//	Function to start	the	page
 requireSignedInUser(function (uid, profile) {
   currentUid = uid;
   //	Fill	in	the	sidebar	name	and	initials.
@@ -168,16 +166,15 @@ requireSignedInUser(function (uid, profile) {
   document
     .getElementById("addTaskButton")
     .addEventListener("click", addNewTask);
+
   document.getElementById("filterAll").addEventListener("click", function () {
     setFilter("all");
   });
-
   document
     .getElementById("filterOutstanding")
     .addEventListener("click", function () {
       setFilter("outstanding");
     });
-
   document
     .getElementById("filterCompleted")
     .addEventListener("click", function () {

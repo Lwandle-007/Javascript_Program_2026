@@ -1,18 +1,18 @@
 //	Handles	creating	accounts,	signing	in,	signing	out, and	blocking	pages	when	nobody	is	signed	in.
 import { auth, db } from "./firebase-config.js";
 import {
-  createUserWithEmailAndPassword,
-  signInWithEmailAndPassword,
-  signOut,
-  onAuthStateChanged,
+  createUserWithEmailAndPassword, // makes a new account
+  signInWithEmailAndPassword, // check email and password
+  signOut, // logs the persons out 
+  onAuthStateChanged, // tells me who is signed in now 
 } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
 
 import {
-  doc,
-  setDoc,
-  getDoc,
-  updateDoc,
-  serverTimestamp,
+  doc, // points me at one specific record
+  setDoc, // saves a record creates/replaces it
+  getDoc, // reads one record
+  updateDoc,  // changes a few fields on a record that already exists
+  serverTimestamp,  // asks googles server for the current time
 } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
 
 //	This function truns username	"Lwandle Sitshi"	into	"LS"	for	the	avatar	circle on the sidebar

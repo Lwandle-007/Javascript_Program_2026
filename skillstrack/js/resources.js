@@ -2,8 +2,8 @@
 import { db } from "./firebase-config.js";
 import { requireSignedInUser } from "./auth.js";
 import {
-  collection,
-  getDocs,
+  collection, // points at the resources collection
+  getDocs,  // fetches every record in it
 } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
 
 // remember every resource I've loaded, and which category button is selected.

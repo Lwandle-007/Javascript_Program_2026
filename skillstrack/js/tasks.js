@@ -2,14 +2,14 @@
 import { db } from "./firebase-config.js";
 import { requireSignedInUser } from "./auth.js";
 import {
-  collection,
-  query,
-  where,
-  getDocs,
-  addDoc,
-  updateDoc,
-  doc,
-  serverTimestamp,
+  collection, // points at a whole collection
+  query,  // lets me ask a question about a collection
+  where,  // the filter part of that question
+  getDocs,  // fetches every record that matches
+  addDoc, // adds a brand new record
+  updateDoc,  // changes a field on a record that already exists
+  doc,  // points at one specific record
+  serverTimestamp,  // asks googles server for the current time
 } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
 //	Remember	who	is	signed	in,	and	every	task	we	loaded.
 let currentUid = "";

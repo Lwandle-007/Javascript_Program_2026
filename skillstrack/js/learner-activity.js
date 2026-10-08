@@ -3,10 +3,10 @@
 import { db } from "./firebase-config.js";
 import { requireSignedInUser } from "./auth.js";
 import {
-  collection,
-  query,
-  where,
-  getDocs,
+  collection, // points at a whole collection
+  query, // lets me ask a question about a collection 
+  where,  // the filter part of that question
+  getDocs,  // fetches all the records that match
 } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
 // This list holds every learner once I've loaded them and I keep it up here so every function can use it.
 let allLearners = [];

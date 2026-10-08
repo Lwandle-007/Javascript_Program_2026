@@ -1,145 +1,167 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <title>Book a Support Session</title>
-  <style>
-    body { font-family: Arial, sans-serif; margin: 20px; }
-    .hidden { display: none; }
-    .form-section { margin-bottom: 15px; }
-    label { display: block; margin-bottom: 5px; font-weight: bold; }
-    select, textarea, button { width: 100%; padding: 8px; margin-bottom: 10px; }
-    .confirmation { border: 1px solid #4CAF50; padding: 20px; background: #f0fff0; }
-    #errorMsg { color: red; }
-  </style>
-</head>
-<body>
-
-  <h2>Book a Support Session</h2>
-
-// Booking Form //
-  <div id="bookingForm">
-    <div class="form-section">
-      <label for="sessionType">Session Type</label>
-      <select id="sessionType">
-        <option value="">-- Select --</option>
-        <option value="Progress Review">Progress Review</option>
-        <option value="Coursework Support">Coursework Support</option>
-        <option value="Evidence Review">Evidence Review</option>
-        <option value="General Query">General Query</option>
-      </select>
-    </div>
-
-    <div class="form-section">
-      <label for="day">Preferred Day</label>
-      <select id="day">
-        <option value="">-- Select --</option>
-        <option value="Monday">Monday</option>
-        <option value="Tuesday">Tuesday</option>
-        <option value="Wednesday">Wednesday</option>
-        <option value="Thursday">Thursday</option>
-        <option value="Friday">Friday</option>
-      </select>
-    </div>
-
-    <div class="form-section">
-      <label for="time">Preferred Time</label>
-      <select id="time">
-        <option value="">-- Select --</option>
-        <option value="9:00 AM">9:00 AM</option>
-        <option value="10:00 AM">10:00 AM</option>
-        <option value="11:00 AM">11:00 AM</option>
-        <option value="2:00 PM">2:00 PM</option>
-        <option value="3:00 PM">3:00 PM</option>
-      </select>
-    </div>
-
-    <div class="form-section">
-      <label for="notes">Notes (optional)</label>
-      <textarea id="notes" rows="3"></textarea>
-    </div>
-
-    <button id="sendRequest">Send Request</button>
-    <p id="errorMsg"></p>
-  </div>
-
-  // Confirmation Screen //
-  <div id="confirmationScreen" class="hidden">
-    <div class="confirmation">
-      <h3>Session Requested!</h3>
-      <p><strong>Session Type:</strong> <span id="confType"></span></p>
-      <p><strong>Preferred Day:</strong> <span id="confDay"></span></p>
-      <p><strong>Preferred Time:</strong> <span id="confTime"></span></p>
-    </div>
-  </div>
-
-  //Firebase SDK //
-  <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js"></script>
-
-  <script>
-    //  Firebase config
-    const firebaseConfig = {
-      apiKey: "AIzaSyCMRGMyy2sjC6CF2asxxVOm3YQ0JLf9Bys",
-      authDomain: "skillstrack-c9591.firebaseapp.com",
-      projectId: "skillstrack-c9591",
-      storageBucket: "skillstrack-c9591.firebasestorage.app",
-      messagingSenderId: "780408370394",
-      appId: "1:780408370394:web:29fca21abe35f0a77aa1e3"
-    };
-
-    // Initialize Firebase
-    const app = firebase.initializeApp(firebaseConfig);
-    const db = firebase.firestore();
-
-    // Elements
-    const sessionType = document.getElementById("sessionType");
-    const day = document.getElementById("day");
-    const time = document.getElementById("time");
-    const notes = document.getElementById("notes");
-    const sendRequest = document.getElementById("sendRequest");
-    const errorMsg = document.getElementById("errorMsg");
-    const bookingForm = document.getElementById("bookingForm");
-    const confirmationScreen = document.getElementById("confirmationScreen");
-    const confType = document.getElementById("confType");
-    const confDay = document.getElementById("confDay");
-    const confTime = document.getElementById("confTime");
-
-    // Handle Send Request
-    sendRequest.addEventListener("click", async () => {
-      const selectedType = sessionType.value;
-      const selectedDay = day.value;
-      const selectedTime = time.value;
-      const sessionNotes = notes.value;
-
-      if (selectedType && selectedDay && selectedTime) {
-        const createdAt = new Date();
-
-        try {
-          // Save to Firebase
-          await db.collection("bookings").add({
-            learnerName: "Demo Learner", // Replace with actual learner name
-            sessionType: selectedType,
-            preferredDay: selectedDay,
-            preferredTime: selectedTime,
-            notes: sessionNotes,
-            status: "Pending",
-            createdAt: createdAt
-          });
-
-          // Show confirmation
-          bookingForm.classList.add("hidden");
-          confType.textContent = selectedType;
-          confDay.textContent = selectedDay;
-          confTime.textContent = selectedTime;
-          confirmationScreen.classList.remove("hidden");
-        } catch (err) {
-          errorMsg.textContent = "Error saving booking: " + err.message;
-        }
-      } else {
-        errorMsg.textContent = "Please select a session type, day, and time";
+  <head>
+    <meta charset="UTF-8" />
+    <title>Book a Support Session</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        margin: 20px;
       }
-    });
-  </script>
-</body>
+      .hidden {
+        display: none;
+      }
+      .form-section {
+        margin-bottom: 15px;
+      }
+      label {
+        display: block;
+        margin-bottom: 5px;
+        font-weight: bold;
+      }
+      select,
+      textarea,
+      button {
+        width: 100%;
+        padding: 8px;
+        margin-bottom: 10px;
+      }
+      .confirmation {
+        border: 1px solid #4caf50;
+        padding: 20px;
+        background: #f0fff0;
+      }
+      #errorMsg {
+        color: red;
+      }
+    </style>
+  </head>
+  <body>
+    <h2>Book a Support Session</h2>
+
+    <!--  Booking Form  -->
+    <div id="bookingForm">
+      <div class="form-section">
+        <label for="sessionType">Session Type</label>
+        <select id="sessionType">
+          <option value="">-- Select --</option>
+          <option value="Progress Review">Progress Review</option>
+          <option value="Coursework Support">Coursework Support</option>
+          <option value="Evidence Review">Evidence Review</option>
+          <option value="General Query">General Query</option>
+        </select>
+      </div>
+
+      <div class="form-section">
+        <label for="day">Preferred Day</label>
+        <select id="day">
+          <option value="">-- Select --</option>
+          <option value="Monday">Monday</option>
+          <option value="Tuesday">Tuesday</option>
+          <option value="Wednesday">Wednesday</option>
+          <option value="Thursday">Thursday</option>
+          <option value="Friday">Friday</option>
+        </select>
+      </div>
+
+      <div class="form-section">
+        <label for="time">Preferred Time</label>
+        <select id="time">
+          <option value="">-- Select --</option>
+          <option value="9:00 AM">9:00 AM</option>
+          <option value="10:00 AM">10:00 AM</option>
+          <option value="11:00 AM">11:00 AM</option>
+          <option value="2:00 PM">2:00 PM</option>
+          <option value="3:00 PM">3:00 PM</option>
+        </select>
+      </div>
+
+      <div class="form-section">
+        <label for="notes">Notes (optional)</label>
+        <textarea id="notes" rows="3"></textarea>
+      </div>
+
+      <button id="sendRequest">Send Request</button>
+      <p id="errorMsg"></p>
+    </div>
+
+    <!--  Confirmation Screen  -->
+    <div id="confirmationScreen" class="hidden">
+      <div class="confirmation">
+        <h3>Session Requested!</h3>
+        <p><strong>Session Type:</strong> <span id="confType"></span></p>
+        <p><strong>Preferred Day:</strong> <span id="confDay"></span></p>
+        <p><strong>Preferred Time:</strong> <span id="confTime"></span></p>
+      </div>
+    </div>
+
+    <!-- Firebase SDK -->
+    <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js"></script>
+
+    <script>
+      //  Firebase config
+      const firebaseConfig = {
+        apiKey: "AIzaSyCMRGMyy2sjC6CF2asxxVOm3YQ0JLf9Bys",
+        authDomain: "skillstrack-c9591.firebaseapp.com",
+        projectId: "skillstrack-c9591",
+        storageBucket: "skillstrack-c9591.firebasestorage.app",
+        messagingSenderId: "780408370394",
+        appId: "1:780408370394:web:29fca21abe35f0a77aa1e3",
+      };
+
+      // Initialize Firebase
+      const app = firebase.initializeApp(firebaseConfig);
+      const db = firebase.firestore(app);
+
+      // Elements
+      const sessionType = document.getElementById("sessionType");
+      const day = document.getElementById("day");
+      const time = document.getElementById("time");
+      const notes = document.getElementById("notes");
+      const sendRequest = document.getElementById("sendRequest");
+      const errorMsg = document.getElementById("errorMsg");
+      const bookingForm = document.getElementById("bookingForm");
+      const confirmationScreen = document.getElementById("confirmationScreen");
+      const confType = document.getElementById("confType");
+      const confDay = document.getElementById("confDay");
+      const confTime = document.getElementById("confTime");
+
+      // Handle Send Request
+      sendRequest.addEventListener("click", async () => {
+        const selectedType = sessionType.value;
+        const selectedDay = day.value;
+        const selectedTime = time.value;
+        const sessionNotes = notes.value;
+
+        if (selectedType && selectedDay && selectedTime) {
+          const createdAt = new Date();
+
+          try {
+            // Save to Firebase
+            await db.collection("bookings").add({
+              learnerName: "Demo Learner", // Replace with actual learner name
+              sessionType: selectedType,
+              preferredDay: selectedDay,
+              preferredTime: selectedTime,
+              notes: sessionNotes,
+              status: "Pending",
+              createdAt: createdAt,
+            });
+
+            // Show confirmation
+            bookingForm.classList.add("hidden");
+            confType.textContent = selectedType;
+            confDay.textContent = selectedDay;
+            confTime.textContent = selectedTime;
+            confirmationScreen.classList.remove("hidden");
+          } catch (err) {
+            errorMsg.textContent = "Error saving booking: " + err.message;
+          }
+        } else {
+          errorMsg.textContent = "Please select a session type, day, and time";
+        }
+      });
+    </script>
+  </body>
 </html>

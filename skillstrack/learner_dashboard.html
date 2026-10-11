@@ -6,7 +6,6 @@
     <title>SkillsTrack Dashboard</title>
     <link rel="stylesheet" href="css/layout.css" />
 
-
     <style>
 
       /* Colours, now matching layout.css */
@@ -71,13 +70,58 @@
         font-weight: bold;
         margin-bottom: 5px;
       }
+
+      /* Each urgent task row is filled in by js/learner-dashboard.js */
       .task-row {
         background: white;
         border: 1px solid var(--card-border);
         border-radius: 8px;
         padding: 15px 25px;
         min-height: 55px;
+        display: flex;
+        align-items: center;
+        gap: 14px;
       }
+      .task-title {
+        flex: 1;
+        font-size: 14px;
+        font-weight: bold;
+      }
+      .task-meta {
+        font-size: 12px;
+        color: #7c7f88;
+      }
+      .task-empty {
+        font-size: 14px;
+        color: #7c7f88;
+      }
+
+      /* Priority pills (same colours as the My Tasks page) */
+      .badge-high {
+        background: #fde3e1;
+        color: #d8493e;
+        font-size: 11px;
+        font-weight: bold;
+        padding: 4px 10px;
+        border-radius: 12px;
+      }
+      .badge-medium {
+        background: #fdf1cf;
+        color: #b8860b;
+        font-size: 11px;
+        font-weight: bold;
+        padding: 4px 10px;
+        border-radius: 12px;
+      }
+      .badge-low {
+        background: #ddf5e6;
+        color: #2f9e64;
+        font-size: 11px;
+        font-weight: bold;
+        padding: 4px 10px;
+        border-radius: 12px;
+      }
+
       .widgets-column {
         display: flex;
         flex-direction: column;
@@ -127,7 +171,7 @@
           <div class="sidebar-logo-text">SkillsTrack</div>
         </div>
 
-        <!-- User box -->
+        <!-- User box (filled in from the signed-in learner's profile) -->
         <div class="sidebar-user">
           <div class="sidebar-avatar" id="sidebarInitials"></div>
           <div>
@@ -136,13 +180,12 @@
           </div>
         </div>
 
-        <!-- Menu links. The current page uses sidebar-nav-item-active -->
         <nav class="sidebar-nav">
           <a href="learner_dashboard.html" class="sidebar-nav-item-active">Home</a>
           <a href="tasks.html" class="sidebar-nav-item">My Tasks</a>
-          <a href="book assessors.html" class="sidebar-nav-item">Book Session</a>
+          <a href="book-session.html" class="sidebar-nav-item">Book Session</a>
           <a href="resources.html" class="sidebar-nav-item">Resources</a>
-          <a href="#" class="sidebar-nav-item">Coding Practice</a>
+          <a href="mini game.html" class="sidebar-nav-item">Coding Practice</a>
           <a href="progress.html" class="sidebar-nav-item">My Progress</a>
         </nav>
         <div class="sidebar-footer">
@@ -157,8 +200,8 @@
         <div class="page-header">
           <div>
             <div class="date-display" id="currentDate">Loading Date...</div>
-            <h1 class="page-title">Welcome back, User</h1>
-            <div class="page-subtitle">Software Development - Cohort Active</div>
+            <h1 class="page-title" id="welcomeTitle">Welcome back</h1>
+            <div class="page-subtitle" id="welcomeSubtitle"></div>
           </div>
           <a href="book assessors.html" class="btn-primary">Book a session</a>
         </div>
@@ -193,14 +236,15 @@
           </section>
 
           <section class="widgets-column">
-            <div class="widget-card">
+            <!-- The whole dark card is a link to the mini game page -->
+            <a href="mini game.html" class="widget-card">
               <h3>Coding Practice</h3>
               <p>Practice Python basics with short code challenges.</p>
-              <a href="#" class="widget-link">Start Challenge →</a>
-            </div>
+              <span class="widget-link">Start Challenge →</span>
+            </a>
             <div class="widget-card secondary">
               <h3>Recent Feedback</h3>
-              <p>
+              <p id="feedbackText">
                 Check out the technical notes left by your facilitator during
                 your last evaluation session.
               </p>
@@ -210,49 +254,6 @@
       </main>
     </div>
 
-    <!-- Firebase script -->
-    <script type="module">
-      import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
-      import { getFirestore } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
-
-      const firebaseConfig = {
-        apiKey: "AIzaSyCMRGMyy2sjC6CF2asxxVOm3YQ0JLf9Bys",
-        authDomain: "skillstrack-c9591.firebaseapp.com",
-        projectId: "skillstrack-c9591",
-        storageBucket: "skillstrack-c9591.firebasestorage.app",
-        messagingSenderId: "780408370394",
-        appId: "1:780408370394:web:29fca21abe35f0a77aa1e3",
-      };
-      const app = initializeApp(firebaseConfig);
-      const db = getFirestore(app);
-
-      const metricsRef = ref(db, "dashboard/metrics");
-      onValue(metricsRef, (snapshot) => {
-        const data = snapshot.val();
-        if (data) {
-          document.getElementById("tasksOutstanding").innerText =
-            data.tasksOutstanding || 0;
-          document.getElementById("highPriority").innerText =
-            data.highPriority || 0;
-          document.getElementById("sessionsBooked").innerText =
-            data.sessionsBooked || 0;
-          document.getElementById("overallProgress").innerText =
-            (data.overallProgress || 0) + "%";
-        }
-      });
-
-      function setLiveDate() {
-        const options = {
-          weekday: "long",
-          day: "numeric",
-          month: "long",
-          year: "numeric",
-        };
-        const today = new Date();
-        document.getElementById("currentDate").innerText =
-          today.toLocaleDateString("en-US", options);
-      }
-      setLiveDate();
-    </script>
+    <script type="module" src="js/learner_dashboard.js"></script>
   </body>
 </html>

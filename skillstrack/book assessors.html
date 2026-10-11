@@ -1,214 +1,112 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <title>Book a Support Session</title>
-    <link rel="stylesheet" href="css/layout.css" />
-    <style>
-      .hidden {
-        display: none;
-      }
-      .form-section {
-        margin-bottom: 15px;
-      }
-      label {
-        display: block;
-        margin-bottom: 5px;
-        font-weight: bold;
-      }
-      select,
-      textarea,
-      button {
-        width: 100%;
-        padding: 8px;
-        margin-bottom: 10px;
-      }
-      .confirmation {
-        border: 1px solid #4caf50;
-        padding: 20px;
-        background: #f0fff0;
-      }
-      #errorMsg {
-        color: red;
-      }
-      a {
-        text-decoration: none;
-      }
-    </style>
-  </head>
-  <body>
-    <div class="app-layout">
-      <div class="sidebar">
-        <div class="sidebar-logo">
-          <div class="sidebar-logo-box">ST</div>
-          <span class="sidebar-logo-text">SkillsTrack</span>
-        </div>
-        <div class="sidebar-user">
-          <div class="sidebar-avatar" id="sidebarInitials"></div>
-          <div>
-            <div class="sidebar-user-name" id="sidebarName"></div>
-            <div class="sidebar-user-role" id="sidebarProgramme"></div>
-          </div>
-        </div>
-        <nav class="sidebar-nav">
-          <a class="sidebar-nav-item" href="learner_dashboard.html">Home</a>
-          <a class="sidebar-nav-item" href="tasks.html">My Tasks</a>
-          <a class="sidebar-nav-item" href="book assessors.html"
-            >Book a Session</a
-          >
-          <a class="sidebar-nav-item" href="resources.html">Resources</a>
-          <a class="sidebar-nav-item" href="#">Coding Practice</a>
-          <a class="sidebar-nav-item-active" href="progress.html"
-            >My Progress</a
-          >
-        </nav>
+<head>
+<meta charset="UTF-8">
+<title>Book Session — SkillsTrack</title>
+<link rel="stylesheet" href="css/layout.css">
+<link rel="stylesheet" href="css/bookings.css">
+</head>
+<body>
+<div class="app-layout">
 
-        <div class="sidebar-footer">
-          <button id="darkModeBtn">☾ Dark Mode</button>
-          <button id="signOutButton" class="sidebar-nav-item">Sign out</button>
-        </div>
-      </div>
+  <div class="sidebar">
+    <div class="sidebar-logo">
+      <div class="sidebar-logo-box">ST</div>
+      <span class="sidebar-logo-text">SkillsTrack</span>
+    </div>
 
-      <div class="main-content">
-        <div class="page-header">
-          <div>
-            <h1 class="page-title">Book a Support Session</h1>
-            <p class="page-subtitle">
-              Request a session with your assessor. Choose a type, preferred
-              time, and add any notes.
-            </p>
-            <div id="bookingForm">
-              <div class="form-section">
-                <label for="sessionType">Session Type</label>
-                <select id="sessionType">
-                  <option value="">-- Select --</option>
-                  <option value="Progress Review">Progress Review</option>
-                  <option value="Coursework Support">Coursework Support</option>
-                  <option value="Evidence Review">Evidence Review</option>
-                  <option value="General Query">General Query</option>
-                </select>
-              </div>
-
-              <div class="form-section">
-                <label for="day">Preferred Day</label>
-                <select id="day">
-                  <option value="">-- Select --</option>
-                  <option value="Monday">Monday</option>
-                  <option value="Tuesday">Tuesday</option>
-                  <option value="Wednesday">Wednesday</option>
-                  <option value="Thursday">Thursday</option>
-                  <option value="Friday">Friday</option>
-                </select>
-              </div>
-
-              <div class="form-section">
-                <label for="time">Preferred Time</label>
-                <select id="time">
-                  <option value="">-- Select --</option>
-                  <option value="9:00 AM">9:00 AM</option>
-                  <option value="10:00 AM">10:00 AM</option>
-                  <option value="11:00 AM">11:00 AM</option>
-                  <option value="2:00 PM">2:00 PM</option>
-                  <option value="3:00 PM">3:00 PM</option>
-                </select>
-              </div>
-
-              <div class="form-section">
-                <label for="notes">Notes (optional)</label>
-                <textarea id="notes" rows="3"></textarea>
-              </div>
-
-              <button id="sendRequest">Send Request</button>
-              <p id="errorMsg"></p>
-            </div>
-
-            <!--  Confirmation Screen  -->
-            <div id="confirmationScreen" class="hidden">
-              <div class="confirmation">
-                <h3>Session Requested!</h3>
-                <p>
-                  <strong>Session Type:</strong> <span id="confType"></span>
-                </p>
-                <p>
-                  <strong>Preferred Day:</strong> <span id="confDay"></span>
-                </p>
-                <p>
-                  <strong>Preferred Time:</strong> <span id="confTime"></span>
-                </p>
-              </div>
-            </div>
-          </div>
-        </div>
+    <div class="sidebar-user">
+      <div class="sidebar-avatar" id="sidebarInitials"></div>
+      <div>
+        <div class="sidebar-user-name" id="sidebarName"></div>
+        <div class="sidebar-user-role" id="sidebarProgramme"></div>
       </div>
     </div>
 
-    <!-- //Firebase SDK // -->
-    <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js"></script>
+        <nav class="sidebar-nav">
+          <a href="learner_dashboard.html" class="sidebar-nav-item-active">Home</a>
+          <a href="tasks.html" class="sidebar-nav-item">My Tasks</a>
+          <a href="book assessors.html" class="sidebar-nav-item">Book Session</a>
+          <a href="resources.html" class="sidebar-nav-item">Resources</a>
+          <a href="#" class="sidebar-nav-item">Coding Practice</a>
+          <a href="progress.html" class="sidebar-nav-item">My Progress</a>
+        </nav>
 
-    <script>
-      //  Firebase config
-      const firebaseConfig = {
-        apiKey: "AIzaSyCMRGMyy2sjC6CF2asxxVOm3YQ0JLf9Bys",
-        authDomain: "skillstrack-c9591.firebaseapp.com",
-        projectId: "skillstrack-c9591",
-        storageBucket: "skillstrack-c9591.firebasestorage.app",
-        messagingSenderId: "780408370394",
-        appId: "1:780408370394:web:29fca21abe35f0a77aa1e3",
-      };
+    <div class="sidebar-footer">
+      <button id="darkModeBtn">☾ Dark Mode</button>
+      <button id="signOutButton" class="sidebar-nav-item">Sign out</button>
+    </div>
+  </div>
 
-      // Initialize Firebase
-      const app = firebase.initializeApp(firebaseConfig);
-      const db = firebase.firestore();
+  <div class="main-content">
 
-      // Elements
-      const sessionType = document.getElementById("sessionType");
-      const day = document.getElementById("day");
-      const time = document.getElementById("time");
-      const notes = document.getElementById("notes");
-      const sendRequest = document.getElementById("sendRequest");
-      const errorMsg = document.getElementById("errorMsg");
-      const bookingForm = document.getElementById("bookingForm");
-      const confirmationScreen = document.getElementById("confirmationScreen");
-      const confType = document.getElementById("confType");
-      const confDay = document.getElementById("confDay");
-      const confTime = document.getElementById("confTime");
+    <div class="page-header">
+      <div>
+        <h1 class="page-title">Book a Support Session</h1>
+        <p class="page-subtitle">Request a session with your assessor. Choose a type, preferred time, and add any notes.</p>
+      </div>
+    </div>
 
-      // Handle Send Request
-      sendRequest.addEventListener("click", async () => {
-        const selectedType = sessionType.value;
-        const selectedDay = day.value;
-        const selectedTime = time.value;
-        const sessionNotes = notes.value;
+    <!-- The booking form. It is hidden once a request has been sent. -->
+    <div id="bookingForm">
+      <div class="booking-columns">
 
-        if (selectedType && selectedDay && selectedTime) {
-          const createdAt = new Date();
+        <div class="booking-left">
+          <p class="booking-step-label">1 — Session Type</p>
+          <div class="type-grid">
+            <button class="type-button" id="typeProgress">Progress Review</button>
+            <button class="type-button" id="typeCoursework">Coursework Support</button>
+            <button class="type-button" id="typeEvidence">Evidence Review</button>
+            <button class="type-button" id="typeGeneral">General Query</button>
+          </div>
 
-          try {
-            // Save to Firebase
-            await db.collection("bookings").add({
-              learnerName: "Demo Learner", // Replace with actual learner name
-              sessionType: selectedType,
-              preferredDay: selectedDay,
-              preferredTime: selectedTime,
-              notes: sessionNotes,
-              status: "Pending",
-              createdAt: createdAt,
-            });
+          <p class="booking-step-label">4 — Add Notes (optional)</p>
+          <textarea class="notes-box" id="sessionNotes" placeholder="e.g. I need help understanding Unit 3 OOP requirements..."></textarea>
+        </div>
 
-            // Show confirmation
-            bookingForm.classList.add("hidden");
-            confType.textContent = selectedType;
-            confDay.textContent = selectedDay;
-            confTime.textContent = selectedTime;
-            confirmationScreen.classList.remove("hidden");
-          } catch (err) {
-            errorMsg.textContent = "Error saving booking: " + err.message;
-          }
-        } else {
-          errorMsg.textContent = "Please select a session type, day, and time";
-        }
-      });
-    </script>
-  </body>
+        <div class="booking-right">
+          <p class="booking-step-label">2 — Preferred Day</p>
+          <div class="day-row">
+            <button class="day-button-active" id="day1"></button>
+            <button class="day-button" id="day2"></button>
+            <button class="day-button" id="day3"></button>
+            <button class="day-button" id="day4"></button>
+            <button class="day-button" id="day5"></button>
+          </div>
+
+          <p class="booking-step-label">3 — Preferred Time</p>
+          <div class="time-grid">
+            <button class="time-button-active" id="time1">9:00 AM</button>
+            <button class="time-button" id="time2">10:00 AM</button>
+            <button class="time-button" id="time3">11:30 AM</button>
+            <button class="time-button" id="time4">1:00 PM</button>
+            <button class="time-button" id="time5">2:00 PM</button>
+            <button class="time-button" id="time6">3:30 PM</button>
+          </div>
+
+          <div class="summary-card">
+            <p class="summary-title">Request Summary</p>
+            <p class="summary-line" id="summaryType"></p>
+            <p class="summary-line" id="summaryWhen"></p>
+            <button class="btn-primary summary-button" id="sendRequestButton">Send Request</button>
+            <p class="summary-error" id="bookingMessage"></p>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <div class="booking-done" id="bookingDone" style="display: none;">
+      <div class="done-circle">✓</div>
+      <h2 class="done-title">Session Requested!</h2>
+      <p class="done-details" id="doneDetails"></p>
+      <p class="done-details">Your assessor will confirm within one working day.</p>
+      <button class="btn-primary done-button" id="bookAnotherButton">Book Another</button>
+    </div>
+
+  </div>
+</div>
+
+<script type="module" src="js/booking.js"></script>
+</body>
 </html>

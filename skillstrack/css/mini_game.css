@@ -1,0 +1,302 @@
+/* --- The game column centred in the page --- */
+.game-wrapper {
+  max-width: 640px;
+  margin: 0 auto;
+}
+
+/* --- Top row: "Challenge 1 of 5" on the left score on the right --- */
+.game-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 8px;
+}
+
+.game-progress-text {
+  font-size: 12px;
+  color: #7c7f88;
+}
+
+.game-score {
+  font-size: 12px;
+  font-weight: bold;
+}
+
+.score-right {
+  color: #1aa88a;
+  margin-right: 12px;
+}
+
+.score-wrong {
+  color: #f2643f;
+}
+
+/* --- Progress bar --- */
+.progress-track {
+  height: 6px;
+  background: #ece8dc;
+  border-radius: 4px;
+  margin-bottom: 20px;
+}
+
+.progress-fill {
+  height: 6px;
+  width: 0%;
+  background: #1c2333;
+  border-radius: 4px;
+}
+
+/* --- The white challenge card --- */
+.game-card {
+  background: #ffffff;
+  border: 1px solid #e8e1d3;
+  border-radius: 16px;
+  overflow: hidden;
+}
+
+.game-card-top {
+  padding: 22px 24px 18px 24px;
+}
+
+.game-label {
+  font-size: 11px;
+  font-weight: bold;
+  letter-spacing: 1px;
+  color: #f2643f;
+  margin-bottom: 8px;
+}
+
+.game-title {
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: 22px;
+  font-weight: bold;
+  color: #1c2333;
+  margin-bottom: 6px;
+}
+
+.game-instructions {
+  font-size: 13px;
+  color: #7c7f88;
+  line-height: 1.5;
+}
+
+/* --- Dark code box --- */
+.code-block {
+  background: #0d1117;
+  color: #e6edf3;
+  font-family: "Courier New", Courier, monospace;
+  font-size: 13px;
+  line-height: 1.7;
+  padding: 22px 24px;
+  white-space: pre-wrap;
+}
+
+/* The blank before an option is picked */
+.blank-empty {
+  background: #3a1f1f;
+  color: #ff7b72;
+  padding: 1px 8px;
+  border-radius: 4px;
+}
+
+/* The blank once an option is picked */
+.blank-filled {
+  background: #4a3b12;
+  color: #f5c542;
+  padding: 1px 8px;
+  border-radius: 4px;
+}
+
+/* --- Options area --- */
+.options-area {
+  padding: 20px 24px 24px 24px;
+}
+
+.options-label {
+  font-size: 11px;
+  font-weight: bold;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+  color: #7c7f88;
+  margin-bottom: 12px;
+}
+
+.options-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-bottom: 14px;
+}
+
+.option-button {
+  width: calc(50% - 6px);
+  background: #fdf9f0;
+  border: 1px solid #e8e1d3;
+  color: #26272b;
+  font-family: "Courier New", Courier, monospace;
+  font-size: 13px;
+  text-align: left;
+  padding: 14px 16px;
+  border-radius: 10px;
+}
+
+.option-button:hover {
+  border: 1px solid #f2643f;
+}
+
+.option-button-active {
+  width: calc(50% - 6px);
+  background: #fde8e2;
+  border: 1px solid #f2643f;
+  color: #f2643f;
+  font-family: "Courier New", Courier, monospace;
+  font-size: 13px;
+  text-align: left;
+  padding: 14px 16px;
+  border-radius: 10px;
+}
+
+/* --- Check Answer button (grey until an option is picked) --- */
+.check-button {
+  width: 100%;
+  background: #f2643f;
+  color: #ffffff;
+  font-size: 13px;
+  font-weight: bold;
+  padding: 14px;
+  border-radius: 10px;
+}
+
+.check-button:disabled {
+  background: #ece8dc;
+  color: #7c7f88;
+  cursor: not-allowed;
+}
+
+/* --- Feedback panel (after Check Answer) --- */
+.feedback-area {
+  padding: 20px 24px 24px 24px;
+}
+
+.feedback-correct {
+  background: #e6f9f4;
+}
+
+.feedback-wrong {
+  background: #fff0ec;
+}
+
+.feedback-row {
+  display: flex;
+  gap: 12px;
+  margin-bottom: 16px;
+}
+
+.feedback-icon {
+  font-size: 18px;
+  color: #26272b;
+}
+
+.feedback-title {
+  font-size: 13px;
+  font-weight: bold;
+  margin-bottom: 4px;
+}
+
+.feedback-correct .feedback-title {
+  color: #1aa88a;
+}
+
+.feedback-wrong .feedback-title {
+  color: #f2643f;
+}
+
+.feedback-explanation {
+  font-size: 11px;
+  color: #7c7f88;
+  line-height: 1.5;
+}
+
+.next-button {
+  width: 100%;
+  background: #1c2333;
+  color: #ffffff;
+  font-size: 13px;
+  font-weight: bold;
+  padding: 14px;
+  border-radius: 10px;
+}
+
+.next-button:hover {
+  background: #2a3349;
+}
+
+/* --- Results screen --- */
+.results-area {
+  text-align: center;
+  margin-top: 100px;
+}
+
+.results-trophy {
+  font-size: 48px;
+  margin-bottom: 10px;
+}
+
+.results-title {
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: 28px;
+  font-weight: bold;
+  color: #1c2333;
+  margin-bottom: 8px;
+}
+
+.results-text {
+  font-size: 13px;
+  color: #7c7f88;
+  margin-bottom: 20px;
+}
+
+.results-tiles {
+  display: flex;
+  justify-content: center;
+  gap: 12px;
+  margin-bottom: 24px;
+}
+
+.result-tile-right {
+  width: 90px;
+  padding: 16px 0;
+  border-radius: 12px;
+  background: #ddf5ee;
+}
+
+.result-tile-wrong {
+  width: 90px;
+  padding: 16px 0;
+  border-radius: 12px;
+  background: #fde8e2;
+}
+
+.result-number {
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: 26px;
+  font-weight: bold;
+}
+
+.result-tile-right .result-number {
+  color: #1aa88a;
+}
+
+.result-tile-wrong .result-number {
+  color: #f2643f;
+}
+
+.result-caption {
+  font-size: 11px;
+  color: #7c7f88;
+  margin-top: 4px;
+}
+
+.results-button {
+  padding: 12px 28px;
+}

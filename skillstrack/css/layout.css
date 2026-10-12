@@ -1,8 +1,4 @@
-/*	layout.css
-			The	sidebar	and	the	two-column	page	frame,	shared	by	every	page.	
-*/
 /* Basic reset */
-
 * {
   margin: 0;
   padding: 0;
@@ -178,4 +174,8 @@ body.dark .page-subtitle {
 }
 .btn-primary:hover {
   background: #d94f2e;
+}
+
+a {
+  text-decoration: none;
 }

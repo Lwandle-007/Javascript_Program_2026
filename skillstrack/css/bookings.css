@@ -1,0 +1,330 @@
+.sidebar-assessor .sidebar-nav-item-active {
+  background: #7b55b5;
+}
+
+
+.booking-columns {
+  display: flex;
+  gap: 32px;
+}
+
+.booking-left {
+  flex: 1;
+}
+
+.booking-right {
+  flex: 1;
+}
+
+.booking-step-label {
+  font-size: 12px;
+  font-weight: bold;
+  color: #26272b;
+  margin-bottom: 10px;
+}
+
+/* --- Session type buttons (two per row) --- */
+.type-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-bottom: 24px;
+}
+
+.type-button {
+  width: calc(50% - 6px);
+  background: #ffffff;
+  border: 1px solid #e8e1d3;
+  color: #26272b;
+  padding: 14px 12px;
+  border-radius: 8px;
+  font-size: 13px;
+  text-align: left;
+}
+
+.type-button-active {
+  width: calc(50% - 6px);
+  background: #fde8e2;
+  border: 1px solid #f2643f;
+  color: #f2643f;
+  padding: 14px 12px;
+  border-radius: 8px;
+  font-size: 13px;
+  font-weight: bold;
+  text-align: left;
+}
+
+/* --- Day buttons --- */
+.day-row {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 24px;
+}
+
+.day-button {
+  background: #f0ece2;
+  color: #7c7f88;
+  padding: 8px 14px;
+  border-radius: 8px;
+  font-size: 13px;
+}
+
+.day-button-active {
+  background: #1c2333;
+  color: #ffffff;
+  padding: 8px 14px;
+  border-radius: 8px;
+  font-size: 13px;
+  font-weight: bold;
+}
+
+/* --- Time buttons (three per row) --- */
+.time-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-bottom: 24px;
+}
+
+.time-button {
+  width: calc(33.33% - 7px);
+  background: #f0ece2;
+  color: #7c7f88;
+  padding: 10px;
+  border-radius: 8px;
+  font-size: 12px;
+}
+
+.time-button-active {
+  width: calc(33.33% - 7px);
+  background: #f2643f;
+  color: #ffffff;
+  padding: 10px;
+  border-radius: 8px;
+  font-size: 12px;
+  font-weight: bold;
+}
+
+/* --- Notes box --- */
+.notes-box {
+  width: 100%;
+  height: 130px;
+  padding: 12px;
+  background: #ffffff;
+  border: 1px solid #e8e1d3;
+  border-radius: 12px;
+  font-family: inherit;
+  font-size: 13px;
+  resize: vertical;
+}
+
+/* --- Dark request summary card --- */
+.summary-card {
+  background: #1c2333;
+  color: #ffffff;
+  border-radius: 12px;
+  padding: 20px;
+}
+
+.summary-title {
+  font-size: 13px;
+  font-weight: bold;
+  margin-bottom: 8px;
+}
+
+.summary-line {
+  font-size: 11px;
+  color: #b6b9c4;
+  margin-bottom: 4px;
+}
+
+.summary-button {
+  width: 100%;
+  margin-top: 16px;
+  padding: 12px;
+}
+
+.summary-error {
+  font-size: 12px;
+  color: #fde3e1;
+  margin-top: 10px;
+}
+
+/* --- "Session Requested!" confirmation screen --- */
+.booking-done {
+  text-align: center;
+  margin-top: 120px;
+}
+
+.done-circle {
+  width: 64px;
+  height: 64px;
+  border-radius: 50%;
+  background: #e0f5f2;
+  margin: 0 auto 16px auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 28px;
+}
+
+.done-title {
+  font-size: 26px;
+  font-weight: bold;
+  margin-bottom: 10px;
+}
+
+.done-details {
+  font-size: 12px;
+  color: #7c7f88;
+  margin-bottom: 4px;
+}
+
+.done-button {
+  margin-top: 20px;
+}
+
+/* --- Session Bookings (assessor) --- */
+.booking-list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.booking-row {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  background: #ffffff;
+  border: 1px solid #e8e1d3;
+  border-radius: 12px;
+  padding: 16px;
+}
+
+.booking-avatar {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background: #ece8f5;
+  color: #5b4a85;
+  font-size: 12px;
+  font-weight: bold;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.booking-who {
+  flex: 1;
+}
+
+.booking-name {
+  font-size: 13px;
+  font-weight: bold;
+}
+
+.booking-programme {
+  font-size: 11px;
+  color: #7c7f88;
+  margin-top: 2px;
+}
+
+.booking-type {
+  font-size: 13px;
+  width: 150px;
+  text-align: right;
+}
+
+.booking-when {
+  width: 80px;
+  text-align: right;
+}
+
+.booking-date {
+  font-size: 13px;
+  font-weight: bold;
+}
+
+.booking-time {
+  font-size: 11px;
+  color: #7c7f88;
+  margin-top: 2px;
+}
+
+.booking-status {
+  width: 80px;
+  text-align: center;
+}
+
+.booking-actions {
+  width: 130px;
+  display: flex;
+  gap: 6px;
+  justify-content: flex-end;
+}
+
+.booking-empty {
+  font-size: 13px;
+  color: #7c7f88;
+}
+
+/* --- Status pills --- */
+.status-confirmed {
+  background: #ddf5e6;
+  color: #2f9e64;
+  font-size: 11px;
+  font-weight: bold;
+  padding: 4px 10px;
+  border-radius: 12px;
+}
+
+.status-pending {
+  background: #fdf1cf;
+  color: #b8860b;
+  font-size: 11px;
+  font-weight: bold;
+  padding: 4px 10px;
+  border-radius: 12px;
+}
+
+.status-declined {
+  background: #fde3e1;
+  color: #d8493e;
+  font-size: 11px;
+  font-weight: bold;
+  padding: 4px 10px;
+  border-radius: 12px;
+}
+
+/* --- Confirm / Decline buttons --- */
+.confirm-button {
+  background: #ddf5e6;
+  color: #2f9e64;
+  font-size: 11px;
+  font-weight: bold;
+  padding: 5px 12px;
+  border-radius: 8px;
+}
+
+.decline-button {
+  background: #fde3e1;
+  color: #d8493e;
+  font-size: 11px;
+  font-weight: bold;
+  padding: 5px 12px;
+  border-radius: 8px;
+}
+
+/* --- Hover feedback so every button reacts to the mouse --- */
+.type-button:hover {
+  border: 1px solid #f2643f;
+}
+
+.day-button:hover {
+  background: #e4dfd2;
+}
+
+.time-button:hover {
+  background: #e4dfd2;
+}
+

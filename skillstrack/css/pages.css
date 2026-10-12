@@ -41,8 +41,7 @@
   flex-direction: column;
   gap: 10px;
 }
-/*	tasks.js	creates	each	row	with	class	"task-row"	—	style	it	here.	
-*/
+/*	tasks.js	creates	each	row	with	class	"task-row"	—	style	it	here.	*/
 .task-row {
   display: flex;
   align-items: center;
@@ -172,8 +171,7 @@
 .unit-row:last-child	{
 		border-bottom:	none;
 }
-/*	progress.js	creates	each	session	as	a	div	with	class	"session
-row".	*/
+/*	progress.js	creates	each	session	as	a	div	with	class	"session row".	*/
 .session-row	{
 padding:	10px	0;
 border-bottom:	1px	solid	#f0ece2;
@@ -238,8 +236,7 @@ font-weight:	bold;
 .learner-table	tr:last-child	td	{
 		border-bottom:	none;
 }
-/*	learner-activity.js	builds	the	progress	bar	out	of	these	two	
-divs.	*/
+/*	learner-activity.js	builds	the	progress	bar	out	of	these	two	divs.	*/
 .bar-outside	{
 		width:	100px;
 		height:	6px;

@@ -11,6 +11,9 @@ import {
   doc,  // points at one specific record
   serverTimestamp,  // asks googles server for the current time
 } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
+
+import { getDefaultDueDate, getPriority, refreshPriorities } from "./task-helpers.js";
+
 //	Remember	who	is	signed	in,	and	every	task	we	loaded.
 let currentUid = "";
 let allTasks = [];
@@ -58,6 +61,8 @@ async function loadTasks() {
     task.id = taskDocument.id; //	keep	the	ID	so	we	can	tick	it	off	later
     allTasks.push(task);
   });
+    // Fix any saved priority that the due date getting closer has changed.
+  await refreshPriorities(allTasks);
   showTasks();
   showCounts();
 }
@@ -136,12 +141,14 @@ async function addNewTask() {
     return;
   }
   //	Build	the	new	record.	ownerUid	is	what	ties	it	to	this	learner.
+  // Due date is two weeks from today. The priority is worked out from that date.
+  const dueDate = getDefaultDueDate();
   const newTask = {
     ownerUid: currentUid,
     title: title,
     category: "General",
-    dueDate: "2026-09-30",
-    priority: "Medium",
+    dueDate: dueDate,
+    priority: getPriority(dueDate),
     completed: false,
     createdAt: serverTimestamp(),
   };

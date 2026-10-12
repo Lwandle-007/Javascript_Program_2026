@@ -35,6 +35,52 @@ function getStatusLabel(status) {
   return "Not Started";
 }
 
+// Function works out the status of one session and returns pending, declined or confirmed
+function getSessionStatus(session) {
+  if (session.status === "pending") {
+    return "pending";
+  }
+  if (session.status === "declined") {
+    return "declined";
+  }
+  return "confirmed";
+}
+
+// Function turns the session status code into words a person can read
+function getSessionStatusLabel(status) {
+  if (status === "pending") {
+    return "Pending";
+  }
+  if (status === "declined") {
+    return "Declined";
+  }
+  return "Confirmed";
+}
+
+// Function turns "2026-10-12" into "12 Oct 2026"
+function formatSessionDate(dateText) {
+  const monthNames = [
+    "Jan",
+    "Feb",
+    "Mar",
+    "Apr",
+    "May",
+    "Jun",
+    "Jul",
+    "Aug",
+    "Sep",
+    "Oct",
+    "Nov",
+    "Dec",
+  ];
+
+  const parts = dateText.split("-");
+  const monthNumber = Number(parts[1]);
+  const dayNumber = Number(parts[2]);
+
+  return dayNumber + " " + monthNames[monthNumber - 1] + " " + parts[0];
+}
+
 // Function Loads this learner's tasks and draw the Task Tracker
 async function loadTaskTracker() {
   // Ask for only the tasks that belong to the signed-in learner.
@@ -117,7 +163,7 @@ async function loadTaskTracker() {
     trackerArea.appendChild(row);
   }
 
-  // Hand the counts back so the progress card can use them.
+  // Hand the counts back so the progress card can use them
   return {
     total: tasks.length,
     complete: completeCount,
@@ -125,9 +171,90 @@ async function loadTaskTracker() {
   };
 }
 
+// Function Loads this learners sessions and draws the Session History
+async function loadSessionHistory() {
+  // Ask for only the sessions that belong to the signed-in learner.
+  const sessionsQuery = query(
+    collection(db, "sessions"),
+    where("learnerUid", "==", currentUid)
+  );
+  const results = await getDocs(sessionsQuery);
+
+  // Put every session into a plain list
+  const sessions = [];
+  results.forEach(function (sessionDocument) {
+    const session = sessionDocument.data();
+    session.id = sessionDocument.id;
+    sessions.push(session);
+  });
+
+  sessions.sort(function (sessionA, sessionB) {
+    if (sessionA.sortKey > sessionB.sortKey) {
+      return -1;
+    }
+    if (sessionA.sortKey < sessionB.sortKey) {
+      return 1;
+    }
+    return 0;
+  });
+
+  const historyArea = document.getElementById("sessionHistory");
+  historyArea.innerHTML = "";
+
+  let confirmedCount = 0;
+
+  if (sessions.length === 0) {
+    const emptyMessage = document.createElement("p");
+    emptyMessage.textContent = "No sessions yet. Book one on the Book a Session page.";
+    historyArea.appendChild(emptyMessage);
+  }
+
+  // Build one row for each session
+  for (let i = 0; i < sessions.length; i = i + 1) {
+    const session = sessions[i];
+    const status = getSessionStatus(session);
+
+    // Count the confirmed sessions as we go.
+    if (status === "confirmed") {
+      confirmedCount = confirmedCount + 1;
+    }
+    // Only draw the four newest sessions. The count above still covers every session.
+    if (i >= 4) {
+      continue;
+    }
+    
+    // Left side the session type
+    const typeText = document.createElement("span");
+    typeText.className = "unit-title";
+    typeText.textContent = session.sessionType;
+
+    // Middle the date and time, where the priority sits on the task rows
+    const whenText = document.createElement("span");
+    whenText.className = "unit-grade";
+    whenText.textContent = formatSessionDate(session.sessionDate) + " · " + session.sessionTime;
+
+    // Right side the coloured status pill
+    const statusPill = document.createElement("span");
+    statusPill.className = "status-pill status-" + status;
+    statusPill.textContent = getSessionStatusLabel(status);
+
+    // Put the three pieces into one row.
+    const row = document.createElement("div");
+    row.className = "unit-row";
+    row.appendChild(typeText);
+    row.appendChild(whenText);
+    row.appendChild(statusPill);
+
+    historyArea.appendChild(row);
+  }
+
+  // Hand the count back so the progress card can use it
+  return confirmedCount;
+}
+
 // Function works out the percentage and fill in the dark progress card
-async function showQualificationProgress(counts) {
-  // A finished task counts as 1, a task in progress counts as half.
+async function showQualificationProgress(counts, sessionCount) {
+  // A finished task counts as 1, a task in progress counts as half
   const score = counts.complete + counts.inProgress * 0.5;
 
   // Never divide by zero when there are no tasks yet.
@@ -136,21 +263,21 @@ async function showQualificationProgress(counts) {
     percent = Math.round((score / counts.total) * 100);
   }
 
-  // Show the big percentage in the ring.
+  // Show the big percentage in the ring
   document.getElementById("progressPercent").textContent = percent + "%";
 
-  // Show "2/6" style text: tasks done out of all tasks.
+  // Show "2/6" style text: tasks done out of all tasks
   document.getElementById("unitsDone").textContent =
     counts.complete + "/" + counts.total;
 
-  // Sessions are not built yet, so show 0 for now.
-  document.getElementById("sessionCount").textContent = "0";
+  // Show how many confirmed sessions this learner has.
+  document.getElementById("sessionCount").textContent = sessionCount;
 
   // Save the percentage so the assessor's table shows the same number.
   await updateDoc(doc(db, "users", currentUid), { progressPercent: percent });
 }
 
-// Start the page(The guard checks someone is signed in, then hands me their uid and profile.)
+// Start the page(The guard checks someone is signed in, then hands me their uid and profile)
 requireSignedInUser(async function (uid, profile) {
   currentUid = uid;
 
@@ -160,7 +287,8 @@ requireSignedInUser(async function (uid, profile) {
   document.getElementById("sidebarInitials").textContent = profile.initials;
   document.getElementById("programmeTitle").textContent = profile.programme;
 
-  // Draw the tracker first, then use its counts for the progress card.
+  // Draw the tracker and the session history first, then use their counts for the progress card.
   const counts = await loadTaskTracker();
-  await showQualificationProgress(counts);
+  const sessionCount = await loadSessionHistory();
+  await showQualificationProgress(counts, sessionCount);
 });

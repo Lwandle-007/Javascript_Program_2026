@@ -8,6 +8,7 @@ import {
   doc,  // points at one specific record
   updateDoc,  // changes a field on a record
 } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
+import { refreshPriorities } from "./task-helpers.js";
 
 // I stored the signed-in learner's ID here so every function can use it.
 let currentUid = "";
@@ -97,7 +98,8 @@ async function loadTaskTracker() {
     task.id = taskDocument.id;
     tasks.push(task);
   });
-
+  // Fix any saved priority that the due date getting closer has changed.
+  await refreshPriorities(tasks);
   // Sort by due date, earliest first.
   // Dates look like "2026-08-12", so comparing them as text works.
   tasks.sort(function (taskA, taskB) {
@@ -222,7 +224,7 @@ async function loadSessionHistory() {
     if (i >= 4) {
       continue;
     }
-    
+
     // Left side the session type
     const typeText = document.createElement("span");
     typeText.className = "unit-title";

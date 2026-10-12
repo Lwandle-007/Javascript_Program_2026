@@ -103,6 +103,7 @@ async function signInUser() {
     } else {
       window.location.href = "learner_dashboard.html";
     }
+  // eslint-disable-next-line no-unused-vars
   } catch (error) {
     messageBox.textContent = "Sign	in	failed.	Check	your	email	and	password.";
   }
